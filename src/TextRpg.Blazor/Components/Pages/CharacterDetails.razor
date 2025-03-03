@@ -1,0 +1,57 @@
+﻿@page "/characterdetails/{CharacterId:guid}"
+@inject GameSaveStore GameSaveStore
+
+@rendermode InteractiveServer
+
+@if (_hasError)
+{
+  <p class="text-red-400">Character not found or save not loaded.</p>
+}
+else if (_character is null)
+{
+  <p>Loading...</p>
+}
+else
+{
+  <div class="trpg-layout-page">
+    <h2 class="trpg-title-main"> @_character.Name</h2>
+
+    <p><strong>Age:</strong> @_character.Age</p>
+    <p><strong>Biological Sex:</strong> @_character.BiologicalSex</p>
+
+    <NavLink href="/game" class="trpg-btn">Back</NavLink>
+
+  </div>
+}
+
+@code {
+
+  /// <summary>
+  ///   Character identifier from the route.
+  /// </summary>
+  [Parameter]
+  public Guid CharacterId { get; set; }
+
+  private Character? _character;
+  private bool _hasError;
+
+  /// <summary>
+  ///   Load character details when parameters change.
+  /// </summary>
+  protected override async Task OnParametersSetAsync()
+  {
+    if (GameSaveStore.CurrentSave is null)
+    {
+      _hasError = true;
+
+      return;
+    }
+
+    await Task.Yield(); // Ensures component is ready
+
+    _character = GameSaveStore.CurrentSave.World.Characters.FirstOrDefault(c => c.Id == CharacterId);
+
+    _hasError = _character is null;
+  }
+
+}

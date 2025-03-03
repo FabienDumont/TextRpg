@@ -1,0 +1,89 @@
+﻿@using System.ComponentModel.DataAnnotations
+<div class="trpg-layout-page">
+  <h2 class="trpg-title-main">Game Settings</h2>
+
+  <EditForm Model="@Model" OnValidSubmit="Confirm" class="w-full max-w-sm space-y-4">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <div>
+      <label class="trpg-input-label">Number of NPCs:</label>
+      <InputNumber class="trpg-input-field" @bind-Value="Model.NpcCount"/>
+      <ValidationMessage class="trpg-validation-message" For="@(() => Model.NpcCount)"/>
+    </div>
+
+    <div class="mt-4 flex justify-between">
+      <button class="trpg-btn" type="button" @onclick="ResetSettings">Reset</button>
+      <button class="trpg-btn-submit" type="submit">Confirm Settings</button>
+    </div>
+  </EditForm>
+</div>
+
+@code {
+
+  /// <summary>
+  ///   Callback to invoke when the user confirms the settings.
+  /// </summary>
+  [Parameter]
+  public EventCallback<Domain.GameSettings> OnSettingsConfirmed { get; set; }
+
+  /// <summary>
+  ///   Settings to prefill when the component is loaded.
+  /// </summary>
+  [Parameter]
+  public Domain.GameSettings? InitialSettings { get; set; }
+
+  /// <summary>
+  ///   Default settings used when resetting.
+  /// </summary>
+  [Parameter]
+  public Domain.GameSettings? DefaultSettings { get; set; }
+
+  /// <summary>
+  ///   Form model used for binding user input.
+  /// </summary>
+  public GameSettingsModel Model { get; set; } = new();
+
+  /// <summary>
+  ///   Populate form model from initial settings.
+  /// </summary>
+  protected override void OnParametersSet()
+  {
+    if (InitialSettings is null) return;
+    var npcCount = InitialSettings.RandomNpcCount;
+    Model = new GameSettingsModel {NpcCount = npcCount};
+  }
+
+  /// <summary>
+  ///   Called on valid form submission.
+  /// </summary>
+  private async Task Confirm()
+  {
+    var settings = Domain.GameSettings.Create(Model.NpcCount);
+    await OnSettingsConfirmed.InvokeAsync(settings);
+  }
+
+  /// <summary>
+  ///   Resets the form to the default values.
+  /// </summary>
+  private void ResetSettings()
+  {
+    if (DefaultSettings is null) return;
+
+    Model.NpcCount = DefaultSettings.RandomNpcCount;
+    StateHasChanged();
+  }
+
+  /// <summary>
+  ///   Backing model for game settings form.
+  /// </summary>
+  public class GameSettingsModel
+  {
+    /// <summary>
+    ///   Number of randomly generated NPCs (10–20).
+    /// </summary>
+    [Range(10, 20)]
+    public int NpcCount { get; set; } = 10;
+  }
+
+}

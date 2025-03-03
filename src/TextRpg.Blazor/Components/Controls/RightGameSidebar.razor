@@ -1,0 +1,115 @@
+﻿@implements IDisposable
+@inject GameSaveStore GameSaveStore
+@inject ILocationService LocationService
+@inject IRoomService RoomService
+
+<div class="flex h-full flex-col p-2">
+  <div class="flex flex-col items-center">
+    <p class="text-xl font-bold">
+      @GameSaveStore.CurrentSave!.World.CurrentDate
+    </p>
+
+    @if (_locationName != null)
+    {
+      <p class="text-lg">
+        Location: @_locationName
+      </p>
+    }
+    else
+    {
+      <p class="text-lg italic">
+        Location: Unknown
+      </p>
+    }
+
+    @if (_roomName != null)
+    {
+      <p class="text-lg">
+        Room: @_roomName
+      </p>
+    }
+  </div>
+  <div class="flex-grow"></div>
+</div>
+
+@code {
+  private string? _locationName;
+  private string? _roomName;
+
+  /// <summary>
+  ///   Registers for game state changes and initializes location display.
+  /// </summary>
+  protected override async Task OnInitializedAsync()
+  {
+    GameSaveStore.OnAsyncChange += HandleGameSaveChangedAsync;
+    await UpdateNamesAsync();
+  }
+
+  /// <summary>
+  ///   Handles change events from the game state store.
+  /// </summary>
+  private async Task HandleGameSaveChangedAsync()
+  {
+    await GameSaveChanged();
+  }
+
+  /// <summary>
+  ///   Updates location and room names and triggers a UI refresh.
+  /// </summary>
+  private async Task GameSaveChanged()
+  {
+    await UpdateNamesAsync();
+    StateHasChanged();
+  }
+
+  /// <summary>
+  ///   Retrieves and sets the current player location and room names.
+  /// </summary>
+  private async Task UpdateNamesAsync()
+  {
+    var player = GameSaveStore.CurrentSave?.PlayerCharacter;
+
+    if (player?.LocationId != null)
+    {
+      try
+      {
+        var location = await LocationService.GetByIdAsync(player.LocationId.Value, CancellationToken.None);
+        _locationName = location.Name;
+      }
+      catch
+      {
+        _locationName = "Unknown";
+      }
+    }
+    else
+    {
+      _locationName = "Unknown";
+    }
+
+    if (player?.RoomId != null)
+    {
+      try
+      {
+        var room = await RoomService.GetByIdAsync(player.RoomId.Value, CancellationToken.None);
+        _roomName = room.Name;
+      }
+      catch
+      {
+        _roomName = "Unknown";
+      }
+    }
+    else
+    {
+      _roomName = "Unknown";
+    }
+  }
+
+  /// <summary>
+  ///   Unregisters event handlers when the component is disposed.
+  /// </summary>
+  public void Dispose()
+  {
+    GameSaveStore.OnAsyncChange -= HandleGameSaveChangedAsync;
+  }
+
+}

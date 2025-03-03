@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <LangVersion>13</LangVersion>
+  </PropertyGroup>
+  <Import Project="..\..\.common-props\common-test.props"/>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\TextRpg.Domain\TextRpg.Domain.csproj"/>
+    <ProjectReference Include="..\..\src\TextRpg.Infrastructure\TextRpg.Infrastructure.csproj"/>
+    <ProjectReference Include="..\TextRpg.Domain.Tests\TextRpg.Domain.Tests.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3"/>
+    <PackageReference Include="MockQueryable.FakeItEasy" Version="7.0.3"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*"/>
+
+  </ItemGroup>
+</Project>
