@@ -1,0 +1,85 @@
+﻿@page "/game"
+@inject GameSaveStore GameSaveStore
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+@rendermode InteractiveServer
+
+@if (GameSaveStore.CurrentSave is null)
+{
+  <div class="trpg-layout-page">
+    <p>No game loaded. Go to main menu.</p>
+    <NavLink href="/" class="trpg-btn">Main Menu</NavLink>
+  </div>
+}
+else
+{
+  <div class="grid grid-cols-12 h-screen bg-gray-950">
+
+    <div class="col-span-2 border bg-gray-900">
+      <LeftGameSidebar OnSaveLoaded="OnSaveLoaded" OnCharacterClicked="OpenCharacterDetails"/>
+    </div>
+
+    <div class="col-span-8 border bg-gray-900 flex flex-col">
+
+      <div class="flex-1 overflow-y-auto p-6 w-full" @ref="_textZoneRef">
+        <p class="text-white whitespace-pre-wrap text-left">
+          @_gameText
+        </p>
+      </div>
+
+      <div class="border-t p-4">
+        <MovementPanel/>
+      </div>
+
+    </div>
+
+    <div class="col-span-2 border bg-gray-900">
+      <RightGameSidebar/>
+    </div>
+
+  </div>
+}
+
+@code {
+  private ElementReference _textZoneRef;
+  private string _gameText = "Welcome !";
+
+  /// <summary>
+  ///   Callback triggered when a save is loaded from sidebar.
+  /// </summary>
+  private void OnSaveLoaded()
+  {
+    Navigation.NavigateTo("/game");
+    StateHasChanged();
+  }
+
+  /// <summary>
+  ///   Navigates to the character details page.
+  /// </summary>
+  private void OpenCharacterDetails(Character character)
+  {
+    Navigation.NavigateTo($"/characterdetails/{character.Id}");
+    StateHasChanged();
+  }
+
+  /// <summary>
+  ///   Scrolls the text output area to the bottom after render.
+  /// </summary>
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (_textZoneRef.Context != null)
+    {
+      await ScrollTextZoneToBottomAsync();
+    }
+  }
+
+  /// <summary>
+  ///   Invokes JavaScript to scroll the text zone to the bottom.
+  /// </summary>
+  private async Task ScrollTextZoneToBottomAsync()
+  {
+    await JS.InvokeVoidAsync("scrollToBottom", _textZoneRef);
+  }
+
+}

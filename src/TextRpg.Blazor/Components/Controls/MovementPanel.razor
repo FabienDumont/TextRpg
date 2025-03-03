@@ -1,0 +1,111 @@
+﻿@inject IMovementService MovementService
+@inject ILocationService LocationService
+@inject IMovementNarrationService MovementNarrationService
+@inject IRoomService RoomService
+@inject GameSaveStore GameSaveStore
+@inject IWorldService WorldService
+
+<div class="flex flex-col space-y-4 w-full max-w-md">
+  @if (_availableMovements is null)
+  {
+    <p class="text-white">Loading movements...</p>
+  }
+  else if (!_availableMovements.Any())
+  {
+    <p class="text-white italic">No movement options available.</p>
+  }
+  else
+  {
+    @foreach (var movement in _availableMovements)
+    {
+      <button class="trpg-btn" @onclick="() => MoveToDestination(movement)">
+        @(_movementNames.TryGetValue(movement.Id, out var name) ? name : "Unknown Destination")
+      </button>
+    }
+  }
+</div>
+
+@code {
+  private List<Movement>? _availableMovements;
+  private readonly Dictionary<Guid, string> _movementNames = new();
+
+  /// <summary>
+  ///   Loads available movement options on component initialization.
+  /// </summary>
+  protected override async Task OnInitializedAsync()
+  {
+    await LoadAvailableMovementsAsync();
+  }
+
+  /// <summary>
+  ///   Loads all movements available to the current player character and resolves destination names.
+  /// </summary>
+  private async Task LoadAvailableMovementsAsync()
+  {
+    var player = GameSaveStore.CurrentSave!.PlayerCharacter;
+
+    if (player.LocationId.HasValue)
+    {
+      _availableMovements = await MovementService.GetAvailableMovementsAsync(player.LocationId.Value, player.RoomId, CancellationToken.None);
+    }
+    else
+    {
+      _availableMovements = [];
+    }
+
+    _movementNames.Clear();
+
+    foreach (var movement in _availableMovements)
+    {
+      var locationName = "Unknown Location";
+      var roomName = (string?) null;
+
+      try
+      {
+        var location = await LocationService.GetByIdAsync(movement.ToLocationId, CancellationToken.None);
+        locationName = location.Name;
+      }
+      catch
+      {
+        /* fallback to default */
+      }
+
+      if (movement.ToRoomId != null)
+      {
+        try
+        {
+          var room = await RoomService.GetByIdAsync(movement.ToRoomId.Value, CancellationToken.None);
+          roomName = room.Name;
+        }
+        catch
+        {
+          /* fallback to no room name */
+        }
+      }
+
+      var fullName = roomName != null ? $"{locationName} - {roomName}" : locationName;
+      _movementNames[movement.Id] = fullName;
+    }
+
+    StateHasChanged();
+  }
+
+  /// <summary>
+  ///   Executes the selected movement, advances game time, and reloads movement options.
+  /// </summary>
+  private async Task MoveToDestination(Movement movement)
+  {
+    var player = GameSaveStore.CurrentSave!.PlayerCharacter;
+
+    player.MoveTo(movement.ToLocationId, movement.ToRoomId);
+
+    WorldService.AdvanceTime(GameSaveStore.CurrentSave!.World, 1);
+
+    var narration = await MovementNarrationService.GetNarrationTextAsync(movement.Id, CancellationToken.None);
+    Console.WriteLine(narration); // replace with in-game log later
+
+    await LoadAvailableMovementsAsync();
+    GameSaveStore.NotifyStateChanged();
+  }
+
+}
