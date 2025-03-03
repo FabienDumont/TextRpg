@@ -1,0 +1,42 @@
+﻿@page "/"
+@using TextRpg.Application.Services
+@inject GameStateService GameStateService
+@inject ISaveService SaveService
+@inject NavigationManager Navigation
+
+<PageTitle>Text RPG</PageTitle>
+
+<div class="trpg-layout-page">
+  <h2 class="trpg-title-main">Text RPG</h2>
+
+  <div class="flex flex-col space-y-4 w-48">
+    <NavLink
+      href="/newgame"
+      class="trpg-btn">
+      New Game
+    </NavLink>
+
+    <NavLink
+      href="/loadgame"
+      class="trpg-btn">
+      Load
+    </NavLink>
+
+    <button
+      class="trpg-btn-danger">
+      Exit
+    </button>
+  </div>
+</div>
+
+@code {
+  private async Task LoadGame()
+  {
+    var save = await SaveService.LoadGameAsync("save1", CancellationToken.None);
+    if (save != null)
+    {
+      GameStateService.LoadGame(save);
+      Navigation.NavigateTo("/game");
+    }
+  }
+}

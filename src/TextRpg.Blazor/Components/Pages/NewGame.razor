@@ -1,0 +1,129 @@
+﻿@page "/newgame"
+@using System.ComponentModel.DataAnnotations
+@using TextRpg.Application.Services
+@using TextRpg.Blazor.ViewModels
+@using TextRpg.Domain
+@inject ITraitService TraitService
+@inject ISaveService SaveService
+@inject GameStateService GameStateService
+@inject NavigationManager Navigation
+
+@rendermode InteractiveServer
+
+<div class="trpg-layout-page">
+  <h2 class="trpg-title-main">Character Creation</h2>
+
+  @if (_isLoading)
+  {
+    <p class="text-center">Loading...</p>
+  }
+  else
+  {
+    <EditForm EditContext="@_editContext" FormName="formCharacter" OnValidSubmit="CreateCharacter"
+              class="trpg-card-form">
+      <DataAnnotationsValidator/>
+
+      <div class="mb-6">
+        <label class="trpg-input-label">Name:</label>
+        <InputText class="trpg-input-field"
+                   @bind-Value="Model.Name"/>
+        <ValidationMessage class="trpg-validation-message" For="@(() => Model.Name)"></ValidationMessage>
+      </div>
+
+      <fieldset class="mb-6">
+        <legend class="text-lg font-semibold mb-2">Traits</legend>
+        <div class="space-y-2">
+          @foreach (var trait in _traitsViewModels)
+          {
+            <label class="trpg-checkbox-label">
+              <InputCheckbox
+                class="trpg-checkbox-input"
+                Value="@trait.IsSelected"
+                ValueChanged="@(_ => ToggleTrait(trait))"
+                ValueExpression="@(() => trait.IsSelected)"
+                disabled="@(!trait.IsEnabled)"/>
+              @trait.Name
+            </label>
+          }
+        </div>
+      </fieldset>
+
+      <button type="submit"
+              class="trpg-btn-submit w-full">
+        Create
+      </button>
+    </EditForm>
+  }
+</div>
+
+@code {
+  private bool _isLoading = true;
+  private List<TraitViewModel> _traitsViewModels = [];
+  private EditContext? _editContext;
+
+  public CharacterCreationModel Model { get; set; } = new();
+
+  protected override async Task OnInitializedAsync()
+  {
+    _editContext = new EditContext(Model);
+
+    _isLoading = true;
+
+    try
+    {
+      var traits = await TraitService.GetAllTraitsAsync(CancellationToken.None);
+      _traitsViewModels = traits.Select(
+        t => new TraitViewModel
+        {
+          Id = t.Id,
+          Name = t.Name,
+          IsSelected = false,
+          IsEnabled = true
+        }
+      ).ToList();
+    }
+    finally
+    {
+      _isLoading = false;
+    }
+  }
+
+  private async Task ToggleTrait(TraitViewModel traitViewModel)
+  {
+    traitViewModel.IsSelected = !traitViewModel.IsSelected;
+
+    var selected = _traitsViewModels.Where(t => t.IsSelected).Select(t => t.Id);
+    var compatible = await TraitService.GetCompatibleTraitsAsync(selected, CancellationToken.None);
+    var compatibleIds = compatible.Select(t => t.Id).ToHashSet();
+
+    foreach (var t in _traitsViewModels)
+    {
+      if (!t.IsSelected) t.IsEnabled = compatibleIds.Contains(t.Id);
+    }
+
+    StateHasChanged();
+  }
+
+  private async Task CreateCharacter()
+  {
+    var character = Character.Create(Model.Name.Trim());
+
+    character.AddTraits(_traitsViewModels.Where(t => t.IsSelected).Select(t => t.Id));
+
+    var save = GameSave.Create($"{character.Name}_{DateTime.Now:yyyyMMdd_HHmmss}", character);
+
+    GameStateService.LoadGame(save);
+    await SaveService.SaveGameAsync(save, CancellationToken.None);
+
+    Console.WriteLine($"Character saved: {character.Name}");
+    Navigation.NavigateTo("/game");
+  }
+
+  public class CharacterCreationModel
+  {
+    [Required(AllowEmptyStrings = false)]
+    [StringLength(30)]
+    public string Name { get; set; } = string.Empty;
+  }
+
+}
