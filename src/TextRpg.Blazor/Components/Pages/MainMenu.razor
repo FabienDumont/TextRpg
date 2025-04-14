@@ -4,6 +4,8 @@
 @inject ISaveService SaveService
 @inject NavigationManager Navigation
 
+@rendermode InteractiveServer
+
 <PageTitle>Text RPG</PageTitle>
 
 <div class="trpg-layout-page">
@@ -11,16 +13,15 @@
 
   <div class="flex flex-col space-y-4 w-48">
     <NavLink
-      href="/newgame"
+      href="/charactercreation"
       class="trpg-btn">
       New Game
     </NavLink>
 
-    <NavLink
-      href="/loadgame"
-      class="trpg-btn">
-      Load
-    </NavLink>
+    <label class="trpg-btn text-center cursor-pointer">
+      Load Save
+      <InputFile OnChange="OnFileSelected" accept=".json" style="display:none" />
+    </label>
 
     <button
       class="trpg-btn-danger">
@@ -30,13 +31,19 @@
 </div>
 
 @code {
-  private async Task LoadGame()
+
+  private async Task OnFileSelected(InputFileChangeEventArgs e)
   {
-    var save = await SaveService.LoadGameAsync("save1", CancellationToken.None);
+    var file = e.File;
+
+    var fileName = Path.GetFileNameWithoutExtension(file.Name);
+
+    var save = await SaveService.LoadGameAsync(fileName, CancellationToken.None);
     if (save != null)
     {
       GameStateService.LoadGame(save);
       Navigation.NavigateTo("/game");
     }
   }
+
 }
