@@ -1,18 +1,19 @@
 ﻿@page "/game"
-@inject GameStateService GameStateService
+@using TextRpg.Blazor.Stores
+@inject GameSaveStore GameSaveStore
 
 @rendermode InteractiveServer
 
 <div class="trpg-layout-page">
   <h2 class="trpg-title-main">Game</h2>
 
-  @if (GameStateService.CurrentSave is null)
+  @if (GameSaveStore.CurrentSave is null)
   {
     <p>No game loaded. Go to main menu.</p>
   }
   else
   {
-    <h3>Welcome back, @GameStateService.CurrentSave.PlayerCharacter.Name</h3>
+    <h3>Welcome back, @GameSaveStore.CurrentSave.PlayerCharacter.Name</h3>
   }
 
 </div>

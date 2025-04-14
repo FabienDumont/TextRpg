@@ -1,6 +1,6 @@
 using TextRpg.Application;
 using TextRpg.Blazor.Components;
-using TextRpg.Blazor.Services;
+using TextRpg.Blazor.Stores;
 using TextRpg.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,7 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddInfrastructureEf("Data/database.db");
 builder.Services.AddApplication();
-builder.Services.AddScoped<GameStateService>();
+builder.Services.AddScoped<GameSaveStore>();
 
 var app = builder.Build();
 

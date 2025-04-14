@@ -18,7 +18,8 @@ public class SaveServiceTests
     // Arrange
     var repo = A.Fake<IGameSaveRepository>();
     var service = new SaveService(repo);
-    var save = GameSave.Create("TestSave", Character.Create("Player"));
+    var player = Character.Create("Player");
+    var save = GameSave.Create("TestSave", player, World.Create(DateTime.Now, [player]));
 
     // Act
     await service.SaveGameAsync(save);
@@ -32,7 +33,8 @@ public class SaveServiceTests
   {
     // Arrange
     var repo = A.Fake<IGameSaveRepository>();
-    var expectedSave = GameSave.Create("SaveSlot1", Character.Create("Hero"));
+    var player = Character.Create("Hero");
+    var expectedSave = GameSave.Create("SaveSlot1", player, World.Create(DateTime.Now, [player]));
     A.CallTo(() => repo.LoadAsync("SaveSlot1", A<CancellationToken>._)).Returns(expectedSave);
 
     var service = new SaveService(repo);

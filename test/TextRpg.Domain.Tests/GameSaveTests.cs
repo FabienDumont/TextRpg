@@ -2,70 +2,72 @@
 
 public class GameSaveTests
 {
-    [Fact]
-    public void Create_ShouldInitializeCorrectly()
-    {
-        // Arrange
-        var player = Character.Create("Hero");
+  [Fact]
+  public void Create_ShouldInitializeCorrectly()
+  {
+    // Arrange
+    var player = Character.Create("Hero");
+    var world = World.Create(DateTime.Now, [player]);
 
-        // Act
-        var save = GameSave.Create("New Save", player);
+    // Act
+    var save = GameSave.Create("New Save", player, world);
 
-        // Assert
-        save.Should().NotBeNull();
-        save.Id.Should().NotBe(Guid.Empty);
-        save.Name.Should().Be("New Save");
-        save.PlayerCharacterId.Should().Be(player.Id);
-        save.Characters.Should().ContainSingle().Which.Should().Be(player);
-        save.PlayerCharacter.Should().Be(player);
-        save.SavedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
-    }
+    // Assert
+    save.Should().NotBeNull();
+    save.Id.Should().NotBe(Guid.Empty);
+    save.Name.Should().Be("New Save");
+    save.PlayerCharacterId.Should().Be(player.Id);
+    save.World.Should().BeEquivalentTo(world);
+    save.PlayerCharacter.Should().Be(player);
+    save.SavedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
+  }
 
-    [Fact]
-    public void Load_ShouldInitializeCorrectly()
-    {
-        // Arrange
-        var player = Character.Create("Player");
-        var characters = new List<Character> { player };
-        var id = Guid.NewGuid();
-        var name = "Save 1";
+  [Fact]
+  public void Load_ShouldInitializeCorrectly()
+  {
+    // Arrange
+    var player = Character.Create("Player");
+    var id = Guid.NewGuid();
+    var name = "Save 1";
+    var world = World.Create(DateTime.Now, [player]);
 
-        // Act
-        var save = GameSave.Load(id, name, player.Id, characters);
+    // Act
+    var save = GameSave.Load(id, name, player.Id, world);
 
-        // Assert
-        save.Id.Should().Be(id);
-        save.Name.Should().Be(name);
-        save.PlayerCharacterId.Should().Be(player.Id);
-        save.Characters.Should().ContainSingle().Which.Should().Be(player);
-        save.PlayerCharacter.Should().Be(player);
-    }
+    // Assert
+    save.Id.Should().Be(id);
+    save.Name.Should().Be(name);
+    save.PlayerCharacterId.Should().Be(player.Id);
+    save.World.Should().BeEquivalentTo(world);
+    save.PlayerCharacter.Should().Be(player);
+  }
 
-    [Fact]
-    public void Load_ShouldThrow_WhenPlayerCharacterNotFound()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        var name = "Save X";
-        var wrongPlayerId = Guid.NewGuid();
-        var characters = new List<Character> { Character.Create("NPC") };
+  [Fact]
+  public void Load_ShouldThrow_WhenPlayerCharacterNotFound()
+  {
+    // Arrange
+    var id = Guid.NewGuid();
+    var name = "Save X";
+    var wrongPlayerId = Guid.NewGuid();
+    var world = World.Create(DateTime.Now, []);
 
-        // Act
-        var act = () => GameSave.Load(id, name, wrongPlayerId, characters);
+    // Act
+    var act = () => GameSave.Load(id, name, wrongPlayerId, world);
 
-        // Assert
-        act.Should().Throw<InvalidOperationException>()
-           .WithMessage("Player character not found in character list.");
-    }
+    // Assert
+    act.Should().Throw<InvalidOperationException>().WithMessage("Player character not found in character list.");
+  }
 
-    [Fact]
-    public void Create_ShouldThrow_WhenPlayerIsNull()
-    {
-        // Act
-        var act = () => GameSave.Create("Save Null", null!);
+  [Fact]
+  public void Create_ShouldThrow_WhenPlayerIsNull()
+  {
+    // Arrange
+    var world = World.Create(DateTime.Now, []);
 
-        // Assert
-        act.Should().Throw<ArgumentNullException>()
-           .WithParameterName("playerCharacter");
-    }
+    // Act
+    var act = () => GameSave.Create("Save Null", null!, world);
+
+    // Assert
+    act.Should().Throw<ArgumentNullException>().WithParameterName("playerCharacter");
+  }
 }

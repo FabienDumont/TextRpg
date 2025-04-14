@@ -21,9 +21,10 @@ public class GameSaveJsonRepositoryTests : IDisposable
   {
     // Arrange
     var repo = new GameSaveJsonRepository(_tempDir);
-    var character = Character.Create("PlayerOne");
-    character.AddTraits([Guid.NewGuid(), Guid.NewGuid()]);
-    var save = GameSave.Create("TestSave", character);
+    var player = Character.Create("PlayerOne");
+    player.AddTraits([Guid.NewGuid(), Guid.NewGuid()]);
+    var world = World.Create(DateTime.Now, [player]);
+    var save = GameSave.Create("TestSave", player, world);
 
     // Act
     await repo.SaveAsync(save, CancellationToken.None);
@@ -33,10 +34,10 @@ public class GameSaveJsonRepositoryTests : IDisposable
     loaded.Should().NotBeNull();
     loaded.Id.Should().Be(save.Id);
     loaded.Name.Should().Be(save.Name);
-    loaded.PlayerCharacterId.Should().Be(character.Id);
-    loaded.Characters.Should().ContainSingle();
-    loaded.PlayerCharacter.Name.Should().Be(character.Name);
-    loaded.PlayerCharacter.TraitsId.Should().BeEquivalentTo(character.TraitsId);
+    loaded.PlayerCharacterId.Should().Be(player.Id);
+    loaded.World.Should().BeEquivalentTo(world);
+    loaded.PlayerCharacter.Name.Should().Be(player.Name);
+    loaded.PlayerCharacter.TraitsId.Should().BeEquivalentTo(player.TraitsId);
   }
 
   [Fact]

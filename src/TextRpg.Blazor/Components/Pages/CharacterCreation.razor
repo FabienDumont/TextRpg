@@ -1,11 +1,12 @@
 ﻿@page "/charactercreation"
 @using System.ComponentModel.DataAnnotations
 @using TextRpg.Application.Services
+@using TextRpg.Blazor.Stores
 @using TextRpg.Blazor.ViewModels
 @using TextRpg.Domain
 @inject ITraitService TraitService
 @inject ISaveService SaveService
-@inject GameStateService GameStateService
+@inject GameSaveStore GameSaveStore
 @inject NavigationManager Navigation
 
 @rendermode InteractiveServer
@@ -110,9 +111,11 @@
 
     character.AddTraits(_traitsViewModels.Where(t => t.IsSelected).Select(t => t.Id));
 
-    var save = GameSave.Create($"{character.Name}_{DateTime.Now:yyyyMMdd_HHmmss}", character);
+    var world = World.Create(new DateTime(2025, 1, 1), [character]);
 
-    GameStateService.LoadGame(save);
+    var save = GameSave.Create($"{character.Name}_{DateTime.Now:yyyyMMdd_HHmmss}", character, world);
+
+    GameSaveStore.LoadGame(save);
     await SaveService.SaveGameAsync(save, CancellationToken.None);
 
     Console.WriteLine($"Character saved: {character.Name}");

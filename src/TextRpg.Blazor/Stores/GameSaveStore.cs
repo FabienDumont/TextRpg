@@ -1,8 +1,8 @@
 ﻿using TextRpg.Domain;
 
-namespace TextRpg.Blazor.Services;
+namespace TextRpg.Blazor.Stores;
 
-public class GameStateService
+public class GameSaveStore
 {
   public GameSave? CurrentSave { get; private set; }
 

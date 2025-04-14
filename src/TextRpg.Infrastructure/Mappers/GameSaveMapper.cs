@@ -8,27 +8,25 @@ public static class GameSaveMapper
 {
   #region Methods
 
-  public static GameSave ToDomain(this GameSaveDataModel gameSaveDataModel)
+  public static GameSave ToDomain(this GameSaveDataModel dataModel)
   {
-    return gameSaveDataModel.Map(
-      i => GameSave.Load(i.Id, i.Name, i.PlayerCharacterId, i.Characters.ToDomainCollection())
-    );
+    return dataModel.Map(i => GameSave.Load(i.Id, i.Name, i.PlayerCharacterId, i.World.ToDomain()));
   }
 
-  public static List<GameSave> ToDomainCollection(this IEnumerable<GameSaveDataModel> gameSaveDataModels)
+  public static List<GameSave> ToDomainCollection(this IEnumerable<GameSaveDataModel> dataModels)
   {
-    return gameSaveDataModels.MapCollection(ToDomain);
+    return dataModels.MapCollection(ToDomain);
   }
 
-  public static GameSaveDataModel ToDataModel(this GameSave gameSave)
+  public static GameSaveDataModel ToDataModel(this GameSave domain)
   {
-    return gameSave.Map(
+    return domain.Map(
       u => new GameSaveDataModel
       {
         Id = u.Id,
         Name = u.Name,
         PlayerCharacterId = u.PlayerCharacterId,
-        Characters = u.Characters.ToDataModelCollection()
+        World = u.World.ToDataModel()
       }
     );
   }

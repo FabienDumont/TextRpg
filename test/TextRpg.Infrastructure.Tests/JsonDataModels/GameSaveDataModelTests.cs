@@ -1,4 +1,5 @@
-﻿using TextRpg.Infrastructure.JsonDataModels;
+﻿using TextRpg.Domain;
+using TextRpg.Infrastructure.JsonDataModels;
 
 namespace TextRpg.Infrastructure.Tests.JsonDataModels;
 
@@ -14,7 +15,7 @@ public class GameSaveDataModelTests
     model.Id.Should().Be(Guid.Empty);
     model.Name.Should().BeEmpty();
     model.PlayerCharacterId.Should().Be(Guid.Empty);
-    model.Characters.Should().NotBeNull().And.BeEmpty();
+    model.World.Should().BeNull();
     model.SavedAt.Should().Be(default);
   }
 
@@ -33,13 +34,23 @@ public class GameSaveDataModelTests
       TraitsId = [Guid.NewGuid()]
     };
 
+    var worldDataModel = new WorldDataModel
+    {
+      Id = Guid.NewGuid(),
+      CurrentDate = DateTime.Now,
+      Characters =
+      [
+        character
+      ]
+    };
+
     // Act
     var model = new GameSaveDataModel
     {
       Id = id,
       Name = "Test Save",
       PlayerCharacterId = characterId,
-      Characters = [character],
+      World = worldDataModel,
       SavedAt = timestamp
     };
 
@@ -47,7 +58,7 @@ public class GameSaveDataModelTests
     model.Id.Should().Be(id);
     model.Name.Should().Be("Test Save");
     model.PlayerCharacterId.Should().Be(characterId);
-    model.Characters.Should().ContainSingle().Which.Should().Be(character);
+    model.World.Should().BeEquivalentTo(worldDataModel);
     model.SavedAt.Should().Be(timestamp);
   }
 }

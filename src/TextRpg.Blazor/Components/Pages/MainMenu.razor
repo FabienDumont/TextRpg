@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using TextRpg.Application.Services
-@inject GameStateService GameStateService
+@using TextRpg.Blazor.Stores
+@inject GameSaveStore GameSaveStore
 @inject ISaveService SaveService
 @inject NavigationManager Navigation
 
@@ -41,7 +42,7 @@
     var save = await SaveService.LoadGameAsync(fileName, CancellationToken.None);
     if (save != null)
     {
-      GameStateService.LoadGame(save);
+      GameSaveStore.LoadGame(save);
       Navigation.NavigateTo("/game");
     }
   }
