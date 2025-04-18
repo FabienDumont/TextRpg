@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <Target Name="RunTailwind" BeforeTargets="Build">
+  <Target Name="RunTailwind" BeforeTargets="Build" Inputs="wwwroot/css/input.css;tailwind.config.js" Outputs="wwwroot/css/tailwind.css">
     <Exec Command="npx tailwindcss -i wwwroot/css/input.css -o wwwroot/css/tailwind.css" />
   </Target>
 

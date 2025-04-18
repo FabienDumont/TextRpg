@@ -21,14 +21,16 @@ public class GameSaveJsonRepositoryTests : IDisposable
   {
     // Arrange
     var repo = new GameSaveJsonRepository(_tempDir);
-    var player = Character.Create("PlayerOne");
+    var player = Character.Create("PlayerOne", 18, BiologicalSex.Male);
     player.AddTraits([Guid.NewGuid(), Guid.NewGuid()]);
     var world = World.Create(DateTime.Now, [player]);
     var save = GameSave.Create("TestSave", player, world);
 
     // Act
     await repo.SaveAsync(save, CancellationToken.None);
-    var loaded = await repo.LoadAsync("TestSave", CancellationToken.None);
+    var path = Path.Combine(_tempDir, "TestSave.json");
+    var json = await File.ReadAllTextAsync(path, CancellationToken.None);
+    var loaded = repo.Load(json);
 
     // Assert
     loaded.Should().NotBeNull();
@@ -41,13 +43,14 @@ public class GameSaveJsonRepositoryTests : IDisposable
   }
 
   [Fact]
-  public async Task LoadAsync_Should_Return_Null_If_File_Not_Found()
+  public void Load_Should_Return_Null_If_Json_Is_Invalid()
   {
     // Arrange
-    var repo = new GameSaveJsonRepository(_tempDir);
+    var repo = new GameSaveJsonRepository();
+    var invalidJson = "{ not even close to valid json";
 
     // Act
-    var result = await repo.LoadAsync("DoesNotExist", CancellationToken.None);
+    var result = repo.Load(invalidJson);
 
     // Assert
     result.Should().BeNull();
@@ -57,12 +60,12 @@ public class GameSaveJsonRepositoryTests : IDisposable
   public void GetSavePath_Should_Return_Path_Ending_With_Saves()
   {
     // Act
-    var path = GameSaveJsonRepository.GetSavePath();
+
+    var path = GameSaveJsonRepository.GetSavePath("CharacterName");
 
     // Assert
     path.Should().NotBeNullOrWhiteSpace();
-    path.Should().EndWith("Saves");
-    Directory.Exists(Path.GetDirectoryName(path)).Should().BeTrue("Parent directory of save path should exist");
+    path.Should().EndWith(@"Saves\CharacterName");
   }
 
   [Fact]
@@ -72,10 +75,10 @@ public class GameSaveJsonRepositoryTests : IDisposable
     var fakeExePath = Path.Combine("C:", "mygame", "resources", "app", "server");
 
     // Act
-    var savePath = GameSaveJsonRepository.GetSavePath(fakeExePath);
+    var savePath = GameSaveJsonRepository.GetSavePath("CharacterName", fakeExePath);
 
     // Assert
-    savePath.Should().Be(Path.Combine("C:", "mygame", "Saves"));
+    savePath.Should().Be(Path.Combine("C:", "mygame", "Saves", "CharacterName"));
   }
 
 

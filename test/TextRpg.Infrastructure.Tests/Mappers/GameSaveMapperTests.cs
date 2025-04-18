@@ -10,7 +10,7 @@ public class GameSaveMapperTests
   public void ToDataModel_Should_Map_GameSave_To_GameSaveDataModel()
   {
     // Arrange
-    var player = Character.Create("Player");
+    var player = Character.Create("Player", 18, BiologicalSex.Male);
     player.AddTraits([Guid.NewGuid(), Guid.NewGuid()]);
     var world = World.Create(DateTime.Now, [player]);
     var save = GameSave.Create("Test Save", player, world);
@@ -20,6 +20,7 @@ public class GameSaveMapperTests
 
     // Assert
     dataModel.Id.Should().Be(save.Id);
+    dataModel.Name.Should().Be(save.Name);
     dataModel.Name.Should().Be(save.Name);
     dataModel.PlayerCharacterId.Should().Be(save.PlayerCharacterId);
   }

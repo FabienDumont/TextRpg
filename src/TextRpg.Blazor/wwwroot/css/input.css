@@ -12,7 +12,7 @@
     }
 
     .trpg-card-form {
-        @apply max-w-md mx-auto p-6 bg-gray-800 rounded-2xl shadow-lg;
+        @apply w-full max-w-md mx-auto p-6 bg-gray-800 rounded-2xl shadow-lg min-h-[28rem];
     }
 
     .trpg-input-label {
@@ -36,14 +36,23 @@
     }
 
     .trpg-btn {
-        @apply py-1 rounded font-semibold transition text-center bg-gray-800 hover:bg-gray-700;
+        @apply px-4 py-2 rounded font-semibold transition text-center bg-gray-800 hover:bg-gray-700;
     }
 
     .trpg-btn-danger {
-        @apply py-1 rounded font-semibold transition text-center bg-red-800 hover:bg-red-700;
+        @apply px-4 py-2 rounded font-semibold transition text-center bg-red-800 hover:bg-red-700;
     }
 
     .trpg-btn-submit {
-        @apply py-1 rounded font-semibold transition text-center bg-blue-800 hover:bg-blue-700 text-white disabled:opacity-50;
+        @apply px-4 py-2 rounded font-semibold transition text-center bg-blue-800 hover:bg-blue-700 text-white disabled:opacity-50;
+    }
+
+    @keyframes fade-in-out {
+        0%, 100% { opacity: 0; transform: translateY(-10px); }
+        10%, 90% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in-out {
+        animation: fade-in-out 5s ease-in-out forwards;
     }
 }

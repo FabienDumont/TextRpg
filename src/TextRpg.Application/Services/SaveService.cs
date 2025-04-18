@@ -12,9 +12,9 @@ public class SaveService(IGameSaveRepository saveRepo) : ISaveService
     await saveRepo.SaveAsync(save, ct);
   }
 
-  public async Task<GameSave?> LoadGameAsync(string saveName, CancellationToken ct = default)
+  public GameSave? LoadGame(string json)
   {
-    return await saveRepo.LoadAsync(saveName, ct);
+    return saveRepo.Load(json);
   }
 
   #endregion

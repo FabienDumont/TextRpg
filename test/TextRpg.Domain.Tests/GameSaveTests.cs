@@ -6,7 +6,7 @@ public class GameSaveTests
   public void Create_ShouldInitializeCorrectly()
   {
     // Arrange
-    var player = Character.Create("Hero");
+    var player = Character.Create("Hero", 18, BiologicalSex.Male);
     var world = World.Create(DateTime.Now, [player]);
 
     // Act
@@ -26,7 +26,7 @@ public class GameSaveTests
   public void Load_ShouldInitializeCorrectly()
   {
     // Arrange
-    var player = Character.Create("Player");
+    var player = Character.Create("Player", 18, BiologicalSex.Male);
     var id = Guid.NewGuid();
     var name = "Save 1";
     var world = World.Create(DateTime.Now, [player]);

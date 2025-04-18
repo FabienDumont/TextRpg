@@ -4,12 +4,6 @@ using TextRpg.Domain;
 
 namespace TextRpg.Application.Tests.Services;
 
-using Xunit;
-using FluentAssertions;
-using FakeItEasy;
-using System.Threading;
-using System.Threading.Tasks;
-
 public class SaveServiceTests
 {
   [Fact]
@@ -18,7 +12,7 @@ public class SaveServiceTests
     // Arrange
     var repo = A.Fake<IGameSaveRepository>();
     var service = new SaveService(repo);
-    var player = Character.Create("Player");
+    var player = Character.Create("Player", 18, BiologicalSex.Male);
     var save = GameSave.Create("TestSave", player, World.Create(DateTime.Now, [player]));
 
     // Act
@@ -29,37 +23,40 @@ public class SaveServiceTests
   }
 
   [Fact]
-  public async Task LoadGameAsync_Should_Return_GameSave_From_Repository()
+  public void LoadGame_Should_Return_GameSave_From_Repository()
   {
     // Arrange
     var repo = A.Fake<IGameSaveRepository>();
-    var player = Character.Create("Hero");
-    var expectedSave = GameSave.Create("SaveSlot1", player, World.Create(DateTime.Now, [player]));
-    A.CallTo(() => repo.LoadAsync("SaveSlot1", A<CancellationToken>._)).Returns(expectedSave);
+    var json = "{ valid json }";
+    var player = Character.Create("PlayerName", 18, BiologicalSex.Male);
+    var expectedSave = GameSave.Create("TestSave", player, World.Create(DateTime.Now, [player]));
+
+    A.CallTo(() => repo.Load(json)).Returns(expectedSave);
 
     var service = new SaveService(repo);
 
     // Act
-    var result = await service.LoadGameAsync("SaveSlot1");
+    var result = service.LoadGame(json);
 
     // Assert
     result.Should().BeSameAs(expectedSave);
-    A.CallTo(() => repo.LoadAsync("SaveSlot1", A<CancellationToken>._)).MustHaveHappenedOnceExactly();
+    A.CallTo(() => repo.Load(json)).MustHaveHappenedOnceExactly();
   }
 
   [Fact]
-  public async Task LoadGameAsync_Should_Return_Null_When_Repo_Returns_Null()
+  public void LoadGame_Should_Return_Null_When_Repo_Returns_Null()
   {
     // Arrange
     var repo = A.Fake<IGameSaveRepository>();
-    A.CallTo(() => repo.LoadAsync("NotFound", A<CancellationToken>._)).Returns((GameSave?) null);
+    A.CallTo(() => repo.Load("NotJson")).Returns(null);
 
     var service = new SaveService(repo);
 
     // Act
-    var result = await service.LoadGameAsync("NotFound");
+    var result = service.LoadGame("NotJson");
 
     // Assert
     result.Should().BeNull();
+    A.CallTo(() => repo.Load("NotJson")).MustHaveHappenedOnceExactly();
   }
 }

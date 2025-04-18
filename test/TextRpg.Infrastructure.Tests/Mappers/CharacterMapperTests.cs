@@ -50,7 +50,7 @@ public class CharacterMapperTests
   public void ToDataModel_Should_Map_Character_To_DataModel()
   {
     // Arrange
-    var character = Character.Create("Casca");
+    var character = Character.Create("Casca", 18, BiologicalSex.Male);
     var traits = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
     character.AddTraits(traits);
 
@@ -67,8 +67,8 @@ public class CharacterMapperTests
   public void ToDataModelCollection_Should_Map_List_Of_Characters()
   {
     // Arrange
-    var c1 = Character.Create("Skull Knight");
-    var c2 = Character.Create("Farnese");
+    var c1 = Character.Create("Skull Knight", 18, BiologicalSex.Male);
+    var c2 = Character.Create("Farnese", 18, BiologicalSex.Male);
 
     var list = new List<Character> { c1, c2 };
 

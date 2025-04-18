@@ -10,7 +10,9 @@ public static class CharacterMapper
 
   public static Character ToDomain(this CharacterDataModel characterDataModel)
   {
-    var character = Character.Load(characterDataModel.Id, characterDataModel.Name);
+    var character = Character.Load(
+      characterDataModel.Id, characterDataModel.Name, characterDataModel.Age, characterDataModel.BiologicalSex
+    );
     character.AddTraits(characterDataModel.TraitsId);
     return character;
   }
@@ -22,11 +24,12 @@ public static class CharacterMapper
 
   public static CharacterDataModel ToDataModel(this Character character)
   {
-    return character.Map(
-      u => new CharacterDataModel
+    return character.Map(u => new CharacterDataModel
       {
         Id = u.Id,
         Name = u.Name,
+        Age = u.Age,
+        BiologicalSex = u.BiologicalSex,
         TraitsId = u.TraitsId
       }
     );

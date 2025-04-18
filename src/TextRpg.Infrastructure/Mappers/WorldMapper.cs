@@ -13,11 +13,6 @@ public static class WorldMapper
     return dataModel.Map(i => World.Load(i.Id, i.CurrentDate, i.Characters.ToDomainCollection()));
   }
 
-  public static List<World> ToDomainCollection(this IEnumerable<WorldDataModel> dataModels)
-  {
-    return dataModels.MapCollection(ToDomain);
-  }
-
   public static WorldDataModel ToDataModel(this World domain)
   {
     return domain.Map(

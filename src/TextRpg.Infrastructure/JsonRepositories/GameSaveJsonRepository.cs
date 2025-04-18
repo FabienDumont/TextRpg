@@ -8,40 +8,42 @@ namespace TextRpg.Infrastructure.JsonRepositories;
 
 public class GameSaveJsonRepository(string? customPath = null) : IGameSaveRepository
 {
-  private readonly string _saveDirectory = customPath ?? GetSavePath();
 
   public async Task SaveAsync(GameSave save, CancellationToken cancellationToken)
   {
-    Directory.CreateDirectory(_saveDirectory);
-    var path = Path.Combine(_saveDirectory, $"{save.Name}.json");
+    var saveDirectory = customPath ?? GetSavePath(save.PlayerCharacter.Name);
+    Directory.CreateDirectory(saveDirectory);
+    var path = Path.Combine(saveDirectory, $"{save.Name}.json");
 
     var dataModel = save.ToDataModel();
 
-    var json = JsonSerializer.Serialize(dataModel, new JsonSerializerOptions { WriteIndented = true });
+    var json = JsonSerializer.Serialize(dataModel, new JsonSerializerOptions {WriteIndented = true});
     await File.WriteAllTextAsync(path, json, cancellationToken);
   }
 
-  public async Task<GameSave?> LoadAsync(string saveName, CancellationToken cancellationToken)
+  public GameSave? Load(string json)
   {
-    var path = Path.Combine(_saveDirectory, $"{saveName}.json");
-    if (!File.Exists(path)) return null;
-
-    var json = await File.ReadAllTextAsync(path, cancellationToken);
-    var dataModel = JsonSerializer.Deserialize<GameSaveDataModel>(json);
-    return dataModel?.ToDomain();
+    try
+    {
+      var dataModel = JsonSerializer.Deserialize<GameSaveDataModel>(json);
+      return dataModel?.ToDomain();
+    }
+    catch (JsonException)
+    {
+      return null;
+    }
   }
 
-  internal static string GetSavePath(string? exePathOverride = null)
+  internal static string GetSavePath(string characterName, string? exePathOverride = null)
   {
     var exePath = exePathOverride ?? AppContext.BaseDirectory;
 
     if (exePath.Contains(Path.Combine("resources", "app")))
     {
       var parent = Path.GetFullPath(Path.Combine(exePath, @"..\..\.."));
-      return Path.Combine(parent, "Saves");
+      return Path.Combine(parent, $@"Saves\{characterName}");
     }
 
-    return Path.Combine(exePath, "Saves");
+    return Path.Combine(exePath, $@"Saves\{characterName}");
   }
-
 }

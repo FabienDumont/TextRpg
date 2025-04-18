@@ -21,7 +21,7 @@
 
     <label class="trpg-btn text-center cursor-pointer">
       Load Save
-      <InputFile OnChange="OnFileSelected" accept=".json" style="display:none" />
+      <InputFile OnChange="OnFileSelected" accept=".json" style="display:none"/>
     </label>
 
     <button
@@ -37,9 +37,11 @@
   {
     var file = e.File;
 
-    var fileName = Path.GetFileNameWithoutExtension(file.Name);
+    await using var stream = file.OpenReadStream();
+    using var reader = new StreamReader(stream);
+    var json = await reader.ReadToEndAsync();
 
-    var save = await SaveService.LoadGameAsync(fileName, CancellationToken.None);
+    var save = SaveService.LoadGame(json);
     if (save != null)
     {
       GameSaveStore.LoadGame(save);
