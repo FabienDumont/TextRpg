@@ -1,0 +1,14 @@
+﻿@using TextRpg.Blazor.Stores
+@inject GameSaveStore GameSaveStore
+
+<div class="col-span-2 border">
+  <div class="flex flex-col items-center px-4 py-4 space-y-4">
+    <p class="text-xl font-bold mb-4 text-white">
+      @GameSaveStore.CurrentSave!.World.CurrentDate
+    </p>
+  </div>
+</div>
+
+@code {
+
+}

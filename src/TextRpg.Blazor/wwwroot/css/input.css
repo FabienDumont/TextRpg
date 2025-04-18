@@ -36,11 +36,11 @@
     }
 
     .trpg-btn {
-        @apply px-4 py-2 rounded font-semibold transition text-center bg-gray-800 hover:bg-gray-700;
+        @apply px-4 py-2 rounded font-semibold transition text-center bg-gray-800 hover:bg-gray-700 text-white;
     }
 
     .trpg-btn-danger {
-        @apply px-4 py-2 rounded font-semibold transition text-center bg-red-800 hover:bg-red-700;
+        @apply px-4 py-2 rounded font-semibold transition text-center bg-red-800 hover:bg-red-700 text-white;
     }
 
     .trpg-btn-submit {

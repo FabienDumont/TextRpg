@@ -188,14 +188,13 @@
 
     character.AddTraits(_traitsViewModels.Where(t => t.IsSelected).Select(t => t.Id));
 
-    var world = World.Create(new DateTime(2025, 1, 1), [character]);
+    var world = World.Create(new DateTime(2025, 1, 1, 8, 0, 0), [character]);
 
-    var save = GameSave.Create($"{character.Name}_{DateTime.Now:yyyyMMdd_HHmmss}", character, world);
+    var save = GameSave.Create($"{character.Name}_{world.CurrentDate:yyyyMMdd_HHmmss}", character, world);
 
     GameSaveStore.LoadGame(save);
     await SaveService.SaveGameAsync(save, CancellationToken.None);
 
-    Console.WriteLine($"Character saved: {character.Name}");
     Navigation.NavigateTo("/game");
   }
 

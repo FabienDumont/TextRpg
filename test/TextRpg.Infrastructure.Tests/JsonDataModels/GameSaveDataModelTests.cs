@@ -1,5 +1,4 @@
-﻿using TextRpg.Domain;
-using TextRpg.Infrastructure.JsonDataModels;
+﻿using TextRpg.Infrastructure.JsonDataModels;
 
 namespace TextRpg.Infrastructure.Tests.JsonDataModels;
 
@@ -9,13 +8,16 @@ public class GameSaveDataModelTests
   public void GameSaveDataModel_Should_InitializeWithDefaultValues()
   {
     // Act
-    var model = new GameSaveDataModel();
+    var model = new GameSaveDataModel()
+    {
+      World = new WorldDataModel()
+    };
 
     // Assert
     model.Id.Should().Be(Guid.Empty);
     model.Name.Should().BeEmpty();
     model.PlayerCharacterId.Should().Be(Guid.Empty);
-    model.World.Should().BeNull();
+    model.World.Should().NotBeNull();
     model.SavedAt.Should().Be(default);
   }
 

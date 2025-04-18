@@ -6,7 +6,7 @@ public class GameSaveDataModel
 
   public Guid Id { get; init; }
   public string Name { get; init; } = string.Empty;
-  public WorldDataModel? World { get; init; }
+  public required WorldDataModel World { get; init; }
   public Guid PlayerCharacterId { get; init; }
   public DateTime SavedAt { get; init; }
 

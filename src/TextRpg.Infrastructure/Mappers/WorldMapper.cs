@@ -8,7 +8,7 @@ public static class WorldMapper
 {
   #region Methods
 
-  public static World ToDomain(this WorldDataModel? dataModel)
+  public static World ToDomain(this WorldDataModel dataModel)
   {
     return dataModel.Map(i => World.Load(i.Id, i.CurrentDate, i.Characters.ToDomainCollection()));
   }

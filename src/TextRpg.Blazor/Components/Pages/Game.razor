@@ -1,19 +1,45 @@
 ﻿@page "/game"
 @using TextRpg.Blazor.Stores
+@using TextRpg.Domain
 @inject GameSaveStore GameSaveStore
+@inject NavigationManager Navigation
 
 @rendermode InteractiveServer
 
-<div class="trpg-layout-page">
-  <h2 class="trpg-title-main">Game</h2>
-
-  @if (GameSaveStore.CurrentSave is null)
-  {
+@if (GameSaveStore.CurrentSave is null)
+{
+  <div class="trpg-layout-page">
     <p>No game loaded. Go to main menu.</p>
-  }
-  else
+    <NavLink href="/" class="trpg-btn">Main Menu</NavLink>
+  </div>
+}
+else
+{
+  <div class="grid grid-cols-12 h-screen bg-gray-950">
+    <LeftGameSidebar OnSaveLoaded="OnSaveLoaded" OnCharacterClicked="OpenCharacterDetails" />
+
+    <div class="col-span-8 border bg-gray-900 flex flex-col items-center justify-center">
+      <p class="text-xl font-bold mb-4 text-white">
+        Welcome back, @GameSaveStore.CurrentSave.PlayerCharacter.Name
+      </p>
+    </div>
+
+    <RightGameSidebar/>
+  </div>
+}
+
+@code {
+
+  private void OnSaveLoaded()
   {
-    <h3>Welcome back, @GameSaveStore.CurrentSave.PlayerCharacter.Name</h3>
+    Navigation.NavigateTo("/game");
+    StateHasChanged();
   }
 
-</div>
+  private void OpenCharacterDetails(Character character)
+  {
+    Navigation.NavigateTo($"/characterdetails/{character.Id}");
+    StateHasChanged();
+  }
+}
+

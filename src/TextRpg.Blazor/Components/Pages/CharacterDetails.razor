@@ -1,0 +1,52 @@
+﻿@page "/characterdetails/{CharacterId:guid}"
+@using TextRpg.Blazor.Stores
+@using TextRpg.Domain
+@inject GameSaveStore GameSaveStore
+
+@rendermode InteractiveServer
+
+@if (_hasError)
+{
+  <p class="text-red-400">Character not found or save not loaded.</p>
+}
+else if (_character is null)
+{
+  <p class="text-white">Loading...</p>
+}
+else
+{
+  <div class="trpg-layout-page">
+    <h2 class="trpg-title-main"> @_character.Name</h2>
+
+    <p><strong>Age:</strong> @_character.Age</p>
+    <p><strong>Biological Sex:</strong> @_character.BiologicalSex</p>
+
+    <NavLink href="/game" class="trpg-btn">Back</NavLink>
+
+  </div>
+}
+
+@code {
+
+  [Parameter]
+  public Guid CharacterId { get; set; }
+
+  private Character? _character;
+  private bool _hasError;
+
+  protected override async Task OnParametersSetAsync()
+  {
+    if (GameSaveStore.CurrentSave is null)
+    {
+      _hasError = true;
+      return;
+    }
+
+    await Task.Yield(); // ensures the component has fully initialized
+
+    _character = GameSaveStore.CurrentSave.World.Characters.FirstOrDefault(c => c.Id == CharacterId);
+
+    _hasError = _character is null;
+  }
+
+}

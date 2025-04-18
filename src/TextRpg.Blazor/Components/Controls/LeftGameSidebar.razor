@@ -1,0 +1,60 @@
+﻿@using TextRpg.Application.Services
+@using TextRpg.Blazor.Stores
+@using TextRpg.Domain
+@inject GameSaveStore GameSaveStore
+@inject ISaveService SaveService
+
+<div class="col-span-2 border grid grid-rows-[1fr_auto]">
+  <div class="flex flex-col items-center px-4 py-4 space-y-4">
+    <p class="text-xl font-bold mb-4 text-white cursor-pointer" @onclick="OnCharacterClickedInternal">
+      @GameSaveStore.CurrentSave!.PlayerCharacter.Name
+    </p>
+  </div>
+  <div class="flex flex-col items-center px-4 py-4 space-y-4">
+    <div class="w-40">
+      <label class="trpg-btn w-full text-center cursor-pointer block">
+        Load Save
+        <InputFile OnChange="OnFileSelected" accept=".json" style="display:none"/>
+      </label>
+    </div>
+
+    <div class="w-40">
+      <NavLink href="/" class="trpg-btn w-full text-center block">Main Menu</NavLink>
+    </div>
+  </div>
+</div>
+
+@code {
+
+  [Parameter]
+  public EventCallback OnSaveLoaded { get; set; }
+
+  [Parameter]
+  public EventCallback<Character> OnCharacterClicked { get; set; }
+
+  private async Task OnCharacterClickedInternal()
+  {
+    var character = GameSaveStore.CurrentSave?.PlayerCharacter;
+    if (character is not null)
+    {
+      await OnCharacterClicked.InvokeAsync(character);
+    }
+  }
+
+  private async Task OnFileSelected(InputFileChangeEventArgs e)
+  {
+    var file = e.File;
+
+    await using var stream = file.OpenReadStream();
+    using var reader = new StreamReader(stream);
+    var json = await reader.ReadToEndAsync();
+
+    var save = SaveService.LoadGame(json);
+    if (save != null)
+    {
+      GameSaveStore.LoadGame(save);
+      await OnSaveLoaded.InvokeAsync();
+    }
+  }
+
+}
