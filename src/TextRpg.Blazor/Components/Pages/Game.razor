@@ -23,9 +23,17 @@ else
     <div class="col-span-8 border bg-gray-900 flex flex-col">
 
       <div class="flex-1 overflow-y-auto p-6 w-full" @ref="_textZoneRef">
-        <p class="text-white whitespace-pre-wrap text-left">
-          @_gameText
-        </p>
+        @foreach (var textLine in GameSaveStore.CurrentSave.TextLines)
+        {
+          <p class="text-left text-white">
+            @foreach (var part in textLine.TextParts)
+            {
+              <span style="color: @(part.Color ?? "inherit")">
+                @part.Text
+              </span>
+            }
+          </p>
+        }
       </div>
 
       <div class="border-t p-4">
@@ -43,7 +51,20 @@ else
 
 @code {
   private ElementReference _textZoneRef;
-  private string _gameText = "Welcome !";
+
+  /// <summary>
+  ///   Registers for game state changes and initializes location display.
+  /// </summary>
+  protected override Task OnInitializedAsync()
+  {
+    GameSaveStore.OnChange += HandleGameSaveChanged;
+    return Task.CompletedTask;
+  }
+
+  private void HandleGameSaveChanged()
+  {
+    StateHasChanged();
+  }
 
   /// <summary>
   ///   Callback triggered when a save is loaded from sidebar.

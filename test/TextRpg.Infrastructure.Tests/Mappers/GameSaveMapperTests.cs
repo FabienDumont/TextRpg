@@ -7,6 +7,8 @@ namespace TextRpg.Infrastructure.Tests.Mappers;
 
 public class GameSaveMapperTests
 {
+  #region Tests
+
   [Fact]
   public void ToDataModel_Should_Map_GameSave_To_GameSaveDataModel()
   {
@@ -128,4 +130,6 @@ public class GameSaveMapperTests
     domainSaves[0].Name.Should().Be("Save A");
     domainSaves[1].Name.Should().Be("Save B");
   }
+
+  #endregion
 }

@@ -32,5 +32,10 @@ public class GameSaveDataModel
   /// </summary>
   public DateTime SavedAt { get; init; }
 
+  /// <summary>
+  ///   List of text lines stored in the game save (with color formatting).
+  /// </summary>
+  public List<TextLineDataModel> TextLines { get; init; } = new();
+
   #endregion
 }

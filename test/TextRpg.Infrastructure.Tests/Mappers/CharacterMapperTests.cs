@@ -16,7 +16,7 @@ public class CharacterMapperTests
     {
       Id = id,
       Name = "Guts",
-      TraitsId = new List<Guid> {Guid.NewGuid(), Guid.NewGuid()}
+      TraitsId = [Guid.NewGuid(), Guid.NewGuid()]
     };
 
     // Act

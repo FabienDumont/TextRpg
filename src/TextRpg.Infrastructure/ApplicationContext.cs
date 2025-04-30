@@ -260,6 +260,8 @@ public class ApplicationContext : DbContext
       movementStreetToHomeLivingRoom
     );
 
+    await SaveChangesAsync().ConfigureAwait(false);
+
     await MovementNarrations.AddRangeAsync(
       new MovementNarrationDataModel
       {

@@ -37,6 +37,11 @@ public class GameSave
   /// </summary>
   public DateTime SavedAt { get; } = DateTime.UtcNow;
 
+  /// <summary>
+  ///   List of text lines displayed to the user (with color formatting).
+  /// </summary>
+  public List<TextLine> TextLines { get; private set; } = [];
+
   #endregion
 
   #region Ctors
@@ -59,12 +64,15 @@ public class GameSave
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
-  public static GameSave Load(Guid id, string name, Guid playerCharacterId, World world)
+  public static GameSave Load(Guid id, string name, Guid playerCharacterId, World world, List<TextLine> textLines)
   {
     if (world.Characters.All(c => c.Id != playerCharacterId))
       throw new InvalidOperationException("Player character not found in character list.");
 
-    return new GameSave(id, name, playerCharacterId, world);
+    return new GameSave(id, name, playerCharacterId, world)
+    {
+      TextLines = textLines
+    };
   }
 
   /// <summary>
@@ -75,6 +83,35 @@ public class GameSave
     ArgumentNullException.ThrowIfNull(playerCharacter);
 
     return new GameSave(Guid.NewGuid(), name, playerCharacter.Id, world);
+  }
+
+  /// <summary>
+  ///   Adds a line of styled text to the game save.
+  /// </summary>
+  private void AddTextLine(TextLine textLine)
+  {
+    TextLines.Add(textLine);
+  }
+
+  /// <summary>
+  ///   Adds a new text entry with multiple parts (each part can have its own color) to the save.
+  /// </summary>
+  /// <param name="textParts">A list of TextPart objects representing the text and colors.</param>
+  public void AddText(List<TextPart> textParts)
+  {
+    // Create a new TextLine with the provided list of TextParts
+    var textLine = new TextLine(textParts);
+
+    // Add the created TextLine to the TextLines collection
+    AddTextLine(textLine);
+  }
+
+  /// <summary>
+  ///   Clears the current text log.
+  /// </summary>
+  public void ResetText()
+  {
+    TextLines.Clear();
   }
 
   #endregion

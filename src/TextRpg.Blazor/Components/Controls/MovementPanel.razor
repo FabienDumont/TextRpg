@@ -91,19 +91,28 @@
   }
 
   /// <summary>
-  ///   Executes the selected movement, advances game time, and reloads movement options.
+  ///   Executes the selected movement, advances game time, clears current textlines, and adds the movement narration.
   /// </summary>
   private async Task MoveToDestination(Movement movement)
   {
     var player = GameSaveStore.CurrentSave!.PlayerCharacter;
 
+    // Clears existing textlines when location changes
+    GameSaveStore.CurrentSave.ResetText();
+
+    // Moves player to the new location/room
     player.MoveTo(movement.ToLocationId, movement.ToRoomId);
 
+    // Advances the world time
     WorldService.AdvanceTime(GameSaveStore.CurrentSave!.World, 1);
 
+    // Get the movement narration text
     var narration = await MovementNarrationService.GetNarrationTextAsync(movement.Id, CancellationToken.None);
-    Console.WriteLine(narration); // replace with in-game log later
 
+    // Adds the narration text part to the game save with default color
+    GameSaveStore.CurrentSave.AddText([new TextPart(null, narration)]);
+
+    // Reloads available movements and updates the game state
     await LoadAvailableMovementsAsync();
     GameSaveStore.NotifyStateChanged();
   }

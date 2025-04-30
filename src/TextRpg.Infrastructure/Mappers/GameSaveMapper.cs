@@ -16,7 +16,10 @@ public static class GameSaveMapper
   /// </summary>
   public static GameSave ToDomain(this GameSaveDataModel dataModel)
   {
-    return dataModel.Map(i => GameSave.Load(i.Id, i.Name, i.PlayerCharacterId, i.World.ToDomain()));
+    return dataModel.Map(i => GameSave.Load(
+        i.Id, i.Name, i.PlayerCharacterId, i.World.ToDomain(), i.TextLines.ToDomainCollection()
+      )
+    );
   }
 
   /// <summary>
@@ -37,7 +40,8 @@ public static class GameSaveMapper
         Id = u.Id,
         Name = u.Name,
         PlayerCharacterId = u.PlayerCharacterId,
-        World = u.World.ToDataModel()
+        World = u.World.ToDataModel(),
+        TextLines = u.TextLines.ToDataModelCollection()
       }
     );
   }
