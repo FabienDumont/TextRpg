@@ -47,7 +47,7 @@ public class ApplicationContext : DbContext
   #region Ctors
 
   /// <summary>
-  ///   Initializes a new instance of <see cref="ApplicationContext"/> with options.
+  ///   Initializes a new instance of <see cref="ApplicationContext" /> with options.
   /// </summary>
   public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
   {
@@ -69,7 +69,10 @@ public class ApplicationContext : DbContext
   /// </summary>
   public async Task InitializeDataAsync()
   {
-    if (await Traits.AnyAsync().ConfigureAwait(false)) return;
+    if (await Traits.AnyAsync().ConfigureAwait(false))
+    {
+      return;
+    }
 
     var traits = await SeedTraitsAsync();
     await SeedIncompatibleTraitsAsync(traits);

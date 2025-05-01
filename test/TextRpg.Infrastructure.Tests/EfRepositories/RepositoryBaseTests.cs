@@ -4,7 +4,7 @@ namespace TextRpg.Infrastructure.Tests.EfRepositories;
 
 public class RepositoryBaseTests
 {
-  private class TestRepository(ApplicationContext context) : RepositoryBase(context);
+  #region Methods
 
   [Fact]
   public void Ctor_ShouldThrowArgumentNullException_WhenContextIsNull()
@@ -31,4 +31,8 @@ public class RepositoryBaseTests
     // Assert
     A.CallTo(() => context.SaveChangesAsync(cancellationToken)).MustHaveHappenedOnceExactly();
   }
+
+  #endregion
+
+  private class TestRepository(ApplicationContext context) : RepositoryBase(context);
 }

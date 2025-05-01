@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing the narration text associated with a movement.
+///   EF Core data model representing the narration text associated with a movement.
 /// </summary>
 [Table("MovementNarrations")]
 [PrimaryKey(nameof(Id))]
 public class MovementNarrationDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -31,4 +33,6 @@ public class MovementNarrationDataModel
   [Required]
   [MaxLength(500)]
   public required string Text { get; set; }
+
+  #endregion
 }

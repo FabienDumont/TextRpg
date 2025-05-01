@@ -14,6 +14,7 @@ public static class TextLineMapper
   public static TextLine ToDomain(this TextLineDataModel dataModel)
   {
     var textParts = dataModel.TextParts.Select(tp => new TextPart(tp.Color, tp.Text)).ToList();
+
     return new TextLine(textParts);
   }
 

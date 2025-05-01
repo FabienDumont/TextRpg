@@ -4,11 +4,13 @@ namespace TextRpg.Infrastructure.Tests.JsonDataModels;
 
 public class GameSaveDataModelTests
 {
+  #region Methods
+
   [Fact]
   public void GameSaveDataModel_Should_InitializeWithDefaultValues()
   {
     // Act
-    var model = new GameSaveDataModel()
+    var model = new GameSaveDataModel
     {
       World = new WorldDataModel()
     };
@@ -63,4 +65,6 @@ public class GameSaveDataModelTests
     model.World.Should().BeEquivalentTo(worldDataModel);
     model.SavedAt.Should().Be(timestamp);
   }
+
+  #endregion
 }

@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a character trait.
+///   Domain class representing a character trait.
 /// </summary>
 public class Trait
 {

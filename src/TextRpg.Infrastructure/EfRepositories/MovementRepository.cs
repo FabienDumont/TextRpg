@@ -10,7 +10,7 @@ namespace TextRpg.Infrastructure.EfRepositories;
 /// </summary>
 public class MovementRepository(ApplicationContext context) : RepositoryBase(context), IMovementRepository
 {
-  #region Implementation of ILocationRepository
+  #region Implementation of IMovementRepository
 
   /// <inheritdoc />
   public async Task<List<Movement>> GetAvailableMovementsAsync(

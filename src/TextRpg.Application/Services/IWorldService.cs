@@ -7,6 +7,8 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public interface IWorldService
 {
+  #region Methods
+
   /// <summary>
   ///   Creates a new world instance with the specified date, player character, and game settings.
   /// </summary>
@@ -25,4 +27,6 @@ public interface IWorldService
   /// <param name="world">The world instance to update.</param>
   /// <param name="minutes">The number of minutes to advance.</param>
   void AdvanceTime(World world, int minutes);
+
+  #endregion
 }

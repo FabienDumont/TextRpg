@@ -7,9 +7,15 @@ namespace TextRpg.Infrastructure.Tests.EfRepositories;
 
 public class GreetingRepositoryTests
 {
+  #region Fields
+
   private readonly ApplicationContext _context;
-  private readonly GreetingRepository _repository;
   private readonly List<GreetingDataModel> _greetingData = [];
+  private readonly GreetingRepository _repository;
+
+  #endregion
+
+  #region Ctors
 
   public GreetingRepositoryTests()
   {
@@ -22,6 +28,10 @@ public class GreetingRepositoryTests
 
     _repository = new GreetingRepository(_context);
   }
+
+  #endregion
+
+  #region Methods
 
   [Fact]
   public async Task GetByRelationshipLevelAsync_ShouldReturnGreeting_WhenMatchExists()
@@ -40,7 +50,7 @@ public class GreetingRepositoryTests
     _greetingData.Add(greeting);
 
     var traits = Enumerable.Empty<Trait>();
-    int relationshipLevel = 15;
+    var relationshipLevel = 15;
 
     var dbSet = _greetingData.AsQueryable().BuildMockDbSet();
     A.CallTo(() => _context.Greetings).Returns(dbSet);
@@ -79,4 +89,6 @@ public class GreetingRepositoryTests
     // Assert
     result.Should().BeNull();
   }
+
+  #endregion
 }

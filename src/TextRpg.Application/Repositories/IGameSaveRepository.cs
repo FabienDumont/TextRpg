@@ -3,10 +3,12 @@
 namespace TextRpg.Application.Repositories;
 
 /// <summary>
-/// Repository interface for game saves.
+///   Repository interface for game saves.
 /// </summary>
 public interface IGameSaveRepository
 {
+  #region Methods
+
   /// <summary>
   ///   Persists a game save to storage.
   /// </summary>
@@ -16,4 +18,6 @@ public interface IGameSaveRepository
   ///   Loads a game save from a JSON string.
   /// </summary>
   GameSave? Load(string json);
+
+  #endregion
 }

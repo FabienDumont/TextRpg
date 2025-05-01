@@ -2,6 +2,8 @@
 
 public class GreetingTests
 {
+  #region Methods
+
   [Fact]
   public void Create_ShouldInitialize()
   {
@@ -44,4 +46,5 @@ public class GreetingTests
     greeting.SpokenText.Should().Be(spokenText);
   }
 
+  #endregion
 }

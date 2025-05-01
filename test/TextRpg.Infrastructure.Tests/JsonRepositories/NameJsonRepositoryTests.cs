@@ -35,7 +35,7 @@ public class NameJsonRepositoryTests
     var names = await repo.GetFemaleNamesAsync();
 
     // Assert
-    names.Should().BeEquivalentTo(["Alice", "Beth", "Clara"]);
+    names.Should().BeEquivalentTo("Alice", "Beth", "Clara");
   }
 
   [Fact]
@@ -51,7 +51,7 @@ public class NameJsonRepositoryTests
     var names = await repo.GetMaleNamesAsync();
 
     // Assert
-    names.Should().BeEquivalentTo(["John", "Mike", "Steve"]);
+    names.Should().BeEquivalentTo("John", "Mike", "Steve");
   }
 
   #endregion

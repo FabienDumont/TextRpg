@@ -3,7 +3,7 @@
 namespace TextRpg.Infrastructure.JsonDataModels;
 
 /// <summary>
-/// JSON data model representing a character for serialization.
+///   JSON data model representing a character for serialization.
 /// </summary>
 public class CharacterDataModel
 {

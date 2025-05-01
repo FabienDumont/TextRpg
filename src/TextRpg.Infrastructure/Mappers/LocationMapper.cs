@@ -5,7 +5,8 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="Location"/> domain models and <see cref="LocationDataModel"/> EF data models.
+///   Mapper for converting between <see cref="Location" /> domain models and <see cref="LocationDataModel" /> EF data
+///   models.
 /// </summary>
 public static class LocationMapper
 {

@@ -7,6 +7,8 @@ namespace TextRpg.Infrastructure.Tests.Mappers;
 
 public class CharacterMapperTests
 {
+  #region Methods
+
   [Fact]
   public void ToDomain_Should_Map_CharacterDataModel_To_Character()
   {
@@ -81,4 +83,6 @@ public class CharacterMapperTests
     result[0].Name.Should().Be(c1.Name);
     result[1].Name.Should().Be(c2.Name);
   }
+
+  #endregion
 }

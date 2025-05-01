@@ -8,7 +8,7 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public class RoomService(IRoomRepository roomRepository) : IRoomService
 {
-  #region Methods
+  #region Implementation of IRoomService
 
   /// <inheritdoc />
   public async Task<Room> GetByIdAsync(Guid id, CancellationToken cancellationToken)

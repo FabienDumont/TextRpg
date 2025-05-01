@@ -5,7 +5,8 @@ using TextRpg.Infrastructure.JsonDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="GameSave"/> domain models and <see cref="GameSaveDataModel"/> JSON data models.
+///   Mapper for converting between <see cref="GameSave" /> domain models and <see cref="GameSaveDataModel" /> JSON data
+///   models.
 /// </summary>
 public static class GameSaveMapper
 {

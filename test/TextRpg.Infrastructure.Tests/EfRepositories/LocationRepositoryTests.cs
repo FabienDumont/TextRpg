@@ -8,11 +8,14 @@ public class LocationRepositoryTests
 {
   #region Fields
 
-  private readonly LocationRepository _repository;
   private readonly ApplicationContext _context;
   private readonly List<LocationDataModel> _locationDataModels;
 
+  private readonly LocationRepository _repository;
+
   #endregion
+
+  #region Ctors
 
   #region Ctor
 
@@ -33,6 +36,8 @@ public class LocationRepositoryTests
 
     _repository = new LocationRepository(_context);
   }
+
+  #endregion
 
   #endregion
 

@@ -8,6 +8,8 @@ namespace TextRpg.Infrastructure.Tests;
 
 public class ServiceCollectionExtensionsTests
 {
+  #region Methods
+
   [Fact]
   public void AddInfrastructure_ShouldRegisterApplicationContext_WithSqliteProvider()
   {
@@ -25,8 +27,10 @@ public class ServiceCollectionExtensionsTests
     context.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.Sqlite");
 
     var options = provider.GetRequiredService<DbContextOptions<ApplicationContext>>();
-    var extension = options.Extensions.FirstOrDefault(e =>
-      e.GetType().Name.Contains("SqliteOptionsExtension", StringComparison.OrdinalIgnoreCase));
+    var extension = options.Extensions.FirstOrDefault(e => e.GetType().Name.Contains(
+        "SqliteOptionsExtension", StringComparison.OrdinalIgnoreCase
+      )
+    );
     extension.Should().NotBeNull();
   }
 
@@ -56,4 +60,6 @@ public class ServiceCollectionExtensionsTests
     var nameRepo = provider.GetService<INameRepository>();
     nameRepo.Should().NotBeNull().And.BeOfType<NameJsonRepository>();
   }
+
+  #endregion
 }

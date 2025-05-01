@@ -5,6 +5,8 @@
 /// </summary>
 public interface IMovementNarrationService
 {
+  #region Methods
+
   /// <summary>
   ///   Retrieves the narration text associated with a specific movement.
   /// </summary>
@@ -12,4 +14,6 @@ public interface IMovementNarrationService
   /// <param name="cancellationToken">A cancellation token.</param>
   /// <returns>The narration text for the specified movement.</returns>
   Task<string> GetNarrationTextAsync(Guid movementId, CancellationToken cancellationToken);
+
+  #endregion
 }

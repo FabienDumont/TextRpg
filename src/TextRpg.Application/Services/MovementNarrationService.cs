@@ -13,6 +13,7 @@ public class MovementNarrationService(IMovementNarrationRepository repository) :
   public async Task<string> GetNarrationTextAsync(Guid movementId, CancellationToken cancellationToken)
   {
     var narration = await repository.GetMovementNarrationFromMovementIdAsync(movementId, cancellationToken);
+
     return narration.Text;
   }
 

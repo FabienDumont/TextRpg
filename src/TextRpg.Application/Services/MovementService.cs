@@ -8,7 +8,7 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public class MovementService(IMovementRepository movementRepository) : IMovementService
 {
-  #region Implementation of MovementService
+  #region Implementation of IMovementService
 
   /// <inheritdoc />
   public async Task<List<Movement>> GetAvailableMovementsAsync(

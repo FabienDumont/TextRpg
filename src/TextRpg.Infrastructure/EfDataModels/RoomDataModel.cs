@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a room within a location.
+///   EF Core data model representing a room within a location.
 /// </summary>
 [Table("Rooms")]
 [PrimaryKey(nameof(Id))]
 public class RoomDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -45,4 +47,6 @@ public class RoomDataModel
   /// </summary>
   [ForeignKey(nameof(LocationId))]
   public LocationDataModel? Location { get; set; }
+
+  #endregion
 }

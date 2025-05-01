@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="TextRpg.Infrastructure.Tests" />
+    <InternalsVisibleTo Include="TextRpg.Infrastructure.Tests"/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\database.db" />
+    <None Remove="Data\database.db"/>
     <Content Include="Data\database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -24,15 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TextRpg.Application\TextRpg.Application.csproj" />
-    <ProjectReference Include="..\TextRpg.Domain\TextRpg.Domain.csproj" />
+    <ProjectReference Include="..\TextRpg.Application\TextRpg.Application.csproj"/>
+    <ProjectReference Include="..\TextRpg.Domain\TextRpg.Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.3"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
   </ItemGroup>
 
 </Project>

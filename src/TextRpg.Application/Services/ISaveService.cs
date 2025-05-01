@@ -7,6 +7,8 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public interface ISaveService
 {
+  #region Methods
+
   /// <summary>
   ///   Persists a game save asynchronously.
   /// </summary>
@@ -32,4 +34,6 @@ public interface ISaveService
   Task<GameSave> CreateNewSaveAsync(
     DateTime date, Character playerCharacter, GameSettings gameSettings, CancellationToken cancellationToken
   );
+
+  #endregion
 }

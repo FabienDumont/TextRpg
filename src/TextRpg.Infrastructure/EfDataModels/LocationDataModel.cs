@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a location in the game world.
+///   EF Core data model representing a location in the game world.
 /// </summary>
 [Table("Locations")]
 [PrimaryKey(nameof(Id))]
 public class LocationDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -37,4 +39,6 @@ public class LocationDataModel
   ///   List of rooms associated with this location.
   /// </summary>
   public List<RoomDataModel> Rooms { get; set; } = [];
+
+  #endregion
 }

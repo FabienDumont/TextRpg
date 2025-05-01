@@ -6,6 +6,8 @@ namespace TextRpg.Infrastructure.Tests.Mappers;
 
 public class GreetingMapperTests
 {
+  #region Methods
+
   [Fact]
   public void MapToDomain_ShouldMapDataModelToDomain()
   {
@@ -66,7 +68,7 @@ public class GreetingMapperTests
     // Assert
     domainModels.Should().HaveCount(2);
 
-    for (int i = 0; i < domainModels.Count; i++)
+    for (var i = 0; i < domainModels.Count; i++)
     {
       domainModels[i].Id.Should().Be(dataModels[i].Id);
       domainModels[i].MinRelationship.Should().Be(dataModels[i].MinRelationship);
@@ -98,4 +100,6 @@ public class GreetingMapperTests
     dataModel.HasTrait.Should().Be(hasTrait);
     dataModel.SpokenText.Should().Be(spokenText);
   }
+
+  #endregion
 }

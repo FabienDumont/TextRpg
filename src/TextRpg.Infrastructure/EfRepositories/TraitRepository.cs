@@ -26,7 +26,10 @@ public class TraitRepository(ApplicationContext context) : RepositoryBase(contex
   )
   {
     var selectedTraitsIds = selectedTraitsIdsEnumerable.ToList();
-    if (selectedTraitsIds.Count == 0) return await GetAllAsync(cancellationToken);
+    if (selectedTraitsIds.Count == 0)
+    {
+      return await GetAllAsync(cancellationToken);
+    }
 
     var incompatibleIds = await Context.IncompatibleTraits
       .Where(it => selectedTraitsIds.Contains(it.TraitId) || selectedTraitsIds.Contains(it.IncompatibleTraitId))

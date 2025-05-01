@@ -5,10 +5,13 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="Greeting"/> domain models and <see cref="GreetingDataModel"/> EF data models.
+///   Mapper for converting between <see cref="Greeting" /> domain models and <see cref="GreetingDataModel" /> EF data
+///   models.
 /// </summary>
 public static class GreetingMapper
 {
+  #region Methods
+
   /// <summary>
   ///   Maps an EF data model to its domain counterpart.
   /// </summary>
@@ -40,4 +43,6 @@ public static class GreetingMapper
       }
     );
   }
+
+  #endregion
 }

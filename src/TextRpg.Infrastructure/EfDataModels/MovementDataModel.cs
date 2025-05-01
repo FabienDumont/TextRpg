@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a movement between locations or rooms.
+///   EF Core data model representing a movement between locations or rooms.
 /// </summary>
 [Table("Movements")]
 [PrimaryKey(nameof(Id))]
 public class MovementDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -50,4 +52,6 @@ public class MovementDataModel
   /// </summary>
   [Column("RequiredItemId", Order = 6)]
   public Guid? RequiredItemId { get; set; }
+
+  #endregion
 }

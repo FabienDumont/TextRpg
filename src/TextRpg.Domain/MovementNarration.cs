@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a movement narration.
+///   Domain class representing a movement narration.
 /// </summary>
 public class MovementNarration
 {

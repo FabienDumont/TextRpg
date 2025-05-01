@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing the game's configuration settings.
+///   Domain class representing the game's configuration settings.
 /// </summary>
 public class GameSettings
 {

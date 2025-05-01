@@ -99,7 +99,7 @@ CREATE TABLE Movements
 
 CREATE TABLE MovementNarrations
 (
-  Id           TEXT PRIMARY KEY,
-  MovementId   TEXT NOT NULL REFERENCES Movements (Id) ON DELETE CASCADE,
-  Text         TEXT NOT NULL
+  Id         TEXT PRIMARY KEY,
+  MovementId TEXT NOT NULL REFERENCES Movements (Id) ON DELETE CASCADE,
+  Text       TEXT NOT NULL
 );

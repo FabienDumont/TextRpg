@@ -8,11 +8,14 @@ public class MovementNarrationRepositoryTests
 {
   #region Fields
 
-  private readonly MovementNarrationRepository _repository;
-  private readonly Guid _movementId = Guid.NewGuid();
   private readonly string _expectedNarration = "You enter the bedroom.";
+  private readonly Guid _movementId = Guid.NewGuid();
+
+  private readonly MovementNarrationRepository _repository;
 
   #endregion
+
+  #region Ctors
 
   #region Constructor
 
@@ -37,6 +40,8 @@ public class MovementNarrationRepositoryTests
 
     _repository = new MovementNarrationRepository(context);
   }
+
+  #endregion
 
   #endregion
 

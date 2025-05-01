@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a location in the game world.
+///   Domain class representing a location in the game world.
 /// </summary>
 public class Location
 {

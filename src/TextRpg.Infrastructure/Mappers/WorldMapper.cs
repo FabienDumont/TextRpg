@@ -5,7 +5,7 @@ using TextRpg.Infrastructure.JsonDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="World"/> domain models and <see cref="WorldDataModel"/> JSON data models.
+///   Mapper for converting between <see cref="World" /> domain models and <see cref="WorldDataModel" /> JSON data models.
 /// </summary>
 public static class WorldMapper
 {

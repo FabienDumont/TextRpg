@@ -2,6 +2,8 @@
 
 public class TextLineTests
 {
+  #region Methods
+
   [Fact]
   public void Constructor_ShouldInitializeWithTextParts()
   {
@@ -48,4 +50,6 @@ public class TextLineTests
     textLine.TextParts[0].Text.Should().Be("Narration");
     textLine.TextParts[0].Color.Should().BeNull();
   }
+
+  #endregion
 }

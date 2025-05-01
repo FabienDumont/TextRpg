@@ -3,10 +3,12 @@
 namespace TextRpg.Application.Repositories;
 
 /// <summary>
-/// Repository interface for traits.
+///   Repository interface for traits.
 /// </summary>
 public interface ITraitRepository
 {
+  #region Methods
+
   /// <summary>
   ///   Retrieves all available traits.
   /// </summary>
@@ -18,4 +20,6 @@ public interface ITraitRepository
   Task<IReadOnlyCollection<Trait>> GetCompatibleTraitsAsync(
     IEnumerable<Guid> selectedTraitsIdsEnumerable, CancellationToken cancellationToken
   );
+
+  #endregion
 }

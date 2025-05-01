@@ -7,15 +7,21 @@ namespace TextRpg.Blazor.Stores;
 /// </summary>
 public class GameSaveStore
 {
-  /// <summary>
-  ///   Event triggered when the game state changes.
-  /// </summary>
-  public event Action? OnChange;
+  #region Properties
 
   /// <summary>
   ///   The currently loaded game save.
   /// </summary>
   public GameSave? CurrentSave { get; private set; }
+
+  #endregion
+
+  #region Methods
+
+  /// <summary>
+  ///   Event triggered when the game state changes.
+  /// </summary>
+  public event Action? OnChange;
 
   /// <summary>
   ///   Loads the given game save and notifies listeners.
@@ -36,7 +42,12 @@ public class GameSaveStore
   }
 
   /// <summary>
-  ///   Triggers the <see cref="OnChange"/> event to notify subscribers.
+  ///   Triggers the <see cref="OnChange" /> event to notify subscribers.
   /// </summary>
-  public void NotifyStateChanged() => OnChange?.Invoke();
+  public void NotifyStateChanged()
+  {
+    OnChange?.Invoke();
+  }
+
+  #endregion
 }

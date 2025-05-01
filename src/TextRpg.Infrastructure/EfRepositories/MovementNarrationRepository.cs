@@ -22,7 +22,10 @@ public class MovementNarrationRepository(ApplicationContext context)
       n => n.MovementId == movementId, cancellationToken
     );
 
-    if (dataModel is null) throw new InvalidOperationException($"No narration found for movement {movementId}");
+    if (dataModel is null)
+    {
+      throw new InvalidOperationException($"No narration found for movement {movementId}");
+    }
 
     return dataModel.ToDomain();
   }

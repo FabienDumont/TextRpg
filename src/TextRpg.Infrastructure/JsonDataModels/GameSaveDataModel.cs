@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Infrastructure.JsonDataModels;
 
 /// <summary>
-/// JSON data model representing a game save.
+///   JSON data model representing a game save.
 /// </summary>
 public class GameSaveDataModel
 {

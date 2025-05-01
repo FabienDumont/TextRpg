@@ -13,12 +13,16 @@ public class MovementNarrationServiceTests
 
   #endregion
 
+  #region Ctors
+
   #region Constructor
 
   public MovementNarrationServiceTests()
   {
     _service = new MovementNarrationService(_repository);
   }
+
+  #endregion
 
   #endregion
 

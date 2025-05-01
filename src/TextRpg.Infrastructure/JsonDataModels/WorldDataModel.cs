@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Infrastructure.JsonDataModels;
 
 /// <summary>
-/// JSON data model representing the game world at a point in time.
+///   JSON data model representing the game world at a point in time.
 /// </summary>
 public class WorldDataModel
 {

@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a pair of incompatible traits.
+///   EF Core data model representing a pair of incompatible traits.
 /// </summary>
 [Table("IncompatibleTraits")]
 [PrimaryKey(nameof(TraitId), nameof(IncompatibleTraitId))]
 public class IncompatibleTraitDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Identifier of the primary trait.
   /// </summary>
@@ -26,4 +28,6 @@ public class IncompatibleTraitDataModel
   [Required]
   [ForeignKey(nameof(TraitDataModel))]
   public Guid IncompatibleTraitId { get; set; }
+
+  #endregion
 }

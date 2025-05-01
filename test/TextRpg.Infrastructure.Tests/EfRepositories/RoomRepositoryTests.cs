@@ -8,10 +8,11 @@ public class RoomRepositoryTests
 {
   #region Fields
 
-  private readonly RoomRepository _repository;
   private readonly ApplicationContext _context;
-  private readonly List<RoomDataModel> _roomDataModels;
   private readonly Guid _locationId = Guid.NewGuid();
+
+  private readonly RoomRepository _repository;
+  private readonly List<RoomDataModel> _roomDataModels;
 
   #endregion
 
@@ -23,8 +24,8 @@ public class RoomRepositoryTests
 
     _roomDataModels =
     [
-      new() {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Bedroom", IsEntryPoint = false},
-      new() {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Living room", IsEntryPoint = true}
+      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Bedroom", IsEntryPoint = false},
+      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Living room", IsEntryPoint = true}
     ];
 
     var roomDbSet = _roomDataModels.AsQueryable().BuildMockDbSet();

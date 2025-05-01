@@ -5,7 +5,8 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="MovementNarration"/> domain models and <see cref="MovementNarrationDataModel"/> EF data models.
+///   Mapper for converting between <see cref="MovementNarration" /> domain models and
+///   <see cref="MovementNarrationDataModel" /> EF data models.
 /// </summary>
 public static class MovementNarrationMapper
 {

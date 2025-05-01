@@ -5,8 +5,14 @@ namespace TextRpg.Infrastructure.Tests;
 
 public class ApplicationContextTests
 {
+  #region Fields
+
   private readonly DbContextOptions<ApplicationContext> _options = new DbContextOptionsBuilder<ApplicationContext>()
-    .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
+    .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+
+  #endregion
+
+  #region Methods
 
   [Fact]
   public async Task InitializeDataAsync_ShouldNotSeed_WhenTraitsAlreadyExist()
@@ -60,4 +66,5 @@ public class ApplicationContextTests
     rooms.Should().NotBeEmpty();
   }
 
+  #endregion
 }

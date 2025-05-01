@@ -10,8 +10,8 @@ public class SaveServiceTests
   #region Fields
 
   private readonly IGameSaveRepository _repository = A.Fake<IGameSaveRepository>();
-  private readonly IWorldService _worldService = A.Fake<IWorldService>();
   private readonly SaveService _saveService;
+  private readonly IWorldService _worldService = A.Fake<IWorldService>();
 
   #endregion
 

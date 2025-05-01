@@ -9,15 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="8.*" />
-    <PackageReference Include="FluentAssertions" Version="8.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="xunit" Version="2.*" />
+    <PackageReference Include="FakeItEasy" Version="8.*"/>
+    <PackageReference Include="FluentAssertions" Version="8.*"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*"/>
+    <PackageReference Include="xunit" Version="2.*"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="FakeItEasy" />
-    <Using Include="FluentAssertions" />
-    <Using Include="Xunit" />
+    <Using Include="FakeItEasy"/>
+    <Using Include="FluentAssertions"/>
+    <Using Include="Xunit"/>
   </ItemGroup>
 </Project>

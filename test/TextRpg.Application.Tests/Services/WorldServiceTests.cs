@@ -8,10 +8,11 @@ public class WorldServiceTests
 {
   #region Fields
 
-  private readonly WorldService _worldService;
   private readonly ICharacterService _characterService;
   private readonly ILocationService _locationService;
   private readonly IRoomService _roomService;
+
+  private readonly WorldService _worldService;
 
   #endregion
 

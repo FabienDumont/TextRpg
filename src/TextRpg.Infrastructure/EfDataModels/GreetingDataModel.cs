@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a greeting entry.
+///   EF Core data model representing a greeting entry.
 /// </summary>
 [Table("Greetings")]
 [PrimaryKey(nameof(Id))]
 public class GreetingDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -44,4 +46,6 @@ public class GreetingDataModel
   [Required]
   [MaxLength(1000)]
   public required string SpokenText { get; set; }
+
+  #endregion
 }

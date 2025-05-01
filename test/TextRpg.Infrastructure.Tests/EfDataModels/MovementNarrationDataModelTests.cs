@@ -1,12 +1,11 @@
-﻿namespace TextRpg.Infrastructure.Tests.EfDataModels;
+﻿using TextRpg.Infrastructure.EfDataModels;
 
-using System;
-using FluentAssertions;
-using TextRpg.Infrastructure.EfDataModels;
-using Xunit;
+namespace TextRpg.Infrastructure.Tests.EfDataModels;
 
 public class MovementNarrationDataModelTests
 {
+  #region Methods
+
   #region Tests
 
   [Fact]
@@ -30,6 +29,8 @@ public class MovementNarrationDataModelTests
     narration.MovementId.Should().Be(movementId);
     narration.Text.Should().Be(text);
   }
+
+  #endregion
 
   #endregion
 }

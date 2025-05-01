@@ -4,6 +4,8 @@ namespace TextRpg.Infrastructure.Tests.EfDataModels;
 
 public class TraitDataModelTests
 {
+  #region Methods
+
   [Fact]
   public void Instanciation_ShouldInitializeWithGivenValues()
   {
@@ -22,4 +24,6 @@ public class TraitDataModelTests
     trait.Id.Should().Be(id);
     trait.Name.Should().Be(name);
   }
+
+  #endregion
 }

@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a character in the game.
+///   Domain class representing a character in the game.
 /// </summary>
 public class Character
 {
@@ -98,7 +98,7 @@ public class Character
 }
 
 /// <summary>
-/// Enumeration for biological sex.
+///   Enumeration for biological sex.
 /// </summary>
 public enum BiologicalSex
 {

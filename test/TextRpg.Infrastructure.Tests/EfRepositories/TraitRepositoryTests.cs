@@ -6,7 +6,15 @@ namespace TextRpg.Infrastructure.Tests.EfRepositories;
 
 public class TraitRepositoryTests
 {
+  #region Fields
+
   private readonly ApplicationContext _context;
+
+  private readonly List<IncompatibleTraitDataModel> _incompatibilities =
+  [
+    new() {TraitId = Guid.NewGuid(), IncompatibleTraitId = Guid.NewGuid()}
+  ];
+
   private readonly TraitRepository _repository;
 
   private readonly List<TraitDataModel> _traitDataModels =
@@ -16,10 +24,9 @@ public class TraitRepositoryTests
     new() {Id = Guid.NewGuid(), Name = "Aggressive"}
   ];
 
-  private readonly List<IncompatibleTraitDataModel> _incompatibilities =
-  [
-    new() {TraitId = Guid.NewGuid(), IncompatibleTraitId = Guid.NewGuid()}
-  ];
+  #endregion
+
+  #region Ctors
 
   public TraitRepositoryTests()
   {
@@ -35,6 +42,10 @@ public class TraitRepositoryTests
 
     _repository = new TraitRepository(_context);
   }
+
+  #endregion
+
+  #region Methods
 
   [Fact]
   public async Task GetAllAsync_ShouldReturnMappedTraits()
@@ -85,4 +96,6 @@ public class TraitRepositoryTests
     // Assert
     result.Should().NotContain(t => t.Id == traitA.Id || t.Id == traitB.Id);
   }
+
+  #endregion
 }

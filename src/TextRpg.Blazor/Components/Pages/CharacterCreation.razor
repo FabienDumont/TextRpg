@@ -1,6 +1,7 @@
 ﻿@page "/charactercreation"
 @using System.ComponentModel.DataAnnotations
 @using TextRpg.Blazor.ViewModels
+@using GameSettings = TextRpg.Domain.GameSettings
 @inject ITraitService TraitService
 @inject ISaveService SaveService
 @inject GameSaveStore GameSaveStore
@@ -144,8 +145,8 @@ else
 
   public CharacterCreationModel Model { get; } = new();
 
-  private Domain.GameSettings? _gameSettings;
-  private readonly Domain.GameSettings _defaultSettings = Domain.GameSettings.Create(10);
+  private GameSettings? _gameSettings;
+  private readonly GameSettings _defaultSettings = GameSettings.Create(10);
 
   private int _step = 1;
   private const int MaxStep = 2;
@@ -225,10 +226,11 @@ else
     _showGameSettings = true;
   }
 
-  private Task HandleSettingsConfirmed(Domain.GameSettings settings)
+  private Task HandleSettingsConfirmed(GameSettings settings)
   {
     _gameSettings = settings;
     _showGameSettings = false;
+
     return Task.CompletedTask;
   }
 

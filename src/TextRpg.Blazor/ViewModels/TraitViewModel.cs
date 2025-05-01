@@ -5,6 +5,8 @@
 /// </summary>
 public class TraitViewModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier of the trait.
   /// </summary>
@@ -24,4 +26,6 @@ public class TraitViewModel
   ///   Indicates whether the trait is enabled for selection.
   /// </summary>
   public bool IsEnabled { get; set; } = true;
+
+  #endregion
 }

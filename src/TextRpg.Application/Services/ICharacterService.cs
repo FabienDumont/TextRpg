@@ -7,9 +7,13 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public interface ICharacterService
 {
+  #region Methods
+
   /// <summary>
   ///   Creates a new character with randomized attributes.
   /// </summary>
   /// <returns>A randomly generated character.</returns>
   Task<Character> CreateRandomCharacterAsync();
+
+  #endregion
 }

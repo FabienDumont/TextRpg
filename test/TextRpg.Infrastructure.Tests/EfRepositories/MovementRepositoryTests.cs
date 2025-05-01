@@ -8,13 +8,16 @@ public class MovementRepositoryTests
 {
   #region Fields
 
-  private readonly MovementRepository _repository;
-  private readonly Guid _homeId = Guid.NewGuid();
-  private readonly Guid _streetId = Guid.NewGuid();
-  private readonly Guid _livingRoomId = Guid.NewGuid();
   private readonly Guid _bedroomId = Guid.NewGuid();
+  private readonly Guid _homeId = Guid.NewGuid();
+  private readonly Guid _livingRoomId = Guid.NewGuid();
+
+  private readonly MovementRepository _repository;
+  private readonly Guid _streetId = Guid.NewGuid();
 
   #endregion
+
+  #region Ctors
 
   #region Ctor
 
@@ -53,6 +56,8 @@ public class MovementRepositoryTests
 
     _repository = new MovementRepository(context);
   }
+
+  #endregion
 
   #endregion
 

@@ -7,19 +7,19 @@
   </PropertyGroup>
 
   <Target Name="RunTailwind" BeforeTargets="PrepareResources">
-    <Exec Command="npx tailwindcss -i wwwroot/css/input.css -o wwwroot/css/tailwind.css" />
+    <Exec Command="npx tailwindcss -i wwwroot/css/input.css -o wwwroot/css/tailwind.css"/>
   </Target>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\TextRpg.Application\TextRpg.Application.csproj" />
-    <ProjectReference Include="..\TextRpg.Domain\TextRpg.Domain.csproj" />
-    <ProjectReference Include="..\TextRpg.Infrastructure\TextRpg.Infrastructure.csproj" />
+    <ProjectReference Include="..\TextRpg.Application\TextRpg.Application.csproj"/>
+    <ProjectReference Include="..\TextRpg.Domain\TextRpg.Domain.csproj"/>
+    <ProjectReference Include="..\TextRpg.Infrastructure\TextRpg.Infrastructure.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css"/>
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map"/>
   </ItemGroup>
 
 </Project>

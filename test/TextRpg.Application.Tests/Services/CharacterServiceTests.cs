@@ -8,8 +8,9 @@ public class CharacterServiceTests
 {
   #region Fields
 
-  private readonly INameRepository _nameRepository = A.Fake<INameRepository>();
   private readonly CharacterService _characterService;
+
+  private readonly INameRepository _nameRepository = A.Fake<INameRepository>();
 
   #endregion
 

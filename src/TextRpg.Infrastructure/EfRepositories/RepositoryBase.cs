@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Infrastructure.EfRepositories;
 
 /// <summary>
-/// Base class for EF Core repositories, providing access to the database context.
+///   Base class for EF Core repositories, providing access to the database context.
 /// </summary>
 public abstract class RepositoryBase(ApplicationContext context)
 {

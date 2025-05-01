@@ -6,6 +6,8 @@ namespace TextRpg.Application.Tests;
 
 public class ServiceCollectionExtensionsTests
 {
+  #region Methods
+
   [Fact]
   public void AddApplication_ShouldRegisterTraitServiceAsSingleton()
   {
@@ -27,4 +29,5 @@ public class ServiceCollectionExtensionsTests
     service1.Should().BeSameAs(service2); // Singleton check
   }
 
+  #endregion
 }

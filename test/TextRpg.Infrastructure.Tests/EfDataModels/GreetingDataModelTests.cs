@@ -4,6 +4,8 @@ namespace TextRpg.Infrastructure.Tests.EfDataModels;
 
 public class GreetingDataModelTests
 {
+  #region Methods
+
   [Fact]
   public void Instanciation_ShouldInitializeWithGivenValues()
   {
@@ -32,4 +34,5 @@ public class GreetingDataModelTests
     greeting.SpokenText.Should().Be(spokenText);
   }
 
+  #endregion
 }

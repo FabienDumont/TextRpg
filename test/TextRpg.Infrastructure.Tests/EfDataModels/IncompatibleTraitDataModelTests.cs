@@ -4,6 +4,8 @@ namespace TextRpg.Infrastructure.Tests.EfDataModels;
 
 public class IncompatibleTraitDataModelTests
 {
+  #region Methods
+
   [Fact]
   public void Instanciation_ShouldInitializeWithGivenValues()
   {
@@ -23,4 +25,5 @@ public class IncompatibleTraitDataModelTests
     dataModel.IncompatibleTraitId.Should().Be(incompatibleTraitId);
   }
 
+  #endregion
 }

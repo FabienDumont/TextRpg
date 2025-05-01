@@ -5,7 +5,8 @@ using TextRpg.Infrastructure.JsonDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="Character"/> domain models and <see cref="CharacterDataModel"/> JSON data models.
+///   Mapper for converting between <see cref="Character" /> domain models and <see cref="CharacterDataModel" /> JSON data
+///   models.
 /// </summary>
 public static class CharacterMapper
 {
@@ -18,6 +19,7 @@ public static class CharacterMapper
   {
     var character = Character.Load(dataModel.Id, dataModel.Name, dataModel.Age, dataModel.BiologicalSex);
     character.AddTraits(dataModel.TraitsId);
+
     return character;
   }
 

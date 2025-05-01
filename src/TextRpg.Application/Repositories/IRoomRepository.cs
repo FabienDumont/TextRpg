@@ -3,7 +3,7 @@
 namespace TextRpg.Application.Repositories;
 
 /// <summary>
-/// Repository interface for rooms.
+///   Repository interface for rooms.
 /// </summary>
 public interface IRoomRepository
 {

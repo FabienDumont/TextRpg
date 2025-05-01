@@ -58,6 +58,7 @@ else
   protected override Task OnInitializedAsync()
   {
     GameSaveStore.OnChange += HandleGameSaveChanged;
+
     return Task.CompletedTask;
   }
 

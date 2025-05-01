@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a movement between locations or rooms.
+///   Domain class representing a movement between locations or rooms.
 /// </summary>
 public class Movement
 {

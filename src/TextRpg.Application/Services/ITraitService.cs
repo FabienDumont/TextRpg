@@ -7,6 +7,8 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public interface ITraitService
 {
+  #region Methods
+
   /// <summary>
   ///   Retrieves all available traits.
   /// </summary>
@@ -23,4 +25,6 @@ public interface ITraitService
   Task<IReadOnlyCollection<Trait>> GetCompatibleTraitsAsync(
     IEnumerable<Guid> selectedTraitsIds, CancellationToken cancellationToken
   );
+
+  #endregion
 }

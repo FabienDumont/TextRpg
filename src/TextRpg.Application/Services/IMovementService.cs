@@ -7,6 +7,8 @@ namespace TextRpg.Application.Services;
 /// </summary>
 public interface IMovementService
 {
+  #region Methods
+
   /// <summary>
   ///   Retrieves a list of available movements based on the current location and room.
   /// </summary>
@@ -17,4 +19,6 @@ public interface IMovementService
   Task<List<Movement>> GetAvailableMovementsAsync(
     Guid currentLocationId, Guid? currentRoomId, CancellationToken cancellationToken
   );
+
+  #endregion
 }

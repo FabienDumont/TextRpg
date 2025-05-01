@@ -5,7 +5,7 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="Room"/> domain models and <see cref="RoomDataModel"/> EF data models.
+///   Mapper for converting between <see cref="Room" /> domain models and <see cref="RoomDataModel" /> EF data models.
 /// </summary>
 public static class RoomMapper
 {

@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing a saved game state.
+///   Domain class representing a saved game state.
 /// </summary>
 public class GameSave
 {
@@ -67,7 +67,9 @@ public class GameSave
   public static GameSave Load(Guid id, string name, Guid playerCharacterId, World world, List<TextLine> textLines)
   {
     if (world.Characters.All(c => c.Id != playerCharacterId))
+    {
       throw new InvalidOperationException("Player character not found in character list.");
+    }
 
     return new GameSave(id, name, playerCharacterId, world)
     {

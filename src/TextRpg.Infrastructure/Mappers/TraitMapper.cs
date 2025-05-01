@@ -5,10 +5,12 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-/// Mapper for converting between <see cref="Trait"/> domain models and <see cref="TraitDataModel"/> EF data models.
+///   Mapper for converting between <see cref="Trait" /> domain models and <see cref="TraitDataModel" /> EF data models.
 /// </summary>
 public static class TraitMapper
 {
+  #region Methods
+
   /// <summary>
   ///   Maps an EF data model to its domain counterpart.
   /// </summary>
@@ -37,4 +39,6 @@ public static class TraitMapper
       }
     );
   }
+
+  #endregion
 }

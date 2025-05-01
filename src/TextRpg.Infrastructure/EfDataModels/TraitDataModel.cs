@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-/// EF Core data model representing a character trait.
+///   EF Core data model representing a character trait.
 /// </summary>
 [Table("Traits")]
 [PrimaryKey(nameof(Id))]
 public class TraitDataModel
 {
+  #region Properties
+
   /// <summary>
   ///   Unique identifier.
   /// </summary>
@@ -25,4 +27,6 @@ public class TraitDataModel
   [Required]
   [MaxLength(100)]
   public required string Name { get; set; }
+
+  #endregion
 }

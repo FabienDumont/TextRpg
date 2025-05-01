@@ -1,7 +1,7 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-/// Domain class representing the game world state, including time and characters.
+///   Domain class representing the game world state, including time and characters.
 /// </summary>
 public class World
 {

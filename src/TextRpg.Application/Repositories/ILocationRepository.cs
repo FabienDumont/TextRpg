@@ -3,7 +3,7 @@
 namespace TextRpg.Application.Repositories;
 
 /// <summary>
-/// Repository interface for locations.
+///   Repository interface for locations.
 /// </summary>
 public interface ILocationRepository
 {

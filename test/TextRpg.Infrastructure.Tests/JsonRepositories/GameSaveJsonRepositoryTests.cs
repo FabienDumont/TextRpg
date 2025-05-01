@@ -6,16 +6,29 @@ namespace TextRpg.Infrastructure.Tests.JsonRepositories;
 
 public class GameSaveJsonRepositoryTests : IDisposable
 {
+  #region Fields
+
   private readonly string _tempDir;
+
+  #endregion
+
+  #region Ctors
 
   public GameSaveJsonRepositoryTests()
   {
     _tempDir = Path.Combine(Path.GetTempPath(), "GameSaveTests_" + Guid.NewGuid());
 
-    if (Directory.Exists(_tempDir)) Directory.Delete(_tempDir, recursive: true);
+    if (Directory.Exists(_tempDir))
+    {
+      Directory.Delete(_tempDir, true);
+    }
 
     Directory.CreateDirectory(_tempDir);
   }
+
+  #endregion
+
+  #region Methods
 
   [Fact]
   public async Task SaveAsync_Then_LoadAsync_Should_Persist_GameSave_Correctly()
@@ -82,8 +95,17 @@ public class GameSaveJsonRepositoryTests : IDisposable
     savePath.Should().Be(Path.Combine("C:", "mygame", "Saves", "CharacterName"));
   }
 
+  #endregion
+
+  #region Implementation of IDisposable
+
   public void Dispose()
   {
-    if (Directory.Exists(_tempDir)) Directory.Delete(_tempDir, recursive: true);
+    if (Directory.Exists(_tempDir))
+    {
+      Directory.Delete(_tempDir, true);
+    }
   }
+
+  #endregion
 }
