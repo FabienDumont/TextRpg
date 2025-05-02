@@ -4,7 +4,7 @@
 
 @layer components {
     .trpg-layout-page {
-        @apply min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center px-4 py-8 space-y-8;
+        @apply flex min-h-screen flex-col items-center justify-center space-y-8 bg-gray-900 px-4 py-8 text-white;
     }
 
     .trpg-title-main {
@@ -12,19 +12,19 @@
     }
 
     .trpg-card-form {
-        @apply w-full max-w-md mx-auto p-6 bg-gray-800 rounded-2xl shadow-lg min-h-[28rem];
+        @apply mx-auto min-h-[28rem] w-full max-w-md rounded-2xl bg-gray-800 p-6 shadow-lg;
     }
 
     .trpg-input-label {
-        @apply block text-sm font-medium text-gray-300 mb-1;
+        @apply mb-1 block text-sm font-medium text-gray-300;
     }
 
     .trpg-input-field {
-        @apply w-full p-1 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+        @apply w-full rounded border border-gray-500 bg-gray-600 p-1 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none;
     }
 
     .trpg-validation-message {
-        @apply text-red-400 text-sm mt-1;
+        @apply mt-1 text-sm text-red-400;
     }
 
     .trpg-checkbox-label {
@@ -32,19 +32,19 @@
     }
 
     .trpg-checkbox-input {
-        @apply h-5 w-5 rounded-sm border-2 border-gray-400 bg-gray-600 checked:bg-blue-600 checked:border-blue-600 checked:ring-2 checked:ring-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:border-black disabled:bg-black accent-white;
+        @apply h-5 w-5 rounded-sm border-2 border-gray-400 bg-gray-600 accent-white checked:border-blue-600 checked:bg-blue-600 checked:ring-2 checked:ring-blue-400 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:border-black disabled:bg-black;
     }
 
     .trpg-btn {
-        @apply px-4 py-2 rounded font-semibold transition text-center bg-gray-800 hover:bg-gray-700 text-white cursor-pointer;
+        @apply cursor-pointer rounded bg-gray-600 px-4 py-2 text-center font-semibold text-white transition hover:bg-gray-700;
     }
 
     .trpg-btn-danger {
-        @apply px-4 py-2 rounded font-semibold transition text-center bg-red-800 hover:bg-red-700 text-white cursor-pointer;
+        @apply cursor-pointer rounded bg-red-600 px-4 py-2 text-center font-semibold text-white transition hover:bg-red-700;
     }
 
     .trpg-btn-submit {
-        @apply px-4 py-2 rounded font-semibold transition text-center bg-blue-800 hover:bg-blue-700 text-white disabled:opacity-50 cursor-pointer;
+        @apply cursor-pointer rounded bg-blue-600 px-4 py-2 text-center font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50;
     }
 
     @keyframes fade-in-out {

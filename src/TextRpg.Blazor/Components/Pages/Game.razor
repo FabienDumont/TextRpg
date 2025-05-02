@@ -14,15 +14,15 @@
 }
 else
 {
-  <div class="grid grid-cols-12 h-screen bg-gray-950">
+  <div class="grid h-screen grid-cols-12 bg-gray-950">
 
     <div class="col-span-2 border bg-gray-900">
       <LeftGameSidebar OnSaveLoaded="OnSaveLoaded" OnCharacterClicked="OpenCharacterDetails"/>
     </div>
 
-    <div class="col-span-8 border bg-gray-900 flex flex-col">
+    <div class="col-span-8 flex flex-col border bg-gray-900">
 
-      <div class="flex-1 overflow-y-auto p-6 w-full" @ref="_textZoneRef">
+      <div class="w-full flex-1 overflow-y-auto p-6" @ref="_textZoneRef">
         @foreach (var textLine in GameSaveStore.CurrentSave.TextLines)
         {
           <p class="text-left text-white">
