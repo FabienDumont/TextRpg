@@ -1,23 +1,20 @@
 ﻿@inject GameSaveStore GameSaveStore
 @inject ISaveService SaveService
 
-<div class="col-span-2 grid grid-rows-[1fr_auto] border">
-  <div class="flex flex-col items-center px-4 py-4 space-y-4">
-    <p class="mb-4 cursor-pointer text-xl font-bold text-white" @onclick="OnCharacterClickedInternal">
+<div class="flex h-full flex-col p-2">
+  <div class="flex flex-col items-center">
+    <p class="cursor-pointer text-xl font-bold" @onclick="OnCharacterClickedInternal">
       @GameSaveStore.CurrentSave!.PlayerCharacter.Name
     </p>
   </div>
-  <div class="flex flex-col items-center px-4 py-4 space-y-4">
-    <div class="w-40">
-      <label class="trpg-btn block w-full cursor-pointer text-center">
-        Load Save
-        <InputFile OnChange="OnFileSelected" accept=".json" style="display:none"/>
-      </label>
-    </div>
+  <div class="flex-grow"></div>
+  <div class="flex flex-col items-center gap-4">
+    <label class="trpg-btn w-full">
+      Load Save
+      <InputFile OnChange="@OnFileSelected" accept=".json" style="display:none"/>
+    </label>
 
-    <div class="w-40">
-      <NavLink href="/" class="trpg-btn block w-full text-center">Main Menu</NavLink>
-    </div>
+    <NavLink href="/" class="trpg-btn w-full">Main Menu</NavLink>
   </div>
 </div>
 

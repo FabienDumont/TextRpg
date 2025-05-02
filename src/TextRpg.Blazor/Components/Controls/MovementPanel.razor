@@ -5,20 +5,20 @@
 @inject GameSaveStore GameSaveStore
 @inject IWorldService WorldService
 
-<div class="flex w-full max-w-md flex-col space-y-4">
+<div class="flex gap-4 p-2">
   @if (_availableMovements is null)
   {
-    <p class="text-white">Loading movements...</p>
+    <p>Loading movements...</p>
   }
   else if (!_availableMovements.Any())
   {
-    <p class="text-white italic">No movement options available.</p>
+    <p class="italic">No movement options available.</p>
   }
   else
   {
     @foreach (var movement in _availableMovements)
     {
-      <button class="trpg-btn" @onclick="() => MoveToDestination(movement)">
+      <button class="trpg-btn inline-block" @onclick="() => MoveToDestination(movement)">
         @(_movementNames.TryGetValue(movement.Id, out var name) ? name : "Unknown Destination")
       </button>
     }
