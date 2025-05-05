@@ -14,10 +14,5 @@ public interface ILocationRepository
   /// </summary>
   Task<Location> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
-  /// <summary>
-  ///   Retrieves the designated player spawn location.
-  /// </summary>
-  Task<Location> GetPlayerSpawnAsync(CancellationToken cancellationToken);
-
   #endregion
 }

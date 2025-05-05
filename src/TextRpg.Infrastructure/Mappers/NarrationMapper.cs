@@ -5,25 +5,25 @@ using TextRpg.Infrastructure.EfDataModels;
 namespace TextRpg.Infrastructure.Mappers;
 
 /// <summary>
-///   Mapper for converting between <see cref="Location" /> domain models and <see cref="LocationDataModel" /> EF data
-///   models.
+///   Mapper for converting between <see cref="Narration" /> domain models and
+///   <see cref="NarrationDataModel" /> EF data models.
 /// </summary>
-public static class LocationMapper
+public static class NarrationMapper
 {
   #region Methods
 
   /// <summary>
   ///   Maps an EF data model to its domain counterpart.
   /// </summary>
-  public static Location ToDomain(this LocationDataModel dataModel)
+  public static Narration ToDomain(this NarrationDataModel dataModel)
   {
-    return dataModel.Map(i => Location.Load(i.Id, i.Name));
+    return dataModel.Map(i => Narration.Load(i.Id, i.Key, i.Text));
   }
 
   /// <summary>
   ///   Maps a collection of EF data models to domain models.
   /// </summary>
-  public static List<Location> ToDomainCollection(this IEnumerable<LocationDataModel> dataModels)
+  public static List<Narration> ToDomainCollection(this IEnumerable<NarrationDataModel> dataModels)
   {
     return dataModels.MapCollection(ToDomain);
   }
@@ -31,12 +31,13 @@ public static class LocationMapper
   /// <summary>
   ///   Maps a domain model to its EF data model counterpart.
   /// </summary>
-  public static LocationDataModel ToDataModel(this Location domain)
+  public static NarrationDataModel ToDataModel(this Narration domain)
   {
-    return domain.Map(u => new LocationDataModel
+    return domain.Map(u => new NarrationDataModel
       {
         Id = u.Id,
-        Name = u.Name
+        Key = u.Key,
+        Text = u.Text
       }
     );
   }

@@ -17,14 +17,12 @@ public class LocationRepositoryTests
 
   #region Ctors
 
-  #region Ctor
-
   public LocationRepositoryTests()
   {
     _locationDataModels =
     [
-      new LocationDataModel {Id = Guid.NewGuid(), Name = "Home", IsPlayerSpawn = true},
-      new LocationDataModel {Id = Guid.NewGuid(), Name = "Street", IsPlayerSpawn = false}
+      new LocationDataModel {Id = Guid.NewGuid(), Name = "Home"},
+      new LocationDataModel {Id = Guid.NewGuid(), Name = "Street"}
     ];
 
     _context = A.Fake<ApplicationContext>();
@@ -36,8 +34,6 @@ public class LocationRepositoryTests
 
     _repository = new LocationRepository(_context);
   }
-
-  #endregion
 
   #endregion
 
@@ -88,39 +84,6 @@ public class LocationRepositoryTests
     // Assert
     await act.Should().ThrowAsync<InvalidOperationException>()
       .WithMessage($"Location with ID {randomId} was not found.");
-  }
-
-  [Fact]
-  public async Task GetPlayerSpawnAsync_ShouldReturnPlayerSpawn_WhenSpawnExists()
-  {
-    // Act
-    var result = await _repository.GetPlayerSpawnAsync(CancellationToken.None);
-
-    // Assert
-    result.Should().NotBeNull();
-    result.Name.Should().Be("Home");
-  }
-
-  [Fact]
-  public async Task GetPlayerSpawnAsync_ShouldThrowInvalidOperationException_WhenNoSpawnExists()
-  {
-    // Arrange
-    var contextWithoutSpawn = A.Fake<ApplicationContext>();
-
-    var noSpawnLocations = new List<LocationDataModel>
-    {
-      new() {Id = Guid.NewGuid(), Name = "Forest", IsPlayerSpawn = false}
-    }.AsQueryable().BuildMockDbSet();
-
-    A.CallTo(() => contextWithoutSpawn.Locations).Returns(noSpawnLocations);
-
-    var repositoryWithoutSpawn = new LocationRepository(contextWithoutSpawn);
-
-    // Act
-    Func<Task> act = async () => await repositoryWithoutSpawn.GetPlayerSpawnAsync(CancellationToken.None);
-
-    // Assert
-    await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("Spawn location not found.");
   }
 
   #endregion

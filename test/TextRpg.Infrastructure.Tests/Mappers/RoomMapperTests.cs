@@ -71,7 +71,7 @@ public class RoomMapperTests
     // Assert
     dataModel.Id.Should().Be(id);
     dataModel.Name.Should().Be(name);
-    dataModel.IsEntryPoint.Should().Be(true);
+    dataModel.IsPlayerSpawn.Should().Be(true);
   }
 
   #endregion

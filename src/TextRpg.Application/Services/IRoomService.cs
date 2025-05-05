@@ -18,12 +18,11 @@ public interface IRoomService
   Task<Room> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
   /// <summary>
-  ///   Retrieves the default entry point room for a given location.
+  ///   Retrieves the player spawn room.
   /// </summary>
-  /// <param name="locationId">The identifier of the location.</param>
   /// <param name="cancellationToken">A cancellation token.</param>
-  /// <returns>The entry point room of the location, or null if none is found.</returns>
-  Task<Room?> GetLocationEntryPointAsync(Guid locationId, CancellationToken cancellationToken);
+  /// <returns>The player spawn room.</returns>
+  Task<Room?> GetPlayerSpawnAsync(CancellationToken cancellationToken);
 
   #endregion
 }

@@ -74,17 +74,16 @@ CREATE TABLE DialogueResultLines
 
 CREATE TABLE Locations
 (
-  Id            TEXT PRIMARY KEY,
-  Name          TEXT    NOT NULL,
-  IsPlayerSpawn INTEGER NOT NULL
+  Id   TEXT PRIMARY KEY,
+  Name TEXT NOT NULL
 );
 
 CREATE TABLE Rooms
 (
-  Id           TEXT PRIMARY KEY,
-  LocationId   TEXT    NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
-  Name         TEXT    NOT NULL,
-  IsEntryPoint INTEGER NOT NULL
+  Id            TEXT PRIMARY KEY,
+  LocationId    TEXT    NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
+  Name          TEXT    NOT NULL,
+  IsPlayerSpawn INTEGER NOT NULL
 );
 
 CREATE TABLE Movements
@@ -102,4 +101,11 @@ CREATE TABLE MovementNarrations
   Id         TEXT PRIMARY KEY,
   MovementId TEXT NOT NULL REFERENCES Movements (Id) ON DELETE CASCADE,
   Text       TEXT NOT NULL
+);
+
+CREATE TABLE Narrations
+(
+  Id   TEXT PRIMARY KEY,
+  Key  TEXT NOT NULL,
+  Text TEXT NOT NULL
 );

@@ -16,11 +16,5 @@ public class LocationService(ILocationRepository locationRepository) : ILocation
     return await locationRepository.GetByIdAsync(id, cancellationToken);
   }
 
-  /// <inheritdoc />
-  public async Task<Location> GetPlayerSpawnAsync(CancellationToken cancellationToken)
-  {
-    return await locationRepository.GetPlayerSpawnAsync(cancellationToken);
-  }
-
   #endregion
 }

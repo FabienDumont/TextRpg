@@ -24,6 +24,7 @@ public static class ServiceCollectionExtensions
     services.AddScoped<ICharacterService, CharacterService>();
     services.AddScoped<IMovementService, MovementService>();
     services.AddScoped<IMovementNarrationService, MovementNarrationService>();
+    services.AddScoped<INarrationService, NarrationService>();
   }
 
   #endregion

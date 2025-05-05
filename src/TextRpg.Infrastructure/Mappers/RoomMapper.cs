@@ -16,7 +16,7 @@ public static class RoomMapper
   /// </summary>
   public static Room ToDomain(this RoomDataModel dataModel)
   {
-    return dataModel.Map(i => Room.Load(i.Id, i.LocationId, i.Name, i.IsEntryPoint));
+    return dataModel.Map(i => Room.Load(i.Id, i.LocationId, i.Name, i.IsPlayerSpawn));
   }
 
   /// <summary>
@@ -37,7 +37,7 @@ public static class RoomMapper
         Id = u.Id,
         LocationId = u.LocationId,
         Name = u.Name,
-        IsEntryPoint = u.IsEntryPoint
+        IsPlayerSpawn = u.IsPlayerSpawn
       }
     );
   }

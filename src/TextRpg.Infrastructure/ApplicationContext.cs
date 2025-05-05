@@ -38,9 +38,14 @@ public class ApplicationContext : DbContext
   public virtual DbSet<MovementDataModel> Movements { get; init; }
 
   /// <summary>
-  ///   Represents narration text tied to a movement.
+  ///   Represents narration texts tied to movements.
   /// </summary>
   public virtual DbSet<MovementNarrationDataModel> MovementNarrations { get; init; }
+
+  /// <summary>
+  ///   Represents narration texts.
+  /// </summary>
+  public virtual DbSet<NarrationDataModel> Narrations { get; init; }
 
   #endregion
 
@@ -78,6 +83,7 @@ public class ApplicationContext : DbContext
     await SeedIncompatibleTraitsAsync(traits);
     await SeedGreetingsAsync(traits);
     await SeedLocationsAsync();
+    await SeedNarrationsAsync();
   }
 
   /// <summary>
@@ -209,16 +215,15 @@ public class ApplicationContext : DbContext
     var streetId = Guid.NewGuid();
 
     await Locations.AddRangeAsync(
-      new LocationDataModel {Id = homeId, Name = "Home", IsPlayerSpawn = true},
-      new LocationDataModel {Id = streetId, Name = "Street", IsPlayerSpawn = false}
+      new LocationDataModel {Id = homeId, Name = "Home"}, new LocationDataModel {Id = streetId, Name = "Street"}
     );
 
     var bedroomId = Guid.NewGuid();
     var livingRoomId = Guid.NewGuid();
 
     await Rooms.AddRangeAsync(
-      new RoomDataModel {Id = bedroomId, LocationId = homeId, Name = "Bedroom", IsEntryPoint = false},
-      new RoomDataModel {Id = livingRoomId, LocationId = homeId, Name = "Living Room", IsEntryPoint = true}
+      new RoomDataModel {Id = bedroomId, LocationId = homeId, Name = "Bedroom", IsPlayerSpawn = true},
+      new RoomDataModel {Id = livingRoomId, LocationId = homeId, Name = "Living Room", IsPlayerSpawn = false}
     );
 
     var movementHomeLivingRoomToHomeBedroom = new MovementDataModel
@@ -290,6 +295,23 @@ public class ApplicationContext : DbContext
     );
 
     await SaveChangesAsync().ConfigureAwait(false);
+  }
+
+  /// <summary>
+  ///   Seeds default narration texts.
+  /// </summary>
+  private async Task SeedNarrationsAsync()
+  {
+    await Narrations.AddAsync(
+      new NarrationDataModel
+      {
+        Id = Guid.NewGuid(),
+        Key = "GameIntro",
+        Text =
+          "You wake up in your bedroom. The faint hum of the city leaks through the closed windows, mixing with the ticking of a wall clock. Nothing feels out of place—yet, something nags at the edge of your mind. Today’s the day things change."
+      }
+    );
+    await SaveChangesAsync();
   }
 
   #endregion

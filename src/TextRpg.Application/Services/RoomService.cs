@@ -17,9 +17,9 @@ public class RoomService(IRoomRepository roomRepository) : IRoomService
   }
 
   /// <inheritdoc />
-  public async Task<Room?> GetLocationEntryPointAsync(Guid locationId, CancellationToken cancellationToken)
+  public async Task<Room?> GetPlayerSpawnAsync(CancellationToken cancellationToken)
   {
-    return await roomRepository.GetLocationEntryPointAsync(locationId, cancellationToken);
+    return await roomRepository.GetPlayerSpawnAsync(cancellationToken);
   }
 
   #endregion

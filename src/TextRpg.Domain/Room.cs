@@ -23,9 +23,9 @@ public class Room
   public string Name { get; set; }
 
   /// <summary>
-  ///   Indicates whether this room is the default entry point for the location.
+  ///   Indicates whether this room is the player spawn.
   /// </summary>
-  public bool IsEntryPoint { get; set; }
+  public bool IsPlayerSpawn { get; set; }
 
   #endregion
 
@@ -34,12 +34,12 @@ public class Room
   /// <summary>
   ///   Private constructor used internally.
   /// </summary>
-  private Room(Guid id, Guid locationId, string name, bool isEntryPoint)
+  private Room(Guid id, Guid locationId, string name, bool isPlayerSpawn)
   {
     Id = id;
     LocationId = locationId;
     Name = name;
-    IsEntryPoint = isEntryPoint;
+    IsPlayerSpawn = isPlayerSpawn;
   }
 
   #endregion
@@ -49,17 +49,17 @@ public class Room
   /// <summary>
   ///   Factory method to create a new instance.
   /// </summary>
-  public static Room Create(Guid locationId, string name, bool isEntryPoint)
+  public static Room Create(Guid locationId, string name, bool isPlayerSpawn)
   {
-    return new Room(Guid.NewGuid(), locationId, name, isEntryPoint);
+    return new Room(Guid.NewGuid(), locationId, name, isPlayerSpawn);
   }
 
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
-  public static Room Load(Guid id, Guid locationId, string name, bool isEntryPoint)
+  public static Room Load(Guid id, Guid locationId, string name, bool isPlayerSpawn)
   {
-    return new Room(id, locationId, name, isEntryPoint);
+    return new Room(id, locationId, name, isPlayerSpawn);
   }
 
   #endregion

@@ -6,7 +6,9 @@ namespace TextRpg.Application.Services;
 /// <summary>
 ///   Service for managing saves.
 /// </summary>
-public class SaveService(IGameSaveRepository saveRepository, IWorldService worldService) : ISaveService
+public class SaveService(
+  IGameSaveRepository saveRepository, IWorldService worldService, INarrationService narrationService
+) : ISaveService
 {
   #region Implementation of ISaveService
 
@@ -30,6 +32,10 @@ public class SaveService(IGameSaveRepository saveRepository, IWorldService world
     var world = await worldService.CreateNewWorldAsync(date, playerCharacter, gameSettings, cancellationToken);
 
     var save = GameSave.Create($"{playerCharacter.Name}_{world.CurrentDate:yyyyMMdd_HHmmss}", playerCharacter, world);
+
+    var narrationText = await narrationService.GetNarrationTextByKeyAsync("GameIntro", cancellationToken);
+
+    save.AddText([new TextPart(null, narrationText)]);
 
     return save;
   }

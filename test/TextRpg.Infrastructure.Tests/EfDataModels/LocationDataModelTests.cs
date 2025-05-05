@@ -19,7 +19,7 @@ public class LocationDataModelTests
         Id = Guid.NewGuid(),
         Name = "Test Room",
         LocationId = id,
-        IsEntryPoint = true
+        IsPlayerSpawn = true
       }
     };
 

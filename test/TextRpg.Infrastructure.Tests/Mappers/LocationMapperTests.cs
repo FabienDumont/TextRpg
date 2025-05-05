@@ -18,8 +18,7 @@ public class LocationMapperTests
     var dataModel = new LocationDataModel
     {
       Id = id,
-      Name = name,
-      IsPlayerSpawn = true
+      Name = name
     };
 
     // Act
@@ -28,7 +27,6 @@ public class LocationMapperTests
     // Assert
     domain.Id.Should().Be(id);
     domain.Name.Should().Be(name);
-    domain.IsPlayerSpawn.Should().Be(true);
   }
 
   [Fact]
@@ -37,8 +35,8 @@ public class LocationMapperTests
     // Arrange
     var dataModels = new List<LocationDataModel>
     {
-      new() {Id = Guid.NewGuid(), Name = "Home", IsPlayerSpawn = true},
-      new() {Id = Guid.NewGuid(), Name = "Street", IsPlayerSpawn = false}
+      new() {Id = Guid.NewGuid(), Name = "Home"},
+      new() {Id = Guid.NewGuid(), Name = "Street"}
     };
 
     // Act
@@ -48,10 +46,8 @@ public class LocationMapperTests
     domainModels.Should().HaveCount(2);
     domainModels[0].Id.Should().Be(dataModels[0].Id);
     domainModels[0].Name.Should().Be(dataModels[0].Name);
-    domainModels[0].IsPlayerSpawn.Should().Be(dataModels[0].IsPlayerSpawn);
     domainModels[1].Id.Should().Be(dataModels[1].Id);
     domainModels[1].Name.Should().Be(dataModels[1].Name);
-    domainModels[1].IsPlayerSpawn.Should().Be(dataModels[1].IsPlayerSpawn);
   }
 
   [Fact]
@@ -61,7 +57,7 @@ public class LocationMapperTests
     var id = Guid.NewGuid();
     const string name = "Home";
 
-    var domain = Location.Load(id, name, true);
+    var domain = Location.Load(id, name);
 
     // Act
     var dataModel = domain.ToDataModel();
@@ -69,7 +65,6 @@ public class LocationMapperTests
     // Assert
     dataModel.Id.Should().Be(id);
     dataModel.Name.Should().Be(name);
-    dataModel.IsPlayerSpawn.Should().Be(true);
   }
 
   #endregion

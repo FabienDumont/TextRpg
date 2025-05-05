@@ -1,21 +1,26 @@
 ﻿namespace TextRpg.Domain;
 
 /// <summary>
-///   Domain class representing a location in the game world.
+///   Domain class representing a narration.
 /// </summary>
-public class Location
+public class Narration
 {
   #region Properties
 
   /// <summary>
   ///   Unique identifier.
   /// </summary>
-  public Guid Id { get; set; }
+  public Guid Id { get; }
 
   /// <summary>
-  ///   Name of the location.
+  ///   Narration key.
   /// </summary>
-  public string Name { get; set; }
+  public string Key { get; }
+
+  /// <summary>
+  ///   Narration text template.
+  /// </summary>
+  public string Text { get; }
 
   #endregion
 
@@ -24,10 +29,11 @@ public class Location
   /// <summary>
   ///   Private constructor used internally.
   /// </summary>
-  private Location(Guid id, string name)
+  private Narration(Guid id, string key, string text)
   {
     Id = id;
-    Name = name;
+    Key = key;
+    Text = text;
   }
 
   #endregion
@@ -37,17 +43,17 @@ public class Location
   /// <summary>
   ///   Factory method to create a new instance.
   /// </summary>
-  public static Location Create(string name)
+  public static Narration Create(string key, string text)
   {
-    return new Location(Guid.NewGuid(), name);
+    return new Narration(Guid.NewGuid(), key, text);
   }
 
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
-  public static Location Load(Guid id, string name)
+  public static Narration Load(Guid id, string key, string text)
   {
-    return new Location(id, name);
+    return new Narration(id, key, text);
   }
 
   #endregion

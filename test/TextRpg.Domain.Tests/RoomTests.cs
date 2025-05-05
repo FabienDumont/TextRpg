@@ -15,7 +15,7 @@ public class RoomTests
     room.Id.Should().NotBe(Guid.Empty);
     room.LocationId.Should().Be(Guid.Empty);
     room.Name.Should().Be(string.Empty);
-    room.IsEntryPoint.Should().Be(true);
+    room.IsPlayerSpawn.Should().Be(true);
   }
 
   [Fact]
@@ -33,7 +33,7 @@ public class RoomTests
     room.Id.Should().Be(id);
     room.LocationId.Should().Be(locationId);
     room.Name.Should().Be(name);
-    room.IsEntryPoint.Should().Be(true);
+    room.IsPlayerSpawn.Should().Be(true);
   }
 
   #endregion

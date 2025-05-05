@@ -38,9 +38,9 @@ public class RoomDataModel
   /// <summary>
   ///   Indicates whether this room is the default entry point for the location.
   /// </summary>
-  [Column("IsEntryPoint", Order = 4)]
+  [Column("IsPlayerSpawn", Order = 4)]
   [Required]
-  public bool IsEntryPoint { get; set; }
+  public bool IsPlayerSpawn { get; set; }
 
   /// <summary>
   ///   Navigation property to the parent location.

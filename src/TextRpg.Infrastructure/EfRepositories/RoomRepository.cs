@@ -26,10 +26,10 @@ public class RoomRepository(ApplicationContext context) : RepositoryBase(context
   }
 
   /// <inheritdoc />
-  public async Task<Room?> GetLocationEntryPointAsync(Guid locationId, CancellationToken cancellationToken)
+  public async Task<Room?> GetPlayerSpawnAsync(CancellationToken cancellationToken)
   {
     var rooms = await Context.Rooms.ToListAsync(cancellationToken).ConfigureAwait(false);
-    var spawn = rooms.FirstOrDefault(r => r.LocationId == locationId && r.IsEntryPoint);
+    var spawn = rooms.FirstOrDefault(r => r.IsPlayerSpawn);
 
     return spawn?.ToDomain();
   }

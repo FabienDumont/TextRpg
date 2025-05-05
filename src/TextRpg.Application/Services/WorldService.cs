@@ -16,8 +16,14 @@ public class WorldService(
     DateTime date, Character playerCharacter, GameSettings gameSettings, CancellationToken cancellationToken
   )
   {
-    var spawnLocation = await locationService.GetPlayerSpawnAsync(cancellationToken);
-    var spawnRoom = await roomService.GetLocationEntryPointAsync(spawnLocation.Id, cancellationToken);
+    var spawnRoom = await roomService.GetPlayerSpawnAsync(cancellationToken);
+
+    if (spawnRoom is null)
+    {
+      throw new InvalidOperationException("No spawn room found.");
+    }
+
+    var spawnLocation = await locationService.GetByIdAsync(spawnRoom.LocationId, cancellationToken);
     playerCharacter.MoveTo(spawnLocation.Id, spawnRoom?.Id);
     var world = World.Create(date, [playerCharacter]);
 

@@ -15,9 +15,9 @@ public interface IRoomRepository
   Task<Room> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
   /// <summary>
-  ///   Retrieves the entry point room for a given location, if any.
+  ///   Retrieves the player spawn.
   /// </summary>
-  Task<Room?> GetLocationEntryPointAsync(Guid locationId, CancellationToken cancellationToken);
+  Task<Room?> GetPlayerSpawnAsync(CancellationToken cancellationToken);
 
   #endregion
 }

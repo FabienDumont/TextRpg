@@ -27,7 +27,7 @@ public class RoomDataModelTests
       Id = roomId,
       LocationId = locationId,
       Name = roomName,
-      IsEntryPoint = false,
+      IsPlayerSpawn = false,
       Location = location
     };
 
@@ -35,7 +35,7 @@ public class RoomDataModelTests
     room.Id.Should().Be(roomId);
     room.Name.Should().Be(roomName);
     room.LocationId.Should().Be(locationId);
-    room.IsEntryPoint.Should().Be(false);
+    room.IsPlayerSpawn.Should().Be(false);
     room.Location.Should().NotBeNull();
     room.Location.Id.Should().Be(locationId);
     room.Location.Name.Should().Be(locationName);

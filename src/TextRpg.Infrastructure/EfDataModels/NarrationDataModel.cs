@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TextRpg.Infrastructure.EfDataModels;
 
 /// <summary>
-///   EF Core data model representing a location in the game world.
+///   EF Core data model representing a narration text.
 /// </summary>
-[Table("Locations")]
+[Table("Narrations")]
 [PrimaryKey(nameof(Id))]
-public class LocationDataModel
+public class NarrationDataModel
 {
   #region Properties
 
@@ -21,17 +21,20 @@ public class LocationDataModel
   public Guid Id { get; set; }
 
   /// <summary>
-  ///   Name of the location.
+  ///   Key describing the narration.
   /// </summary>
-  [Column("Name", Order = 2)]
+  [Column("Key", Order = 2)]
   [Required]
   [MaxLength(100)]
-  public required string Name { get; set; }
+  public required string Key { get; set; }
 
   /// <summary>
-  ///   List of rooms associated with this location.
+  ///   Narration text.
   /// </summary>
-  public List<RoomDataModel> Rooms { get; set; } = [];
+  [Column("Text", Order = 3)]
+  [Required]
+  [MaxLength(500)]
+  public required string Text { get; set; }
 
   #endregion
 }

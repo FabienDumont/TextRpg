@@ -25,38 +25,10 @@ public class LocationServiceTests
   #region Methods
 
   [Fact]
-  public async Task GetPlayerSpawnAsync_ShouldReturnLocation()
-  {
-    // Arrange
-    var expected = Location.Load(Guid.NewGuid(), "Home", true);
-    A.CallTo(() => _repository.GetPlayerSpawnAsync(A<CancellationToken>._)).Returns(Task.FromResult(expected));
-
-    // Act
-    var result = await _service.GetPlayerSpawnAsync(CancellationToken.None);
-
-    // Assert
-    result.Should().Be(expected);
-  }
-
-  [Fact]
-  public async Task GetPlayerSpawnAsync_ShouldThrow_WhenRepositoryThrows()
-  {
-    // Arrange
-    A.CallTo(() => _repository.GetPlayerSpawnAsync(A<CancellationToken>._))
-      .Throws(new InvalidOperationException("Spawn location not found"));
-
-    // Act
-    Func<Task> act = async () => await _service.GetPlayerSpawnAsync(CancellationToken.None);
-
-    // Assert
-    await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("Spawn location not found");
-  }
-
-  [Fact]
   public async Task GetByIdAsync_ShouldReturnLocation_WhenLocationExists()
   {
     // Arrange
-    var expected = Location.Load(Guid.NewGuid(), "Market", false);
+    var expected = Location.Load(Guid.NewGuid(), "Market");
     A.CallTo(() => _repository.GetByIdAsync(expected.Id, A<CancellationToken>._)).Returns(Task.FromResult(expected));
 
     // Act

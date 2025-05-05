@@ -38,11 +38,11 @@ public class WorldServiceTests
     var playerCharacter = CharacterHelper.GetBasicPlayerCharacter();
     var randomCharacters = new List<Character>();
     var gameSettings = GameSettings.Create(10);
-    var location = Location.Create("Home", true);
+    var location = Location.Create("Home");
     var room = Room.Create(location.Id, "Living room", true);
 
-    A.CallTo(() => _locationService.GetPlayerSpawnAsync(CancellationToken.None)).Returns(location);
-    A.CallTo(() => _roomService.GetLocationEntryPointAsync(location.Id, CancellationToken.None)).Returns(room);
+    A.CallTo(() => _roomService.GetPlayerSpawnAsync(CancellationToken.None)).Returns(room);
+    A.CallTo(() => _locationService.GetByIdAsync(location.Id, CancellationToken.None)).Returns(location);
 
     for (var i = 0; i < gameSettings.RandomNpcCount; i++)
     {
@@ -63,6 +63,24 @@ public class WorldServiceTests
 
     A.CallTo(() => _characterService.CreateRandomCharacterAsync())
       .MustHaveHappened(gameSettings.RandomNpcCount, Times.Exactly);
+  }
+
+  [Fact]
+  public async Task CreateNewWorld_ShouldThrow_WhenSpawnRoomIsNull()
+  {
+    // Arrange
+    var date = new DateTime(2025, 4, 24);
+    var playerCharacter = CharacterHelper.GetBasicPlayerCharacter();
+    var gameSettings = GameSettings.Create(10);
+
+    A.CallTo(() => _roomService.GetPlayerSpawnAsync(CancellationToken.None)).Returns((Room?) null);
+
+    // Act
+    var act = async () =>
+      await _worldService.CreateNewWorldAsync(date, playerCharacter, gameSettings, CancellationToken.None);
+
+    // Assert
+    await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("No spawn room found.");
   }
 
   [Fact]

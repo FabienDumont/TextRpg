@@ -17,12 +17,5 @@ public interface ILocationService
   /// <returns>The matching location.</returns>
   Task<Location> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
-  /// <summary>
-  ///   Retrieves the default player spawn location.
-  /// </summary>
-  /// <param name="cancellationToken">A cancellation token.</param>
-  /// <returns>The player spawn location.</returns>
-  Task<Location> GetPlayerSpawnAsync(CancellationToken cancellationToken);
-
   #endregion
 }

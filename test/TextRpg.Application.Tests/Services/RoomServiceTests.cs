@@ -57,17 +57,17 @@ public class RoomServiceTests
   }
 
   [Fact]
-  public async Task GetLocationEntryPointAsync_ShouldReturnRoom_WhenEntryPointExists()
+  public async Task GetPlayerSpawnAsync_ShouldReturnRoom_WhenEntryPointExists()
   {
     // Arrange
     var locationId = Guid.NewGuid();
     var expectedRoom = Room.Load(Guid.NewGuid(), locationId, "Bedroom", true);
 
-    A.CallTo(() => _repository.GetLocationEntryPointAsync(locationId, A<CancellationToken>._))
+    A.CallTo(() => _repository.GetPlayerSpawnAsync(A<CancellationToken>._))
       .Returns(Task.FromResult<Room?>(expectedRoom));
 
     // Act
-    var result = await _service.GetLocationEntryPointAsync(locationId, CancellationToken.None);
+    var result = await _service.GetPlayerSpawnAsync(CancellationToken.None);
 
     // Assert
     result.Should().NotBeNull();
@@ -75,16 +75,13 @@ public class RoomServiceTests
   }
 
   [Fact]
-  public async Task GetLocationEntryPointAsync_ShouldReturnNull_WhenNoEntryPointExists()
+  public async Task GetPlayerSpawnAsync_ShouldReturnNull_WhenNoEntryPointExists()
   {
     // Arrange
-    var locationId = Guid.NewGuid();
-
-    A.CallTo(() => _repository.GetLocationEntryPointAsync(locationId, A<CancellationToken>._))
-      .Returns(Task.FromResult<Room?>(null));
+    A.CallTo(() => _repository.GetPlayerSpawnAsync(A<CancellationToken>._)).Returns(Task.FromResult<Room?>(null));
 
     // Act
-    var result = await _service.GetLocationEntryPointAsync(locationId, CancellationToken.None);
+    var result = await _service.GetPlayerSpawnAsync(CancellationToken.None);
 
     // Assert
     result.Should().BeNull();

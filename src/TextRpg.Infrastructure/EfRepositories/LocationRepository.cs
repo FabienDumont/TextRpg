@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TextRpg.Application.Repositories;
+﻿using TextRpg.Application.Repositories;
 using TextRpg.Domain;
 using TextRpg.Infrastructure.Mappers;
 
@@ -23,20 +22,6 @@ public class LocationRepository(ApplicationContext context) : RepositoryBase(con
     }
 
     return dataModel.ToDomain();
-  }
-
-  /// <inheritdoc />
-  public async Task<Location> GetPlayerSpawnAsync(CancellationToken cancellationToken)
-  {
-    var spawn = await Context.Locations.FirstOrDefaultAsync(l => l.IsPlayerSpawn, cancellationToken)
-      .ConfigureAwait(false);
-
-    if (spawn is null)
-    {
-      throw new InvalidOperationException("Spawn location not found.");
-    }
-
-    return spawn.ToDomain();
   }
 
   #endregion

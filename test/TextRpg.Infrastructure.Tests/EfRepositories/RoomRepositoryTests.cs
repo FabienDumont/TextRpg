@@ -24,8 +24,8 @@ public class RoomRepositoryTests
 
     _roomDataModels =
     [
-      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Bedroom", IsEntryPoint = false},
-      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Living room", IsEntryPoint = true}
+      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Bedroom", IsPlayerSpawn = false},
+      new RoomDataModel {Id = Guid.NewGuid(), LocationId = _locationId, Name = "Living room", IsPlayerSpawn = true}
     ];
 
     var roomDbSet = _roomDataModels.AsQueryable().BuildMockDbSet();
@@ -41,17 +41,10 @@ public class RoomRepositoryTests
   #region Methods
 
   [Fact]
-  public async Task GetLocationEntryPointAsync_ShouldReturnEntryPoint()
+  public async Task GetLocationEntryPointAsync_ShouldReturnPlayerSpawn()
   {
-    var result = await _repository.GetLocationEntryPointAsync(_locationId, CancellationToken.None);
+    var result = await _repository.GetPlayerSpawnAsync(CancellationToken.None);
     result.Should().NotBeNull();
-  }
-
-  [Fact]
-  public async Task GetLocationEntryPointAsync_ShouldReturnNull()
-  {
-    var result = await _repository.GetLocationEntryPointAsync(Guid.NewGuid(), CancellationToken.None);
-    result.Should().BeNull();
   }
 
   [Fact]

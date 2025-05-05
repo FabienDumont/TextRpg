@@ -9,6 +9,8 @@ public class SaveServiceTests
 {
   #region Fields
 
+  private readonly INarrationService _narrationService = A.Fake<INarrationService>();
+
   private readonly IGameSaveRepository _repository = A.Fake<IGameSaveRepository>();
   private readonly SaveService _saveService;
   private readonly IWorldService _worldService = A.Fake<IWorldService>();
@@ -19,7 +21,7 @@ public class SaveServiceTests
 
   public SaveServiceTests()
   {
-    _saveService = new SaveService(_repository, _worldService);
+    _saveService = new SaveService(_repository, _worldService, _narrationService);
   }
 
   #endregion
