@@ -2,7 +2,7 @@
 <div class="trpg-layout-page">
   <h2 class="trpg-title-main">Game Settings</h2>
 
-  <EditForm Model="@Model" OnValidSubmit="Confirm">
+  <EditForm Model="@Model" OnValidSubmit="Confirm" class="w-full max-w-sm space-y-4">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
@@ -17,7 +17,6 @@
       <button class="trpg-btn-submit" type="submit">Confirm Settings</button>
     </div>
   </EditForm>
-
 </div>
 
 @code {
