@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
   {
     services.AddScoped<ITraitService, TraitService>();
     services.AddScoped<ILocationService, LocationService>();
+    services.AddScoped<ILocationOpeningHoursService, LocationOpeningHoursService>();
     services.AddScoped<IRoomService, RoomService>();
     services.AddScoped<ISaveService, SaveService>();
     services.AddScoped<IWorldService, WorldService>();

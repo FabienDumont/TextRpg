@@ -10,9 +10,9 @@ public interface IMovementRepository
   #region Methods
 
   /// <summary>
-  ///   Retrieves all movements available from the specified location and room.
+  ///   Retrieves movements from the specified location and room.
   /// </summary>
-  Task<List<Movement>> GetAvailableMovementsAsync(
+  Task<List<Movement>> GetMovementsAsync(
     Guid currentLocationId, Guid? currentRoomId, CancellationToken cancellationToken
   );
 

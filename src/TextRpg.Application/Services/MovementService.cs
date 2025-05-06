@@ -6,16 +6,34 @@ namespace TextRpg.Application.Services;
 /// <summary>
 ///   Service for movements.
 /// </summary>
-public class MovementService(IMovementRepository movementRepository) : IMovementService
+public class MovementService(
+  IMovementRepository movementRepository, ILocationOpeningHoursService locationOpeningHoursService
+) : IMovementService
 {
   #region Implementation of IMovementService
 
   /// <inheritdoc />
   public async Task<List<Movement>> GetAvailableMovementsAsync(
-    Guid currentLocationId, Guid? currentRoomId, CancellationToken cancellationToken
+    Guid currentLocationId, Guid? currentRoomId, DayOfWeek day, TimeSpan time, CancellationToken cancellationToken
   )
   {
-    return await movementRepository.GetAvailableMovementsAsync(currentLocationId, currentRoomId, cancellationToken);
+    var movements = await movementRepository.GetMovementsAsync(
+      currentLocationId, currentRoomId, cancellationToken
+    );
+
+    List<Movement> availableMovements = new();
+
+    foreach (var movement in movements)
+    {
+      var locationDestionationId = movement.ToLocationId;
+
+      if (await locationOpeningHoursService.IsLocationOpenAsync(locationDestionationId, day, time, cancellationToken))
+      {
+        availableMovements.Add(movement);
+      }
+    }
+
+    return availableMovements;
   }
 
   #endregion

@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
     services.AddScoped<ITraitRepository, TraitRepository>();
     services.AddScoped<IGreetingRepository, GreetingRepository>();
     services.AddScoped<ILocationRepository, LocationRepository>();
+    services.AddScoped<ILocationOpeningHoursRepository, LocationOpeningHoursRepository>();
     services.AddScoped<IRoomRepository, RoomRepository>();
     services.AddScoped<IMovementRepository, MovementRepository>();
     services.AddScoped<IMovementNarrationRepository, MovementNarrationRepository>();

@@ -67,7 +67,7 @@ public class MovementRepositoryTests
   public async Task GetAvailableMovementsAsync_ShouldReturnMovements_WhenMovementsExist()
   {
     // Act
-    var result = await _repository.GetAvailableMovementsAsync(_homeId, _livingRoomId, CancellationToken.None);
+    var result = await _repository.GetMovementsAsync(_homeId, _livingRoomId, CancellationToken.None);
 
     // Assert
     result.Should().NotBeNull();
@@ -78,7 +78,7 @@ public class MovementRepositoryTests
   public async Task GetAvailableMovementsAsync_ShouldReturnEmptyList_WhenNoMovementsExist()
   {
     // Act
-    var result = await _repository.GetAvailableMovementsAsync(Guid.NewGuid(), null, CancellationToken.None);
+    var result = await _repository.GetMovementsAsync(Guid.NewGuid(), null, CancellationToken.None);
 
     // Assert
     result.Should().NotBeNull();

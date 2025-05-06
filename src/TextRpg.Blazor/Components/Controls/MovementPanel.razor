@@ -42,11 +42,12 @@
   /// </summary>
   private async Task LoadAvailableMovementsAsync()
   {
+    var world = GameSaveStore.CurrentSave!.World;
     var player = GameSaveStore.CurrentSave!.PlayerCharacter;
 
     if (player.LocationId.HasValue)
     {
-      _availableMovements = await MovementService.GetAvailableMovementsAsync(player.LocationId.Value, player.RoomId, CancellationToken.None);
+      _availableMovements = await MovementService.GetAvailableMovementsAsync(player.LocationId.Value, player.RoomId, world.CurrentDate.DayOfWeek, world.CurrentDate.TimeOfDay, CancellationToken.None);
     }
     else
     {
