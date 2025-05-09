@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using Xunit;
-
-namespace TextRpg.Domain.Tests;
+﻿namespace TextRpg.Domain.Tests;
 
 public class ExplorationActionTests
 {
@@ -12,15 +9,18 @@ public class ExplorationActionTests
   {
     // Arrange
     var locationId = Guid.NewGuid();
-    var label = "Search the Cave";
+    var roomId = Guid.NewGuid();
+    const string label = "Sleep";
+    const int neededMinutes = 480;
 
     // Act
-    var action = ExplorationAction.Create(locationId, label);
+    var action = ExplorationAction.Create(locationId, roomId, label, 480);
 
     // Assert
     action.Should().NotBeNull();
     action.Id.Should().NotBe(Guid.Empty);
     action.LocationId.Should().Be(locationId);
+    action.RoomId.Should().Be(roomId);
     action.Label.Should().Be(label);
   }
 
@@ -30,16 +30,20 @@ public class ExplorationActionTests
     // Arrange
     var id = Guid.NewGuid();
     var locationId = Guid.NewGuid();
-    var label = "Talk to the Merchant";
+    var roomId = Guid.NewGuid();
+    const string label = "Sleep";
+    const int neededMinutes = 480;
 
     // Act
-    var action = ExplorationAction.Load(id, locationId, label);
+    var action = ExplorationAction.Load(id, locationId, roomId, label, neededMinutes);
 
     // Assert
     action.Should().NotBeNull();
     action.Id.Should().Be(id);
     action.LocationId.Should().Be(locationId);
+    action.RoomId.Should().Be(roomId);
     action.Label.Should().Be(label);
+    action.NeededMinutes.Should().Be(neededMinutes);
   }
 
   #endregion

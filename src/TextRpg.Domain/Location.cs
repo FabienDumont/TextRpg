@@ -17,6 +17,11 @@ public class Location
   /// </summary>
   public string Name { get; set; }
 
+  /// <summary>
+  ///   Flag is the location always open.
+  /// </summary>
+  public bool IsAlwaysOpen { get; set; }
+
   #endregion
 
   #region Ctors
@@ -24,10 +29,11 @@ public class Location
   /// <summary>
   ///   Private constructor used internally.
   /// </summary>
-  private Location(Guid id, string name)
+  private Location(Guid id, string name, bool isAlwaysOpen)
   {
     Id = id;
     Name = name;
+    IsAlwaysOpen = isAlwaysOpen;
   }
 
   #endregion
@@ -37,17 +43,17 @@ public class Location
   /// <summary>
   ///   Factory method to create a new instance.
   /// </summary>
-  public static Location Create(string name)
+  public static Location Create(string name, bool isAlwaysOpen)
   {
-    return new Location(Guid.NewGuid(), name);
+    return new Location(Guid.NewGuid(), name, isAlwaysOpen);
   }
 
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
-  public static Location Load(Guid id, string name)
+  public static Location Load(Guid id, string name, bool isAlwaysOpen)
   {
-    return new Location(id, name);
+    return new Location(id, name, isAlwaysOpen);
   }
 
   #endregion

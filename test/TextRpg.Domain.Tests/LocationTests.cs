@@ -8,12 +8,13 @@ public class LocationTests
   public void Create_ShouldInitialize()
   {
     // Act
-    var location = Location.Create(string.Empty);
+    var location = Location.Create(string.Empty, true);
 
     // Assert
     location.Should().NotBeNull();
     location.Id.Should().NotBe(Guid.Empty);
     location.Name.Should().Be(string.Empty);
+    location.IsAlwaysOpen.Should().Be(true);
   }
 
   [Fact]
@@ -22,13 +23,15 @@ public class LocationTests
     // Arrange
     var id = Guid.NewGuid();
     const string name = "Home";
+    const bool isAlwaysOpen = true;
 
     // Act
-    var location = Location.Load(id, name);
+    var location = Location.Load(id, name, isAlwaysOpen);
 
     // Assert
     location.Id.Should().Be(id);
     location.Name.Should().Be(name);
+    location.IsAlwaysOpen.Should().Be(isAlwaysOpen);
   }
 
   #endregion

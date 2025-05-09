@@ -12,29 +12,20 @@ public class LocationDataModelTests
     // Arrange
     var id = Guid.NewGuid();
     const string name = "Home";
-    var rooms = new List<RoomDataModel>
-    {
-      new()
-      {
-        Id = Guid.NewGuid(),
-        Name = "Test Room",
-        LocationId = id,
-        IsPlayerSpawn = true
-      }
-    };
+    const bool isAlwaysOpen = true;
 
     // Act
     var location = new LocationDataModel
     {
       Id = id,
       Name = name,
-      Rooms = rooms
+      IsAlwaysOpen = isAlwaysOpen
     };
 
     // Assert
     location.Id.Should().Be(id);
     location.Name.Should().Be(name);
-    location.Rooms.Should().BeEquivalentTo(rooms);
+    location.IsAlwaysOpen.Should().Be(isAlwaysOpen);
   }
 
   #endregion

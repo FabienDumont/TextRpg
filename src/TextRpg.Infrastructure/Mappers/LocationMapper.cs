@@ -17,7 +17,7 @@ public static class LocationMapper
   /// </summary>
   public static Location ToDomain(this LocationDataModel dataModel)
   {
-    return dataModel.Map(i => Location.Load(i.Id, i.Name));
+    return dataModel.Map(i => Location.Load(i.Id, i.Name, i.IsAlwaysOpen));
   }
 
   /// <summary>
@@ -36,7 +36,8 @@ public static class LocationMapper
     return domain.Map(u => new LocationDataModel
       {
         Id = u.Id,
-        Name = u.Name
+        Name = u.Name,
+        IsAlwaysOpen = u.IsAlwaysOpen
       }
     );
   }

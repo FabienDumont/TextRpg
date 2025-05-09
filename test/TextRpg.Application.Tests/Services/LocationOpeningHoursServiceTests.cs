@@ -13,12 +13,16 @@ public class LocationOpeningHoursServiceTests
 
   #endregion
 
+  #region Ctors
+
   #region Ctor
 
   public LocationOpeningHoursServiceTests()
   {
     _service = new LocationOpeningHoursService(_repository);
   }
+
+  #endregion
 
   #endregion
 

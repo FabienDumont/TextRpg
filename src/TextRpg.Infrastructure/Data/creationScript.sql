@@ -74,9 +74,20 @@ CREATE TABLE DialogueResultLines
 
 CREATE TABLE Locations
 (
-  Id   TEXT PRIMARY KEY,
-  Name TEXT NOT NULL
+  Id           TEXT PRIMARY KEY,
+  Name         TEXT    NOT NULL,
+  IsAlwaysOpen INTEGER NOT NULL
 );
+
+CREATE TABLE LocationOpeningHours
+(
+  Id         TEXT PRIMARY KEY,
+  LocationId TEXT    NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
+  DayOfWeek  INTEGER NOT NULL,
+  OpensAt    TEXT    NOT NULL,
+  ClosesAt   TEXT    NOT NULL
+);
+
 
 CREATE TABLE Rooms
 (
@@ -89,9 +100,9 @@ CREATE TABLE Rooms
 CREATE TABLE Movements
 (
   Id             TEXT PRIMARY KEY,
-  FromRoomId     TEXT,
+  FromRoomId     TEXT REFERENCES Rooms (Id) ON DELETE CASCADE,
   FromLocationId TEXT NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
-  ToRoomId       TEXT,
+  ToRoomId       TEXT REFERENCES Rooms (Id) ON DELETE CASCADE,
   ToLocationId   TEXT NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
   RequiredItemId TEXT
 );
@@ -109,3 +120,13 @@ CREATE TABLE Narrations
   Key  TEXT NOT NULL,
   Text TEXT NOT NULL
 );
+
+CREATE TABLE ExplorationActions
+(
+  Id            TEXT PRIMARY KEY,
+  LocationId    TEXT    NOT NULL REFERENCES Locations (Id) ON DELETE CASCADE,
+  RoomId        TEXT    REFERENCES Rooms (Id) ON DELETE SET NULL,
+  Text          TEXT    NOT NULL,
+  NeededMinutes INTEGER NOT NULL
+);
+

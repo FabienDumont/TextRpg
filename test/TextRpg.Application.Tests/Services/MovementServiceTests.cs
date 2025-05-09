@@ -8,9 +8,10 @@ public class MovementServiceTests
 {
   #region Fields
 
+  private readonly ILocationService _locationService = A.Fake<ILocationService>();
+
   private readonly IMovementRepository _repository = A.Fake<IMovementRepository>();
   private readonly MovementService _service;
-  private readonly ILocationOpeningHoursService _locationOpeningHoursService = A.Fake<ILocationOpeningHoursService>();
 
   #endregion
 
@@ -18,7 +19,7 @@ public class MovementServiceTests
 
   public MovementServiceTests()
   {
-    _service = new MovementService(_repository, _locationOpeningHoursService);
+    _service = new MovementService(_repository, _locationService);
   }
 
   #endregion
@@ -43,11 +44,11 @@ public class MovementServiceTests
 
     A.CallTo(() => _repository.GetMovementsAsync(currentLocationId, currentRoomId, A<CancellationToken>._))
       .Returns(Task.FromResult(expectedMovements));
-    A.CallTo(() => _locationOpeningHoursService.IsLocationOpenAsync(
+    A.CallTo(() => _locationService.IsLocationOpenAsync(
         destinationLocation1Id, dayOfWeek, timeOfDay, CancellationToken.None
       )
     ).Returns(true);
-    A.CallTo(() => _locationOpeningHoursService.IsLocationOpenAsync(
+    A.CallTo(() => _locationService.IsLocationOpenAsync(
         destinationLocation2Id, dayOfWeek, timeOfDay, CancellationToken.None
       )
     ).Returns(true);
@@ -68,7 +69,7 @@ public class MovementServiceTests
     // Arrange
     var currentLocationId = Guid.NewGuid();
     var currentRoomId = Guid.NewGuid();
-    var dayOfWeek = DayOfWeek.Monday;
+    const DayOfWeek dayOfWeek = DayOfWeek.Monday;
     var timeOfDay = new TimeSpan(8, 0, 0);
 
     A.CallTo(() => _repository.GetMovementsAsync(currentLocationId, currentRoomId, A<CancellationToken>._))

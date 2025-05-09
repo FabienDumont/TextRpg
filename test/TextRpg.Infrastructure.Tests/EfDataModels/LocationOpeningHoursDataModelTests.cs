@@ -2,7 +2,7 @@
 
 namespace TextRpg.Infrastructure.Tests.EfDataModels;
 
-public class RoomDataModelTests
+public class LocationOpeningHoursDataModelTests
 {
   #region Methods
 
@@ -12,7 +12,8 @@ public class RoomDataModelTests
     // Arrange
     var roomId = Guid.NewGuid();
     var locationId = Guid.NewGuid();
-    const string roomName = "Bedroom";
+    var opensAt = new TimeSpan(8, 0, 0);
+    var closesAt = new TimeSpan(10, 0, 0);
 
     var location = new LocationDataModel
     {
@@ -22,21 +23,22 @@ public class RoomDataModelTests
     };
 
     // Act
-    var room = new RoomDataModel
+    var openingHours = new LocationOpeningHoursDataModel
     {
       Id = roomId,
       LocationId = locationId,
-      Name = roomName,
-      IsPlayerSpawn = false,
+      DayOfWeek = DayOfWeek.Monday,
+      OpensAt = opensAt,
+      ClosesAt = closesAt,
       Location = location
     };
 
     // Assert
-    room.Id.Should().Be(roomId);
-    room.Name.Should().Be(roomName);
-    room.LocationId.Should().Be(locationId);
-    room.IsPlayerSpawn.Should().Be(false);
-    room.Location.Should().Be(location);
+    openingHours.Id.Should().Be(roomId);
+    openingHours.LocationId.Should().Be(locationId);
+    openingHours.OpensAt.Should().Be(opensAt);
+    openingHours.ClosesAt.Should().Be(closesAt);
+    openingHours.Location.Should().Be(location);
   }
 
   #endregion

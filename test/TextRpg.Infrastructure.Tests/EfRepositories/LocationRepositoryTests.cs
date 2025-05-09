@@ -21,8 +21,8 @@ public class LocationRepositoryTests
   {
     _locationDataModels =
     [
-      new LocationDataModel {Id = Guid.NewGuid(), Name = "Home"},
-      new LocationDataModel {Id = Guid.NewGuid(), Name = "Street"}
+      new LocationDataModel {Id = Guid.NewGuid(), Name = "Home", IsAlwaysOpen = true},
+      new LocationDataModel {Id = Guid.NewGuid(), Name = "Street", IsAlwaysOpen = true}
     ];
 
     _context = A.Fake<ApplicationContext>();

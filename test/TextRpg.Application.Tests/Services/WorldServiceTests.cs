@@ -38,7 +38,7 @@ public class WorldServiceTests
     var playerCharacter = CharacterHelper.GetBasicPlayerCharacter();
     var randomCharacters = new List<Character>();
     var gameSettings = GameSettings.Create(10);
-    var location = Location.Create("Home");
+    var location = Location.Create("Home", true);
     var room = Room.Create(location.Id, "Living room", true);
 
     A.CallTo(() => _roomService.GetPlayerSpawnAsync(CancellationToken.None)).Returns(room);

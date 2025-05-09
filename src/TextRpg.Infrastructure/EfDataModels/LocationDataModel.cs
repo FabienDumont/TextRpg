@@ -29,9 +29,11 @@ public class LocationDataModel
   public required string Name { get; set; }
 
   /// <summary>
-  ///   List of rooms associated with this location.
+  ///   Flag is the location always open.
   /// </summary>
-  public List<RoomDataModel> Rooms { get; set; } = [];
+  [Column("IsAlwaysOpen", Order = 3)]
+  [Required]
+  public required bool IsAlwaysOpen { get; set; }
 
   #endregion
 }

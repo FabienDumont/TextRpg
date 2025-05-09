@@ -28,6 +28,11 @@ public class ApplicationContext : DbContext
   public virtual DbSet<LocationDataModel> Locations { get; init; }
 
   /// <summary>
+  ///   Represents all locations' opening hours in the world.
+  /// </summary>
+  public virtual DbSet<LocationOpeningHoursDataModel> LocationOpeningHours { get; init; }
+
+  /// <summary>
   ///   Represents rooms inside locations.
   /// </summary>
   public virtual DbSet<RoomDataModel> Rooms { get; init; }
@@ -46,6 +51,11 @@ public class ApplicationContext : DbContext
   ///   Represents narration texts.
   /// </summary>
   public virtual DbSet<NarrationDataModel> Narrations { get; init; }
+
+  /// <summary>
+  ///   Represents narration texts.
+  /// </summary>
+  public virtual DbSet<ExplorationActionDataModel> ExplorationActions { get; init; }
 
   #endregion
 
@@ -213,9 +223,12 @@ public class ApplicationContext : DbContext
   {
     var homeId = Guid.NewGuid();
     var streetId = Guid.NewGuid();
+    var collegeId = Guid.NewGuid();
 
     await Locations.AddRangeAsync(
-      new LocationDataModel {Id = homeId, Name = "Home"}, new LocationDataModel {Id = streetId, Name = "Street"}
+      new LocationDataModel {Id = homeId, Name = "Home", IsAlwaysOpen = true},
+      new LocationDataModel {Id = streetId, Name = "Street", IsAlwaysOpen = true},
+      new LocationDataModel {Id = collegeId, Name = "College", IsAlwaysOpen = false}
     );
 
     var bedroomId = Guid.NewGuid();
@@ -225,6 +238,8 @@ public class ApplicationContext : DbContext
       new RoomDataModel {Id = bedroomId, LocationId = homeId, Name = "Bedroom", IsPlayerSpawn = true},
       new RoomDataModel {Id = livingRoomId, LocationId = homeId, Name = "Living Room", IsPlayerSpawn = false}
     );
+
+    await SaveChangesAsync().ConfigureAwait(false);
 
     var movementHomeLivingRoomToHomeBedroom = new MovementDataModel
     {
@@ -262,13 +277,58 @@ public class ApplicationContext : DbContext
       ToRoomId = livingRoomId,
       RequiredItemId = null
     };
+    var movementStreetToCollege = new MovementDataModel
+    {
+      Id = Guid.NewGuid(),
+      FromLocationId = streetId,
+      FromRoomId = null,
+      ToLocationId = collegeId,
+      ToRoomId = null,
+      RequiredItemId = null
+    };
+    var movementCollegeToStreet = new MovementDataModel
+    {
+      Id = Guid.NewGuid(),
+      FromLocationId = collegeId,
+      FromRoomId = null,
+      ToLocationId = streetId,
+      ToRoomId = null,
+      RequiredItemId = null
+    };
 
     await Movements.AddRangeAsync(
       movementHomeLivingRoomToHomeBedroom, movementHomeBedroomToHomeLivingRoom, movementHomeLivingRoomToStreet,
-      movementStreetToHomeLivingRoom
+      movementStreetToHomeLivingRoom, movementStreetToCollege, movementCollegeToStreet
     );
 
     await SaveChangesAsync().ConfigureAwait(false);
+
+    await ExplorationActions.AddRangeAsync(
+      new ExplorationActionDataModel
+      {
+        Id = Guid.NewGuid(),
+        LocationId = homeId,
+        RoomId = bedroomId,
+        Label = "Sleep for 8 hours",
+        NeededMinutes = 480
+      }
+    );
+
+    var openingHours =
+      new[] {DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday}
+        .Select(day => new LocationOpeningHoursDataModel
+          {
+            Id = Guid.NewGuid(),
+            LocationId = collegeId,
+            DayOfWeek = day,
+            OpensAt = new TimeSpan(8, 0, 0),
+            ClosesAt = new TimeSpan(18, 0, 0)
+          }
+        ).ToList();
+
+    await LocationOpeningHours.AddRangeAsync(openingHours);
+
+    const string streetMovementNarration = "You step outside to the street.";
 
     await MovementNarrations.AddRangeAsync(
       new MovementNarrationDataModel
@@ -285,12 +345,22 @@ public class ApplicationContext : DbContext
       {
         Id = Guid.NewGuid(),
         MovementId = movementHomeLivingRoomToStreet.Id,
-        Text = "You step outside to the street."
+        Text = streetMovementNarration
       }, new MovementNarrationDataModel
       {
         Id = Guid.NewGuid(),
         MovementId = movementStreetToHomeLivingRoom.Id,
         Text = "You return to your home."
+      }, new MovementNarrationDataModel
+      {
+        Id = Guid.NewGuid(),
+        MovementId = movementStreetToCollege.Id,
+        Text = "You enter the college."
+      }, new MovementNarrationDataModel
+      {
+        Id = Guid.NewGuid(),
+        MovementId = movementCollegeToStreet.Id,
+        Text = streetMovementNarration
       }
     );
 

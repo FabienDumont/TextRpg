@@ -19,8 +19,6 @@ public class MovementRepositoryTests
 
   #region Ctors
 
-  #region Ctor
-
   public MovementRepositoryTests()
   {
     List<MovementDataModel> movementDataModels =
@@ -56,8 +54,6 @@ public class MovementRepositoryTests
 
     _repository = new MovementRepository(context);
   }
-
-  #endregion
 
   #endregion
 
