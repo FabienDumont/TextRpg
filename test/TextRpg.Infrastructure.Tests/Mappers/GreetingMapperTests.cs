@@ -13,17 +13,11 @@ public class GreetingMapperTests
   {
     // Arrange
     var id = Guid.NewGuid();
-    int? minRel = 10;
-    int? maxRel = 80;
-    Guid? hasTrait = Guid.NewGuid();
     const string spokenText = "Yo, what’s up?";
 
     var dataModel = new GreetingDataModel
     {
       Id = id,
-      MinRelationship = minRel,
-      MaxRelationship = maxRel,
-      HasTrait = hasTrait,
       SpokenText = spokenText
     };
 
@@ -32,9 +26,6 @@ public class GreetingMapperTests
 
     // Assert
     Assert.Equal(id, domain.Id);
-    Assert.Equal(minRel, domain.MinRelationship);
-    Assert.Equal(maxRel, domain.MaxRelationship);
-    Assert.Equal(hasTrait, domain.HasTrait);
     Assert.Equal(spokenText, domain.SpokenText);
   }
 
@@ -47,17 +38,11 @@ public class GreetingMapperTests
       new()
       {
         Id = Guid.NewGuid(),
-        MinRelationship = 0,
-        MaxRelationship = 50,
-        HasTrait = Guid.NewGuid(),
         SpokenText = "Hey"
       },
       new()
       {
         Id = Guid.NewGuid(),
-        MinRelationship = null,
-        MaxRelationship = null,
-        HasTrait = null,
         SpokenText = "Hi there"
       }
     };
@@ -71,9 +56,6 @@ public class GreetingMapperTests
     for (var i = 0; i < domainModels.Count; i++)
     {
       Assert.Equal(dataModels[i].Id, domainModels[i].Id);
-      Assert.Equal(dataModels[i].MinRelationship, domainModels[i].MinRelationship);
-      Assert.Equal(dataModels[i].MaxRelationship, domainModels[i].MaxRelationship);
-      Assert.Equal(dataModels[i].HasTrait, domainModels[i].HasTrait);
       Assert.Equal(dataModels[i].SpokenText, domainModels[i].SpokenText);
     }
   }
@@ -83,21 +65,15 @@ public class GreetingMapperTests
   {
     // Arrange
     var id = Guid.NewGuid();
-    int? minRel = 5;
-    int? maxRel = 95;
-    Guid? hasTrait = Guid.NewGuid();
     const string spokenText = "Welcome, traveler.";
 
-    var domain = Greeting.Load(id, minRel, maxRel, hasTrait, spokenText);
+    var domain = Greeting.Load(id, spokenText);
 
     // Act
     var dataModel = domain.ToDataModel();
 
     // Assert
     Assert.Equal(id, dataModel.Id);
-    Assert.Equal(minRel, dataModel.MinRelationship);
-    Assert.Equal(maxRel, dataModel.MaxRelationship);
-    Assert.Equal(hasTrait, dataModel.HasTrait);
     Assert.Equal(spokenText, dataModel.SpokenText);
   }
 

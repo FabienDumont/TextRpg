@@ -14,13 +14,24 @@ CREATE TABLE IncompatibleTraits
 
 CREATE TABLE Greetings
 (
-  Id              TEXT PRIMARY KEY,
-  MinRelationship INTEGER,
-  MaxRelationship INTEGER,
-  HasTrait        TEXT REFERENCES Traits (Id) ON DELETE CASCADE,
-  SpokenText      TEXT,
-  EndChat         BOOLEAN DEFAULT 0 NOT NULL,
-  CHECK (MaxRelationship IS NULL OR MinRelationship <= MaxRelationship)
+  Id         TEXT PRIMARY KEY,
+  SpokenText TEXT,
+  EndChat    BOOLEAN DEFAULT 0 NOT NULL
+);
+
+CREATE TABLE Conditions
+(
+  Id            TEXT PRIMARY KEY,
+  ContextType   TEXT              NOT NULL, -- 'Greeting', 'DialogueOption', etc.
+  ContextId     TEXT              NOT NULL, -- Id of the Greeting or DialogueOption
+
+  ConditionType TEXT              NOT NULL, -- 'HasTrait', 'Relationship', etc.
+  OperandLeft   TEXT,
+  Operator      TEXT              NOT NULL,
+  OperandRight  TEXT,
+  Negate        BOOLEAN DEFAULT 0 NOT NULL,
+
+  CHECK (ContextType IN ('Greeting', 'DialogueOption'))
 );
 
 CREATE TABLE DialoguesOptions
@@ -28,16 +39,7 @@ CREATE TABLE DialoguesOptions
   Id            TEXT PRIMARY KEY,
   DisplayedText TEXT,
   ParentId      TEXT REFERENCES DialoguesOptions (Id) ON DELETE CASCADE,
-  TimeOfDay     TEXT,
-  Location      TEXT,
   HasFollowUp   BOOLEAN DEFAULT 0 NOT NULL
-);
-
-CREATE TABLE DialogueOptionPersonalities
-(
-  DialogueOptionId TEXT NOT NULL REFERENCES DialoguesOptions (Id) ON DELETE CASCADE,
-  PersonalityId    TEXT NOT NULL REFERENCES Traits (Id) ON DELETE CASCADE,
-  PRIMARY KEY (DialogueOptionId, PersonalityId)
 );
 
 CREATE TABLE DialogueLines

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TextRpg.Application.Repositories;
 using TextRpg.Domain;
+using TextRpg.Infrastructure.Helper;
 using TextRpg.Infrastructure.Mappers;
 
 namespace TextRpg.Infrastructure.EfRepositories;
@@ -17,11 +18,25 @@ public class GreetingRepository(ApplicationContext context) : RepositoryBase(con
     int relationshipLevel, IEnumerable<Trait> traits, CancellationToken cancellationToken
   )
   {
-    var greetingDataModel = await Context.Greetings
-      .Where(greeting => relationshipLevel >= greeting.MinRelationship && relationshipLevel < greeting.MaxRelationship)
-      .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+    // Load all greetings from DB
+    var allGreetings = await Context.Greetings.ToListAsync(cancellationToken);
 
-    return greetingDataModel?.ToDomain();
+    // Load all "Greeting" conditions
+    var allConditions = await Context.Conditions.Where(c => c.ContextType == "Greeting").ToListAsync(cancellationToken);
+
+    // Evaluate each greeting by attaching its conditions and testing them
+    foreach (var greeting in allGreetings)
+    {
+      var conditions = allConditions.Where(c => c.ContextId == greeting.Id);
+
+      var allSatisfied = conditions.All(condition =>
+        ConditionEvaluator.EvaluateCondition(condition, relationshipLevel, traits)
+      );
+
+      if (allSatisfied) return greeting.ToDomain();
+    }
+
+    return null;
   }
 
   #endregion

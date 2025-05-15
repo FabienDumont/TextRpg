@@ -13,21 +13,6 @@ public class Greeting
   public Guid Id { get; }
 
   /// <summary>
-  ///   Minimum relationship level required to trigger the greeting (inclusive).
-  /// </summary>
-  public int? MinRelationship { get; }
-
-  /// <summary>
-  ///   Maximum relationship level allowed to trigger the greeting (exclusive).
-  /// </summary>
-  public int? MaxRelationship { get; }
-
-  /// <summary>
-  ///   Trait required for this greeting to be used (optional).
-  /// </summary>
-  public Guid? HasTrait { get; }
-
-  /// <summary>
   ///   Text spoken when the greeting is triggered.
   /// </summary>
   public string SpokenText { get; }
@@ -39,12 +24,9 @@ public class Greeting
   /// <summary>
   ///   Private constructor used internally.
   /// </summary>
-  private Greeting(Guid id, int? minRelationship, int? maxRelationship, Guid? hasTrait, string spokenText)
+  private Greeting(Guid id, string spokenText)
   {
     Id = id;
-    MinRelationship = minRelationship;
-    MaxRelationship = maxRelationship;
-    HasTrait = hasTrait;
     SpokenText = spokenText;
   }
 
@@ -55,17 +37,17 @@ public class Greeting
   /// <summary>
   ///   Factory method to create a new instance.
   /// </summary>
-  public static Greeting Create(int? minRelationship, int? maxRelationship, Guid? hasTrait, string spokenText)
+  public static Greeting Create(string spokenText)
   {
-    return new Greeting(Guid.NewGuid(), minRelationship, maxRelationship, hasTrait, spokenText);
+    return new Greeting(Guid.NewGuid(), spokenText);
   }
 
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
-  public static Greeting Load(Guid id, int? minRelationship, int? maxRelationship, Guid? hasTrait, string spokenText)
+  public static Greeting Load(Guid id, string spokenText)
   {
-    return new Greeting(id, minRelationship, maxRelationship, hasTrait, spokenText);
+    return new Greeting(id, spokenText);
   }
 
   #endregion

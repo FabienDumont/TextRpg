@@ -9,8 +9,8 @@ public class GreetingRepositoryTests
 {
   #region Fields
 
-  private readonly ApplicationContext _context;
   private readonly List<GreetingDataModel> _greetingData = [];
+  private readonly List<ConditionDataModel> _conditionData = [];
   private readonly GreetingRepository _repository;
 
   #endregion
@@ -19,13 +19,17 @@ public class GreetingRepositoryTests
 
   public GreetingRepositoryTests()
   {
-    _context = A.Fake<ApplicationContext>();
+    var context = A.Fake<ApplicationContext>();
 
     var greetingDbSet = _greetingData.AsQueryable().BuildMockDbSet();
-    A.CallTo(() => _context.Greetings).Returns(greetingDbSet);
-    A.CallTo(() => _context.SaveChangesAsync(A<CancellationToken>._)).Returns(Task.FromResult(1));
+    A.CallTo(() => context.Greetings).Returns(greetingDbSet);
 
-    _repository = new GreetingRepository(_context);
+    var conditionDbSet = _conditionData.AsQueryable().BuildMockDbSet();
+    A.CallTo(() => context.Conditions).Returns(conditionDbSet);
+
+    A.CallTo(() => context.SaveChangesAsync(A<CancellationToken>._)).Returns(Task.FromResult(1));
+
+    _repository = new GreetingRepository(context);
   }
 
   #endregion
@@ -39,20 +43,16 @@ public class GreetingRepositoryTests
     var greeting = new GreetingDataModel
     {
       Id = Guid.NewGuid(),
-      MinRelationship = 10,
-      MaxRelationship = 20,
-      HasTrait = null,
       SpokenText = "Yo!"
     };
 
     _greetingData.Clear();
     _greetingData.Add(greeting);
 
-    var traits = Enumerable.Empty<Trait>();
-    var relationshipLevel = 15;
+    _conditionData.Clear();
 
-    var dbSet = _greetingData.AsQueryable().BuildMockDbSet();
-    A.CallTo(() => _context.Greetings).Returns(dbSet);
+    var traits = Enumerable.Empty<Trait>();
+    const int relationshipLevel = 15;
 
     // Act
     var result = await _repository.GetByRelationshipLevelAsync(relationshipLevel, traits, CancellationToken.None);
@@ -64,26 +64,39 @@ public class GreetingRepositoryTests
   }
 
   [Fact]
-  public async Task GetByRelationshipLevelAsync_ShouldReturnNull_WhenNoMatchExists()
+  public async Task GetByRelationshipLevelAsync_ShouldReturnNull_WhenConditionsNotMet()
   {
     // Arrange
+    var greetingId = Guid.NewGuid();
+
+    var greeting = new GreetingDataModel
+    {
+      Id = greetingId,
+      SpokenText = "Leave me alone!"
+    };
+
     _greetingData.Clear();
-    _greetingData.Add(
-      new GreetingDataModel
+    _greetingData.Add(greeting);
+
+    _conditionData.Clear();
+    _conditionData.Add(
+      new ConditionDataModel
       {
         Id = Guid.NewGuid(),
-        MinRelationship = 50,
-        MaxRelationship = 100,
-        HasTrait = null,
-        SpokenText = "Hey there"
+        ContextType = "Greeting",
+        ContextId = greetingId,
+        ConditionType = "Relationship",
+        Operator = ">",
+        OperandRight = "50",
+        Negate = false
       }
     );
 
-    var dbSet = _greetingData.AsQueryable().BuildMockDbSet();
-    A.CallTo(() => _context.Greetings).Returns(dbSet);
+    var traits = Enumerable.Empty<Trait>();
+    const int relationshipLevel = 10;
 
     // Act
-    var result = await _repository.GetByRelationshipLevelAsync(10, [], CancellationToken.None);
+    var result = await _repository.GetByRelationshipLevelAsync(relationshipLevel, traits, CancellationToken.None);
 
     // Assert
     Assert.Null(result);

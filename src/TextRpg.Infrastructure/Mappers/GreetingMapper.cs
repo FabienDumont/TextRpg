@@ -17,7 +17,7 @@ public static class GreetingMapper
   /// </summary>
   public static Greeting ToDomain(this GreetingDataModel dataModel)
   {
-    return dataModel.Map(i => Greeting.Load(i.Id, i.MinRelationship, i.MaxRelationship, i.HasTrait, i.SpokenText));
+    return dataModel.Map(i => Greeting.Load(i.Id, i.SpokenText));
   }
 
   /// <summary>
@@ -36,9 +36,6 @@ public static class GreetingMapper
     return domain.Map(u => new GreetingDataModel
       {
         Id = u.Id,
-        MinRelationship = u.MinRelationship,
-        MaxRelationship = u.MaxRelationship,
-        HasTrait = u.HasTrait,
         SpokenText = u.SpokenText
       }
     );

@@ -24,6 +24,11 @@ public class ApplicationContext : DbContext
   public virtual DbSet<GreetingDataModel> Greetings { get; init; }
 
   /// <summary>
+  ///   Represents all conditions used in NPC interactions.
+  /// </summary>
+  public virtual DbSet<ConditionDataModel> Conditions { get; init; }
+
+  /// <summary>
   ///   Represents all locations in the world.
   /// </summary>
   public virtual DbSet<LocationDataModel> Locations { get; init; }
