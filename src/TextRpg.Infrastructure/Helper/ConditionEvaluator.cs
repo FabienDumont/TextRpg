@@ -12,17 +12,14 @@ public static class ConditionEvaluator
   ///   Evaluates a single condition using the provided game state.
   /// </summary>
   /// <param name="condition">The condition to evaluate.</param>
-  /// <param name="relationshipLevel">The current relationship value to compare against.</param>
-  /// <param name="traits">The list of traits the player or NPC has.</param>
+  /// <param name="actor">The acting character.</param>
   /// <returns>True if the condition is met; otherwise, false.</returns>
-  public static bool EvaluateCondition(ConditionDataModel condition, int relationshipLevel, IEnumerable<Trait> traits)
+  public static bool EvaluateCondition(ConditionDataModel condition, Character actor)
   {
     return condition.ConditionType switch
     {
-      "Relationship" => CompareInt(
-        relationshipLevel, condition.Operator, int.Parse(condition.OperandRight!), condition.Negate
-      ),
-      "HasTrait" => EvaluateHasTrait(condition, traits),
+      "Energy" => CompareInt(actor.Energy, condition.Operator, int.Parse(condition.OperandRight!), condition.Negate),
+      "HasTrait" => EvaluateHasTrait(condition, actor.TraitsId),
       _ => true
     };
   }
@@ -31,12 +28,11 @@ public static class ConditionEvaluator
   ///   Evaluates a "HasTrait" condition by checking if the provided traits include the required trait.
   /// </summary>
   /// <param name="condition">The trait-based condition to evaluate.</param>
-  /// <param name="traits">The list of traits to search within.</param>
+  /// <param name="traitIds">The list of traits identifiers to search within.</param>
   /// <returns>True if the trait condition is met; otherwise, false.</returns>
-  private static bool EvaluateHasTrait(ConditionDataModel condition, IEnumerable<Trait> traits)
+  private static bool EvaluateHasTrait(ConditionDataModel condition, IEnumerable<Guid> traitIds)
   {
-    var hasTrait = Guid.TryParse(condition.OperandLeft, out var traitId) && traits.Any(t => t.Id == traitId);
-
+    var hasTrait = Guid.TryParse(condition.OperandLeft, out var traitId) && traitIds.Contains(traitId);
     return condition.Negate ? !hasTrait : hasTrait;
   }
 

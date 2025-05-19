@@ -1,5 +1,5 @@
 ﻿using MockQueryable.FakeItEasy;
-using TextRpg.Domain;
+using TextRpg.Domain.Tests.Helpers;
 using TextRpg.Infrastructure.EfDataModels;
 using TextRpg.Infrastructure.EfRepositories;
 
@@ -37,7 +37,7 @@ public class GreetingRepositoryTests
   #region Methods
 
   [Fact]
-  public async Task GetByRelationshipLevelAsync_ShouldReturnGreeting_WhenMatchExists()
+  public async Task GetAsync_ShouldReturnGreeting_WhenMatchExists()
   {
     // Arrange
     var greeting = new GreetingDataModel
@@ -51,11 +51,10 @@ public class GreetingRepositoryTests
 
     _conditionData.Clear();
 
-    var traits = Enumerable.Empty<Trait>();
-    const int relationshipLevel = 15;
+    var character = CharacterHelper.GetBasicPlayerCharacter();
 
     // Act
-    var result = await _repository.GetByRelationshipLevelAsync(relationshipLevel, traits, CancellationToken.None);
+    var result = await _repository.GetAsync(character, CancellationToken.None);
 
     // Assert
     Assert.NotNull(result);
@@ -64,7 +63,7 @@ public class GreetingRepositoryTests
   }
 
   [Fact]
-  public async Task GetByRelationshipLevelAsync_ShouldReturnNull_WhenConditionsNotMet()
+  public async Task GetAsync_ShouldReturnNull_WhenConditionsNotMet()
   {
     // Arrange
     var greetingId = Guid.NewGuid();
@@ -82,21 +81,20 @@ public class GreetingRepositoryTests
     _conditionData.Add(
       new ConditionDataModel
       {
-        Id = Guid.NewGuid(),
+        ConditionType = "HasTrait",
+        OperandLeft = Guid.NewGuid().ToString(),
+        Operator = "=",
+        OperandRight = "true",
+        Negate = false,
         ContextType = "Greeting",
-        ContextId = greetingId,
-        ConditionType = "Relationship",
-        Operator = ">",
-        OperandRight = "50",
-        Negate = false
+        ContextId = greeting.Id
       }
     );
 
-    var traits = Enumerable.Empty<Trait>();
-    const int relationshipLevel = 10;
+    var character = CharacterHelper.GetBasicPlayerCharacter();
 
     // Act
-    var result = await _repository.GetByRelationshipLevelAsync(relationshipLevel, traits, CancellationToken.None);
+    var result = await _repository.GetAsync(character, CancellationToken.None);
 
     // Assert
     Assert.Null(result);

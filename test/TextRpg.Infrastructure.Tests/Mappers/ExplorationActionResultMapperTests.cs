@@ -19,10 +19,6 @@ public class ExplorationActionResultMapperTests
     {
       Id = id,
       ExplorationActionId = actionId,
-      MinEnergy = 10,
-      MaxEnergy = 90,
-      MinMoney = 5,
-      MaxMoney = 50,
       AddMinutes = true,
       EnergyChange = 20,
       MoneyChange = -10
@@ -35,10 +31,6 @@ public class ExplorationActionResultMapperTests
     Assert.NotNull(domain);
     Assert.Equal(id, domain.Id);
     Assert.Equal(actionId, domain.ExplorationActionId);
-    Assert.Equal(10, domain.MinEnergy);
-    Assert.Equal(90, domain.MaxEnergy);
-    Assert.Equal(5, domain.MinMoney);
-    Assert.Equal(50, domain.MaxMoney);
     Assert.True(domain.AddMinutes);
     Assert.Equal(20, domain.EnergyChange);
     Assert.Equal(-10, domain.MoneyChange);
@@ -54,10 +46,6 @@ public class ExplorationActionResultMapperTests
       {
         Id = Guid.NewGuid(),
         ExplorationActionId = Guid.NewGuid(),
-        MinEnergy = 0,
-        MaxEnergy = 50,
-        MinMoney = 0,
-        MaxMoney = 25,
         AddMinutes = true,
         EnergyChange = 10,
         MoneyChange = 0
@@ -66,10 +54,6 @@ public class ExplorationActionResultMapperTests
       {
         Id = Guid.NewGuid(),
         ExplorationActionId = Guid.NewGuid(),
-        MinEnergy = 51,
-        MaxEnergy = 100,
-        MinMoney = 10,
-        MaxMoney = 50,
         AddMinutes = false,
         EnergyChange = -5,
         MoneyChange = 5
@@ -85,10 +69,6 @@ public class ExplorationActionResultMapperTests
     {
       Assert.Equal(dataModels[i].Id, domains[i].Id);
       Assert.Equal(dataModels[i].ExplorationActionId, domains[i].ExplorationActionId);
-      Assert.Equal(dataModels[i].MinEnergy, domains[i].MinEnergy);
-      Assert.Equal(dataModels[i].MaxEnergy, domains[i].MaxEnergy);
-      Assert.Equal(dataModels[i].MinMoney, domains[i].MinMoney);
-      Assert.Equal(dataModels[i].MaxMoney, domains[i].MaxMoney);
       Assert.Equal(dataModels[i].AddMinutes, domains[i].AddMinutes);
       Assert.Equal(dataModels[i].EnergyChange, domains[i].EnergyChange);
       Assert.Equal(dataModels[i].MoneyChange, domains[i].MoneyChange);
@@ -102,7 +82,7 @@ public class ExplorationActionResultMapperTests
     var id = Guid.NewGuid();
     var actionId = Guid.NewGuid();
 
-    var domain = ExplorationActionResult.Load(id, actionId, 10, 90, 5, 50, true, 20, -10);
+    var domain = ExplorationActionResult.Load(id, actionId, true, 20, -10);
 
     // Act
     var dataModel = domain.ToDataModel();
@@ -111,10 +91,6 @@ public class ExplorationActionResultMapperTests
     Assert.NotNull(dataModel);
     Assert.Equal(id, dataModel.Id);
     Assert.Equal(actionId, dataModel.ExplorationActionId);
-    Assert.Equal(10, dataModel.MinEnergy);
-    Assert.Equal(90, dataModel.MaxEnergy);
-    Assert.Equal(5, dataModel.MinMoney);
-    Assert.Equal(50, dataModel.MaxMoney);
     Assert.True(dataModel.AddMinutes);
     Assert.Equal(20, dataModel.EnergyChange);
     Assert.Equal(-10, dataModel.MoneyChange);
@@ -126,8 +102,8 @@ public class ExplorationActionResultMapperTests
     // Arrange
     var domains = new List<ExplorationActionResult>
     {
-      ExplorationActionResult.Load(Guid.NewGuid(), Guid.NewGuid(), 10, 50, 5, 25, true, 15, 0),
-      ExplorationActionResult.Load(Guid.NewGuid(), Guid.NewGuid(), 60, 100, 20, 100, false, -5, 10)
+      ExplorationActionResult.Load(Guid.NewGuid(), Guid.NewGuid(), true, 15, 0),
+      ExplorationActionResult.Load(Guid.NewGuid(), Guid.NewGuid(), false, -5, 10)
     };
 
     // Act
@@ -139,10 +115,6 @@ public class ExplorationActionResultMapperTests
     {
       Assert.Equal(domains[i].Id, dataModels[i].Id);
       Assert.Equal(domains[i].ExplorationActionId, dataModels[i].ExplorationActionId);
-      Assert.Equal(domains[i].MinEnergy, dataModels[i].MinEnergy);
-      Assert.Equal(domains[i].MaxEnergy, dataModels[i].MaxEnergy);
-      Assert.Equal(domains[i].MinMoney, dataModels[i].MinMoney);
-      Assert.Equal(domains[i].MaxMoney, dataModels[i].MaxMoney);
       Assert.Equal(domains[i].AddMinutes, dataModels[i].AddMinutes);
       Assert.Equal(domains[i].EnergyChange, dataModels[i].EnergyChange);
       Assert.Equal(domains[i].MoneyChange, dataModels[i].MoneyChange);

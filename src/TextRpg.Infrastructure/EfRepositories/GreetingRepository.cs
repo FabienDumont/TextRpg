@@ -14,24 +14,17 @@ public class GreetingRepository(ApplicationContext context) : RepositoryBase(con
   #region Implementation of IGreetingRepository
 
   /// <inheritdoc />
-  public async Task<Greeting?> GetByRelationshipLevelAsync(
-    int relationshipLevel, IEnumerable<Trait> traits, CancellationToken cancellationToken
-  )
+  public async Task<Greeting?> GetAsync(Character character, CancellationToken cancellationToken)
   {
-    // Load all greetings from DB
     var allGreetings = await Context.Greetings.ToListAsync(cancellationToken);
 
-    // Load all "Greeting" conditions
     var allConditions = await Context.Conditions.Where(c => c.ContextType == "Greeting").ToListAsync(cancellationToken);
 
-    // Evaluate each greeting by attaching its conditions and testing them
     foreach (var greeting in allGreetings)
     {
       var conditions = allConditions.Where(c => c.ContextId == greeting.Id);
 
-      var allSatisfied = conditions.All(condition =>
-        ConditionEvaluator.EvaluateCondition(condition, relationshipLevel, traits)
-      );
+      var allSatisfied = conditions.All(condition => ConditionEvaluator.EvaluateCondition(condition, character));
 
       if (allSatisfied) return greeting.ToDomain();
     }

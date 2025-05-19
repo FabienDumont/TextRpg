@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TextRpg.Application.Repositories;
 using TextRpg.Domain;
+using TextRpg.Infrastructure.Helper;
 using TextRpg.Infrastructure.Mappers;
 
 namespace TextRpg.Infrastructure.EfRepositories;
@@ -18,22 +19,26 @@ public class ExplorationActionResultRepository(ApplicationContext context)
     Guid explorationActionId, Character character, CancellationToken cancellationToken
   )
   {
-    var dataModel = await Context.ExplorationActionResults.FirstOrDefaultAsync(
-      ear => ear.ExplorationActionId == explorationActionId &&
-             (ear.MinEnergy == null || character.Energy >= ear.MinEnergy) &&
-             (ear.MaxEnergy == null || character.Energy < ear.MaxEnergy) &&
-             (ear.MinMoney == null || character.Money >= ear.MinMoney) &&
-             (ear.MaxMoney == null || character.Money < ear.MaxMoney), cancellationToken
-    ).ConfigureAwait(false);
+    var results = await Context.ExplorationActionResults.Where(n => n.ExplorationActionId == explorationActionId)
+      .ToListAsync(cancellationToken);
 
-    if (dataModel is null)
+    var narrationIds = results.Select(n => n.Id).ToList();
+    var allConditions = await Context.Conditions
+      .Where(c => c.ContextType == "ExplorationActionResult" && narrationIds.Contains(c.ContextId))
+      .ToListAsync(cancellationToken);
+
+    foreach (var explorationActionResult in results)
     {
-      throw new InvalidOperationException(
-        $"No appropriate exploration action result found for exploration action {explorationActionId}."
-      );
+      var conditions = allConditions.Where(c => c.ContextId == explorationActionResult.Id);
+
+      var allSatisfied = conditions.All(condition => ConditionEvaluator.EvaluateCondition(condition, character));
+
+      if (allSatisfied) return explorationActionResult.ToDomain();
     }
 
-    return dataModel.ToDomain();
+    throw new InvalidOperationException(
+      $"No appropriate exploration action result found for exploration action {explorationActionId}."
+    );
   }
 
   #endregion

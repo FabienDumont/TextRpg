@@ -1,4 +1,4 @@
-﻿using TextRpg.Domain;
+﻿using TextRpg.Domain.Tests.Helpers;
 using TextRpg.Infrastructure.EfDataModels;
 using TextRpg.Infrastructure.Helper;
 
@@ -21,10 +21,11 @@ public class ConditionEvaluatorTests
       ContextType = "Greeting"
     };
 
-    var traits = new List<Trait> {Trait.Load(traitId, string.Empty)};
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+    character.AddTraits([traitId]);
 
     // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel: 0, traits);
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
 
     // Assert
     Assert.True(result);
@@ -44,8 +45,10 @@ public class ConditionEvaluatorTests
       ContextType = "Greeting"
     };
 
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+
     // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel: 0, new List<Trait>());
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
 
     // Assert
     Assert.False(result);
@@ -65,38 +68,13 @@ public class ConditionEvaluatorTests
       ContextType = "Greeting"
     };
 
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+
     // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel: 0, new List<Trait>());
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
 
     // Assert
     Assert.True(result);
-  }
-
-  [Theory]
-  [InlineData("=", 50, "50", true)]
-  [InlineData("!=", 50, "40", true)]
-  [InlineData(">", 50, "40", true)]
-  [InlineData("<", 50, "60", true)]
-  [InlineData(">=", 50, "50", true)]
-  [InlineData("<=", 50, "50", true)]
-  [InlineData(">", 50, "60", false)]
-  public void EvaluateCondition_Relationship_Operators_Work(string op, int level, string right, bool expected)
-  {
-    // Arrange
-    var condition = new ConditionDataModel
-    {
-      ConditionType = "Relationship",
-      Operator = op,
-      OperandRight = right,
-      Negate = false,
-      ContextType = "Greeting"
-    };
-
-    // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel: level, new List<Trait>());
-
-    // Assert
-    Assert.Equal(expected, result);
   }
 
   [Fact]
@@ -111,33 +89,65 @@ public class ConditionEvaluatorTests
       ContextType = "Greeting"
     };
 
-    const int relationshipLevel = 0;
+    var character = CharacterHelper.GetBasicPlayerCharacter();
 
     // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel, new List<Trait>());
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
 
     // Assert
     Assert.True(result);
   }
 
   [Fact]
-  public void EvaluateCondition_Relationship_UnknownOperator_ReturnsFalse()
+  public void EvaluateCondition_UnknownOperator_ReturnsFalse()
   {
     // Arrange
     var condition = new ConditionDataModel
     {
-      ConditionType = "Relationship",
+      ConditionType = "Energy",
       Operator = "??", // invalid operator
       OperandRight = "50",
       Negate = false,
       ContextType = "Greeting"
     };
 
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+
     // Act
-    var result = ConditionEvaluator.EvaluateCondition(condition, relationshipLevel: 50, traits: new List<Trait>());
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
 
     // Assert
     Assert.False(result);
+  }
+
+  [Theory]
+  [InlineData("=", 50, "50", true)]
+  [InlineData("!=", 50, "40", true)]
+  [InlineData(">", 50, "40", true)]
+  [InlineData("<", 50, "60", true)]
+  [InlineData(">=", 50, "50", true)]
+  [InlineData("<=", 50, "50", true)]
+  [InlineData(">", 50, "60", false)]
+  public void EvaluateCondition_Energy_Operators_Work(string op, int energy, string right, bool expected)
+  {
+    // Arrange
+    var condition = new ConditionDataModel
+    {
+      ConditionType = "Energy",
+      Operator = op,
+      OperandRight = right,
+      Negate = false,
+      ContextType = "Greeting"
+    };
+
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+    character.Energy = energy;
+
+    // Act
+    var result = ConditionEvaluator.EvaluateCondition(condition, character);
+
+    // Assert
+    Assert.Equal(expected, result);
   }
 
 }

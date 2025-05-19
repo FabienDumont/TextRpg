@@ -18,26 +18,6 @@ public class ExplorationActionResult
   public Guid ExplorationActionId { get; }
 
   /// <summary>
-  ///   Minimum energy to get this result.
-  /// </summary>
-  public int? MinEnergy { get; }
-
-  /// <summary>
-  ///   Maximum energy to get this result.
-  /// </summary>
-  public int? MaxEnergy { get; }
-
-  /// <summary>
-  ///   Minimum money to get this result.
-  /// </summary>
-  public int? MinMoney { get; }
-
-  /// <summary>
-  ///   Maximum money to get this result.
-  /// </summary>
-  public int? MaxMoney { get; }
-
-  /// <summary>
   ///   Flag should the required minutes of the exploration action be added.
   /// </summary>
   public bool AddMinutes { get; set; }
@@ -60,16 +40,11 @@ public class ExplorationActionResult
   ///   Private constructor used internally.
   /// </summary>
   private ExplorationActionResult(
-    Guid id, Guid explorationActionId, int? minEnergy, int? maxEnergy, int? minMoney, int? maxMoney, bool addMinutes,
-    int? energyChange, int? moneyChange
+    Guid id, Guid explorationActionId, bool addMinutes, int? energyChange, int? moneyChange
   )
   {
     Id = id;
     ExplorationActionId = explorationActionId;
-    MinEnergy = minEnergy;
-    MaxEnergy = maxEnergy;
-    MinMoney = minMoney;
-    MaxMoney = maxMoney;
     AddMinutes = addMinutes;
     EnergyChange = energyChange;
     MoneyChange = moneyChange;
@@ -83,26 +58,22 @@ public class ExplorationActionResult
   ///   Factory method to create a new instance.
   /// </summary>
   public static ExplorationActionResult Create(
-    Guid explorationActionId, int? minEnergy, int? maxEnergy, int? minMoney, int? maxMoney, bool addMinutes,
-    int? energyChange, int? moneyChange
+    Guid explorationActionId, bool addMinutes, int? energyChange, int? moneyChange
   )
   {
-    return new ExplorationActionResult(
-      Guid.NewGuid(), explorationActionId, minEnergy, maxEnergy, minMoney, maxMoney, addMinutes, energyChange,
-      moneyChange
-    );
+    return new ExplorationActionResult(Guid.NewGuid(), explorationActionId, addMinutes, energyChange, moneyChange);
   }
 
   /// <summary>
   ///   Factory method to load an existing instance from persistence.
   /// </summary>
   public static ExplorationActionResult Load(
-    Guid id, Guid explorationActionId, int? minEnergy, int? maxEnergy, int? minMoney, int? maxMoney, bool addMinutes,
+    Guid id, Guid explorationActionId, bool addMinutes,
     int? energyChange, int? moneyChange
   )
   {
     return new ExplorationActionResult(
-      id, explorationActionId, minEnergy, maxEnergy, minMoney, maxMoney, addMinutes, energyChange, moneyChange
+      id, explorationActionId, addMinutes, energyChange, moneyChange
     );
   }
 

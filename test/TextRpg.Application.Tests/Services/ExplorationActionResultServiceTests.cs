@@ -31,7 +31,7 @@ public class ExplorationActionResultServiceTests
     // Arrange
     var actionId = Guid.NewGuid();
     var character = CharacterHelper.GetBasicPlayerCharacter();
-    var expectedResult = ExplorationActionResult.Load(Guid.NewGuid(), actionId, 10, 90, 5, 50, true, 15, -10);
+    var expectedResult = ExplorationActionResult.Load(Guid.NewGuid(), actionId, true, 15, -10);
 
     A.CallTo(() => _repository.GetByExplorationActionIdAsync(actionId, character, A<CancellationToken>._))
       .Returns(expectedResult);

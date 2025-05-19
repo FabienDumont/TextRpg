@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TextRpg.Infrastructure.EfDataModels;
+using TextRpg.Infrastructure.Helper;
 
 namespace TextRpg.Infrastructure.Seeders;
 
@@ -49,29 +50,36 @@ public class ExplorationActionSeeder : IDataSeeder
       }
     );
 
+    var exhausted = Guid.NewGuid();
+    var tired = Guid.NewGuid();
+    var fine = Guid.NewGuid();
+
     await context.ExplorationActionResultNarrations.AddRangeAsync(
       new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = exhausted,
         ExplorationActionResultId = sleepResultId,
-        MinEnergy = null,
-        MaxEnergy = 25,
         Text = "You collapse into bed, too tired to even pull the sheets over yourself."
       }, new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = tired,
         ExplorationActionResultId = sleepResultId,
-        MinEnergy = 25,
-        MaxEnergy = 50,
         Text = "You ease into bed, your body grateful for the rest."
       }, new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = fine,
         ExplorationActionResultId = sleepResultId,
-        MinEnergy = 50,
-        MaxEnergy = null,
         Text = "You're not very tired, but you lay down anyway, hoping to fall asleep."
       }
+    );
+
+    await context.Conditions.AddRangeAsync(
+      new[]
+      {
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", exhausted, [("<=", "25")]),
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", tired, [(">", "25"), ("<=", "50")]),
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", fine, [(">", "50")])
+      }.SelectMany(x => x)
     );
 
     var napResultId = Guid.NewGuid();
@@ -86,29 +94,36 @@ public class ExplorationActionSeeder : IDataSeeder
       }
     );
 
+    var napExhausted = Guid.NewGuid();
+    var napTired = Guid.NewGuid();
+    var napFine = Guid.NewGuid();
+
     await context.ExplorationActionResultNarrations.AddRangeAsync(
       new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = napExhausted,
         ExplorationActionResultId = napResultId,
-        MinEnergy = null,
-        MaxEnergy = 25,
         Text = "You sink into the mattress and quickly doze off, too drained to think."
       }, new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = napTired,
         ExplorationActionResultId = napResultId,
-        MinEnergy = 25,
-        MaxEnergy = 50,
         Text = "You rest your head and fall asleep faster than expected. It's brief but helpful."
       }, new ExplorationActionResultNarrationDataModel
       {
-        Id = Guid.NewGuid(),
+        Id = napFine,
         ExplorationActionResultId = napResultId,
-        MinEnergy = 50,
-        MaxEnergy = null,
         Text = "You lie back and close your eyes, but your thoughts keep drifting. You barely nap at all."
       }
+    );
+
+    await context.Conditions.AddRangeAsync(
+      new[]
+      {
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", napExhausted, [("<=", "25")]),
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", napTired, [(">", "25"), ("<=", "50")]),
+        ConditionBuilder.BuildEnergyConditions("ExplorationActionResult", napFine, [(">", "50")])
+      }.SelectMany(x => x)
     );
 
     await context.SaveChangesAsync().ConfigureAwait(false);

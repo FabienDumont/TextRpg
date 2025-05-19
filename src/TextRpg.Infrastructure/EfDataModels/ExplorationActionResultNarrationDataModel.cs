@@ -18,12 +18,6 @@ public class ExplorationActionResultNarrationDataModel
   [Required]
   public Guid ExplorationActionResultId { get; set; }
 
-  [Column("MinEnergy")]
-  public int? MinEnergy { get; set; }
-
-  [Column("MaxEnergy")]
-  public int? MaxEnergy { get; set; }
-
   [Column("Text")]
   [Required]
   [MaxLength(500)]

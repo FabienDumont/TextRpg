@@ -7,29 +7,23 @@ namespace TextRpg.Infrastructure.Tests.EfRepositories;
 
 public class ExplorationActionResultRepositoryTests
 {
-  #region Methods
-
   [Fact]
-  public async Task GetByExplorationActionIdAsync_ShouldReturnMatchingResult()
+  public async Task GetByExplorationActionIdAsync_ShouldReturnMatchingResult_WhenConditionsAreMet()
   {
     // Arrange
     var explorationActionId = Guid.NewGuid();
-    var expectedResultId = Guid.NewGuid();
+    var matchingResultId = Guid.NewGuid();
 
     var character = CharacterHelper.GetBasicPlayerCharacter();
     character.Energy = 50;
     character.Money = 200;
 
-    var dataModels = new List<ExplorationActionResultDataModel>
+    var results = new List<ExplorationActionResultDataModel>
     {
       new()
       {
-        Id = expectedResultId,
+        Id = matchingResultId,
         ExplorationActionId = explorationActionId,
-        MinEnergy = 10,
-        MaxEnergy = 100,
-        MinMoney = 50,
-        MaxMoney = 300,
         AddMinutes = true,
         EnergyChange = 10,
         MoneyChange = 20
@@ -38,73 +32,106 @@ public class ExplorationActionResultRepositoryTests
       {
         Id = Guid.NewGuid(),
         ExplorationActionId = explorationActionId,
-        MinEnergy = 200,
-        MaxEnergy = 300,
-        MinMoney = 50,
-        MaxMoney = 300,
         AddMinutes = true,
         EnergyChange = 5,
         MoneyChange = 0
       }
     };
 
-    var dbSet = dataModels.AsQueryable().BuildMockDbSet();
-
-    var context = A.Fake<ApplicationContext>();
-    A.CallTo(() => context.ExplorationActionResults).Returns(dbSet);
-
-    var repository = new ExplorationActionResultRepository(context);
-
-    // Act
-    var result = await repository.GetByExplorationActionIdAsync(explorationActionId, character, CancellationToken.None);
-
-    // Assert
-    Assert.NotNull(result);
-    Assert.Equal(expectedResultId, result.Id);
-  }
-
-  [Fact]
-  public async Task GetByExplorationActionIdAsync_ShouldThrow_WhenNoResultFound()
-  {
-    // Arrange
-    var explorationActionId = Guid.NewGuid();
-
-    var character = CharacterHelper.GetBasicPlayerCharacter();
-    character.Energy = 5;
-    character.Money = 1;
-
-    var dataModels = new List<ExplorationActionResultDataModel>
+    var conditions = new List<ConditionDataModel>
     {
       new()
       {
         Id = Guid.NewGuid(),
+        ContextType = "ExplorationActionResult",
+        ContextId = matchingResultId,
+        ConditionType = "Energy",
+        Operator = ">=",
+        OperandRight = "50",
+        Negate = false
+      },
+      new()
+      {
+        Id = Guid.NewGuid(),
+        ContextType = "ExplorationActionResult",
+        ContextId = matchingResultId,
+        ConditionType = "Money",
+        Operator = ">",
+        OperandRight = "100",
+        Negate = false
+      }
+    };
+
+    var resultDbSet = results.AsQueryable().BuildMockDbSet();
+    var conditionDbSet = conditions.AsQueryable().BuildMockDbSet();
+
+    var context = A.Fake<ApplicationContext>();
+    A.CallTo(() => context.ExplorationActionResults).Returns(resultDbSet);
+    A.CallTo(() => context.Conditions).Returns(conditionDbSet);
+
+    var repo = new ExplorationActionResultRepository(context);
+
+    // Act
+    var result = await repo.GetByExplorationActionIdAsync(explorationActionId, character, CancellationToken.None);
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.Equal(matchingResultId, result.Id);
+  }
+
+  [Fact]
+  public async Task GetByExplorationActionIdAsync_ShouldThrow_WhenNoMatchingResultExists()
+  {
+    // Arrange
+    var explorationActionId = Guid.NewGuid();
+    var resultId = Guid.NewGuid();
+
+    var character = CharacterHelper.GetBasicPlayerCharacter();
+    character.Energy = 10;
+    character.Money = 5;
+
+    var results = new List<ExplorationActionResultDataModel>
+    {
+      new()
+      {
+        Id = resultId,
         ExplorationActionId = explorationActionId,
-        MinEnergy = 10,
-        MaxEnergy = 100,
-        MinMoney = 50,
-        MaxMoney = 300,
         AddMinutes = true,
         EnergyChange = 10,
         MoneyChange = 20
       }
     };
 
-    var dbSet = dataModels.AsQueryable().BuildMockDbSet();
+    var conditions = new List<ConditionDataModel>
+    {
+      new()
+      {
+        Id = Guid.NewGuid(),
+        ContextType = "ExplorationActionResult",
+        ContextId = resultId,
+        ConditionType = "Energy",
+        Operator = ">=",
+        OperandRight = "50",
+        Negate = false
+      }
+    };
+
+    var resultDbSet = results.AsQueryable().BuildMockDbSet();
+    var conditionDbSet = conditions.AsQueryable().BuildMockDbSet();
 
     var context = A.Fake<ApplicationContext>();
-    A.CallTo(() => context.ExplorationActionResults).Returns(dbSet);
+    A.CallTo(() => context.ExplorationActionResults).Returns(resultDbSet);
+    A.CallTo(() => context.Conditions).Returns(conditionDbSet);
 
-    var repository = new ExplorationActionResultRepository(context);
+    var repo = new ExplorationActionResultRepository(context);
 
     // Act & Assert
-    var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-      await repository.GetByExplorationActionIdAsync(explorationActionId, character, CancellationToken.None)
+    var ex = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+      repo.GetByExplorationActionIdAsync(explorationActionId, character, CancellationToken.None)
     );
 
     Assert.Equal(
       $"No appropriate exploration action result found for exploration action {explorationActionId}.", ex.Message
     );
   }
-
-  #endregion
 }

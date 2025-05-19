@@ -18,7 +18,7 @@ public static class ExplorationActionResultNarrationMapper
   public static ExplorationActionResultNarration ToDomain(this ExplorationActionResultNarrationDataModel dataModel)
   {
     return dataModel.Map(model => ExplorationActionResultNarration.Load(
-        model.Id, model.ExplorationActionResultId, model.MinEnergy, model.MaxEnergy, model.Text
+        model.Id, model.ExplorationActionResultId, model.Text
       )
     );
   }
@@ -42,8 +42,6 @@ public static class ExplorationActionResultNarrationMapper
       {
         Id = model.Id,
         ExplorationActionResultId = model.ExplorationActionResultId,
-        MinEnergy = model.MinEnergy,
-        MaxEnergy = model.MaxEnergy,
         Text = model.Text
       }
     );

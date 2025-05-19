@@ -23,29 +23,42 @@ public class ExplorationActionResultNarrationRepositoryTests
     var character = CharacterHelper.GetBasicPlayerCharacter();
     character.Energy = 45;
 
-    var dataModels = new List<ExplorationActionResultNarrationDataModel>
+    var narrations = new List<ExplorationActionResultNarrationDataModel>
     {
       new()
       {
         Id = matchingId,
         ExplorationActionResultId = _resultId,
-        MinEnergy = 30,
-        MaxEnergy = 60,
         Text = "You lie down with a heavy sigh."
       },
       new()
       {
         Id = Guid.NewGuid(),
         ExplorationActionResultId = _resultId,
-        MinEnergy = 0,
-        MaxEnergy = 20,
         Text = "You crash into bed instantly."
       }
     };
 
-    var dbSet = dataModels.AsQueryable().BuildMockDbSet();
+    var conditions = new List<ConditionDataModel>
+    {
+      new()
+      {
+        Id = Guid.NewGuid(),
+        ContextType = "ExplorationActionResultNarration",
+        ContextId = matchingId,
+        ConditionType = "Energy",
+        Operator = "<=",
+        OperandRight = "50",
+        Negate = false
+      }
+    };
+
+    var narrationDbSet = narrations.AsQueryable().BuildMockDbSet();
+    var conditionDbSet = conditions.AsQueryable().BuildMockDbSet();
+
     var context = A.Fake<ApplicationContext>();
-    A.CallTo(() => context.ExplorationActionResultNarrations).Returns(dbSet);
+    A.CallTo(() => context.ExplorationActionResultNarrations).Returns(narrationDbSet);
+    A.CallTo(() => context.Conditions).Returns(conditionDbSet);
 
     var repo = new ExplorationActionResultNarrationRepository(context);
 
@@ -65,21 +78,38 @@ public class ExplorationActionResultNarrationRepositoryTests
     var character = CharacterHelper.GetBasicPlayerCharacter();
     character.Energy = 80;
 
-    var dataModels = new List<ExplorationActionResultNarrationDataModel>
+    var narrationId = Guid.NewGuid();
+
+    var narrations = new List<ExplorationActionResultNarrationDataModel>
     {
       new()
       {
-        Id = Guid.NewGuid(),
+        Id = narrationId,
         ExplorationActionResultId = _resultId,
-        MinEnergy = 0,
-        MaxEnergy = 50,
         Text = "You're completely drained."
       }
     };
 
-    var dbSet = dataModels.AsQueryable().BuildMockDbSet();
+    var conditions = new List<ConditionDataModel>
+    {
+      new()
+      {
+        Id = Guid.NewGuid(),
+        ContextType = "ExplorationActionResultNarration",
+        ContextId = narrationId,
+        ConditionType = "Energy",
+        Operator = "<=",
+        OperandRight = "25", // character has 80, this fails
+        Negate = false
+      }
+    };
+
+    var narrationDbSet = narrations.AsQueryable().BuildMockDbSet();
+    var conditionDbSet = conditions.AsQueryable().BuildMockDbSet();
+
     var context = A.Fake<ApplicationContext>();
-    A.CallTo(() => context.ExplorationActionResultNarrations).Returns(dbSet);
+    A.CallTo(() => context.ExplorationActionResultNarrations).Returns(narrationDbSet);
+    A.CallTo(() => context.Conditions).Returns(conditionDbSet);
 
     var repo = new ExplorationActionResultNarrationRepository(context);
 

@@ -18,8 +18,7 @@ public static class ExplorationActionResultMapper
   public static ExplorationActionResult ToDomain(this ExplorationActionResultDataModel dataModel)
   {
     return dataModel.Map(model => ExplorationActionResult.Load(
-        model.Id, model.ExplorationActionId, model.MinEnergy, model.MaxEnergy, model.MinMoney, model.MaxMoney,
-        model.AddMinutes, model.EnergyChange, model.MoneyChange
+        model.Id, model.ExplorationActionId, model.AddMinutes, model.EnergyChange, model.MoneyChange
       )
     );
   }
@@ -43,10 +42,6 @@ public static class ExplorationActionResultMapper
       {
         Id = result.Id,
         ExplorationActionId = result.ExplorationActionId,
-        MinEnergy = result.MinEnergy,
-        MaxEnergy = result.MaxEnergy,
-        MinMoney = result.MinMoney,
-        MaxMoney = result.MaxMoney,
         AddMinutes = result.AddMinutes,
         EnergyChange = result.EnergyChange,
         MoneyChange = result.MoneyChange

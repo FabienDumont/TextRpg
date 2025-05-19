@@ -104,10 +104,10 @@ public class ExplorationActionServiceTests
     var world = World.Create(DateTime.Now, [character]);
     var save = GameSave.Load(Guid.NewGuid(), "Save 1", character.Id, world, []);
 
-    var result = ExplorationActionResult.Load(resultId, actionId, null, null, null, null, true, -10, 100);
+    var result = ExplorationActionResult.Load(resultId, actionId, true, -10, 100);
 
     var narration = ExplorationActionResultNarration.Load(
-      Guid.NewGuid(), resultId, null, null, "You feel strangely alert after the nap."
+      Guid.NewGuid(), resultId, "You feel strangely alert after the nap."
     );
 
     A.CallTo(() =>

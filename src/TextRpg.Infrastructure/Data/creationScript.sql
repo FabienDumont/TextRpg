@@ -29,9 +29,7 @@ CREATE TABLE Conditions
   OperandLeft   TEXT,
   Operator      TEXT              NOT NULL,
   OperandRight  TEXT,
-  Negate        BOOLEAN DEFAULT 0 NOT NULL,
-
-  CHECK (ContextType IN ('Greeting', 'DialogueOption'))
+  Negate        BOOLEAN DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE DialoguesOptions
@@ -54,16 +52,12 @@ CREATE TABLE DialogueResults
 (
   Id                 TEXT PRIMARY KEY,
   DialogueOptionId   TEXT              NOT NULL REFERENCES DialoguesOptions (Id) ON DELETE CASCADE,
-  MinRelationship    INTEGER,
-  MaxRelationship    INTEGER,
-  HasTrait           TEXT REFERENCES Traits (Id) ON DELETE CASCADE,
   Description        TEXT,
   AdvanceTime        INTEGER DEFAULT 0,
   ChangeMoney        INTEGER DEFAULT 0,
   RelationshipChange INTEGER DEFAULT 0,
   Action             TEXT,
-  EndChat            BOOLEAN DEFAULT 0 NOT NULL,
-  CHECK (MaxRelationship IS NULL OR MinRelationship <= MaxRelationship)
+  EndChat            BOOLEAN DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE DialogueResultLines
@@ -136,10 +130,6 @@ CREATE TABLE ExplorationActionResults
 (
   Id                  TEXT PRIMARY KEY,
   ExplorationActionId TEXT              NOT NULL REFERENCES ExplorationActions (Id) ON DELETE CASCADE,
-  MinEnergy           INTEGER,
-  MaxEnergy           INTEGER,
-  MinMoney            INTEGER,
-  MaxMoney            INTEGER,
   AddMinutes          BOOLEAN DEFAULT 0 NOT NULL,
   EnergyChange        INTEGER,
   MoneyChange         INTEGER
@@ -149,7 +139,5 @@ CREATE TABLE ExplorationActionResultNarrations
 (
   Id                        TEXT PRIMARY KEY,
   ExplorationActionResultId TEXT NOT NULL REFERENCES ExplorationActionResults (Id) ON DELETE CASCADE,
-  MinEnergy                 INTEGER,
-  MaxEnergy                 INTEGER,
   Text                      TEXT NOT NULL
 );

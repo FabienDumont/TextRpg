@@ -25,45 +25,22 @@ public class ExplorationActionResultDataModel
   public required Guid ExplorationActionId { get; set; }
 
   /// <summary>
-  ///   Minimum energy needed to get this result.
-  /// </summary>
-  [Column("MinEnergy", Order = 3)]
-  public int? MinEnergy { get; set; }
-
-  /// <summary>
-  ///   Maximum energy needed to get this result.
-  /// </summary>
-  [Column("MaxEnergy", Order = 4)]
-  public int? MaxEnergy { get; set; }
-
-  /// <summary>
-  ///   Minimum money needed to get this result.
-  /// </summary>
-  public int? MinMoney { get; set; }
-
-  /// <summary>
-  ///   Maximum money needed to get this result.
-  /// </summary>
-  [Column("MaxMoney", Order = 6)]
-  public int? MaxMoney { get; set; }
-
-  /// <summary>
   ///   Label of the exploration action.
   /// </summary>
-  [Column("AddMinutes", Order = 7)]
+  [Column("AddMinutes", Order = 3)]
   [Required]
   public bool AddMinutes { get; set; }
 
   /// <summary>
   ///   Energy change when getting this result.
   /// </summary>
-  [Column("EnergyChange", Order = 8)]
+  [Column("EnergyChange", Order = 4)]
   public int? EnergyChange { get; set; }
 
   /// <summary>
   ///   Money change when getting this result.
   /// </summary>
-  [Column("MoneyChange", Order = 9)]
+  [Column("MoneyChange", Order = 5)]
   public int? MoneyChange { get; set; }
 
   /// <summary>

@@ -10,10 +10,10 @@ public interface IGreetingRepository
   #region Methods
 
   /// <summary>
-  ///   Retrieves a greeting that matches the specified relationship level and optionally considers traits.
+  ///   Retrieves a greeting given by a character.
   /// </summary>
-  Task<Greeting?> GetByRelationshipLevelAsync(
-    int relationshipLevel, IEnumerable<Trait> traits, CancellationToken cancellationToken
+  Task<Greeting?> GetAsync(
+    Character character, CancellationToken cancellationToken
   );
 
   #endregion

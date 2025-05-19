@@ -19,7 +19,7 @@ public sealed class ExplorationActionResultNarrationServiceTests
     character.Energy = 50;
 
     var expectedNarration = ExplorationActionResultNarration.Load(
-      narrationId, resultId, 25, 75, "You're tired but manage to pull through."
+      narrationId, resultId, "You're tired but manage to pull through."
     );
 
     var repo = A.Fake<IExplorationActionResultNarrationRepository>();
